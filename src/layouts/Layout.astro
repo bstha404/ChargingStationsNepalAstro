@@ -1,23 +1,225 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import "../styles/global.css";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  ogType?: string;
+}
+
+const {
+  title = "EV Charge Nepal — Find EV Charging Stations Across Nepal",
+  description = "Search and explore electric vehicle charging stations across Nepal. Filter by AC/DC plugs, find nearest chargers, and get directions.",
+  canonical,
+  image = "/og-image.svg",
+  jsonLd,
+  noindex = false,
+  ogType = "website",
+} = Astro.props;
+
+const site = Astro.site?.toString().replace(/\/$/, "") || "https://evcharge.np";
+const canonicalUrl = canonical
+  ? canonical.startsWith("http")
+    ? canonical
+    : `${site}${canonical.endsWith("/") || canonical.includes(".") ? canonical : `${canonical}/`}`
+  : new URL(Astro.url.pathname, site).toString();
+const ogImage = image.startsWith("http") ? image : `${site}${image}`;
+
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "EV Charge Nepal",
+  url: site,
+  logo: `${site}/favicon.svg`,
+  description:
+    "Nepal-focused directory of electric vehicle charging stations with map search and city pages.",
+  areaServed: {
+    "@type": "Country",
+    name: "Nepal",
+  },
+  sameAs: [],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@evcharge.np",
+    contactType: "customer support",
+    availableLanguage: ["English"],
+  },
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "EV Charge Nepal",
+  url: site,
+  description,
+  inLanguage: "en-NP",
+  publisher: {
+    "@type": "Organization",
+    name: "EV Charge Nepal",
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${site}/?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const jsonLdList = [
+  organizationLd,
+  websiteLd,
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
+
+const nav = [
+  { href: "/", label: "Map" },
+  { href: "/cities/", label: "Cities" },
+  { href: "/stations/", label: "Stations" },
+  { href: "/faq/", label: "FAQ" },
+];
+---
+
+<!doctype html>
+<html lang="en-NP">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1"}
+    />
+    <meta name="googlebot" content={noindex ? "noindex,follow" : "index,follow"} />
+    <meta name="author" content="EV Charge Nepal" />
+    <meta name="geo.region" content="NP" />
+    <meta name="geo.placename" content="Nepal" />
+    <meta name="language" content="English" />
+    <meta name="rating" content="general" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en-NP" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="EV Charge Nepal" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="EV Charge Nepal — find charging stations across Nepal" />
+    <meta property="og:locale" content="en_NP" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#0B0D0C" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=yes" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="author" type="text/plain" href="/humans.txt" />
+    <link type="text/plain" rel="author" href="/llms.txt" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    {
+      jsonLdList.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
+  </head>
+  <body class="min-h-screen bg-ink text-paper antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-charge focus:px-3 focus:py-2 focus:text-ink"
+    >
+      Skip to content
+    </a>
+
+    <header class="sticky top-0 z-40 border-b border-line/80 bg-ink/85 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-6 py-4">
+        <a href="/" class="group flex items-center gap-3 no-underline">
+          <span
+            class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#8EE36A] to-[#58AE37] text-lg font-extrabold text-ink shadow-[0_0_24px_rgba(142,227,106,0.25)]"
+            aria-hidden="true"
+          >
+            ⚡
+          </span>
+          <span>
+            <span class="font-display block text-lg font-extrabold tracking-tight text-paper group-hover:text-charge">
+              EV Charge Nepal
+            </span>
+            <span class="block text-[0.7rem] font-medium tracking-[0.08em] text-muted uppercase">
+              Charging Stations Map
+            </span>
+          </span>
+        </a>
+        <nav class="flex flex-wrap items-center justify-end gap-1 text-sm font-semibold" aria-label="Primary">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class="rounded-full px-3 py-2 text-muted no-underline transition-colors hover:bg-panel hover:text-charge"
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="mt-10 border-t border-line bg-[#0a0c0b]">
+      <div class="mx-auto grid max-w-[1280px] gap-8 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="lg:col-span-2">
+          <p class="font-display text-xl font-bold text-paper">EV Charge Nepal</p>
+          <p class="mt-2 max-w-md text-sm leading-relaxed text-muted">
+            A Nepal-focused directory of electric vehicle charging stations with search, filters,
+            nearby sorting, and directions.
+          </p>
+        </div>
+        <div>
+          <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">Explore</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/" class="text-muted no-underline hover:text-charge">Map search</a></li>
+            <li><a href="/cities/" class="text-muted no-underline hover:text-charge">Cities</a></li>
+            <li><a href="/stations/" class="text-muted no-underline hover:text-charge">All stations</a></li>
+            <li><a href="/faq/" class="text-muted no-underline hover:text-charge">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">Legal</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/about/" class="text-muted no-underline hover:text-charge">About</a></li>
+            <li><a href="/contact/" class="text-muted no-underline hover:text-charge">Contact</a></li>
+            <li><a href="/privacy/" class="text-muted no-underline hover:text-charge">Privacy Policy</a></li>
+            <li><a href="/terms/" class="text-muted no-underline hover:text-charge">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-line/70">
+        <div class="mx-auto flex max-w-[1280px] flex-col gap-2 px-6 py-5 text-xs text-[#6E7672] sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} EV Charge Nepal. Data for informational use.</p>
+          <p>Verify station availability before travel.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

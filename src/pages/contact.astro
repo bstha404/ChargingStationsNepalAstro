@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact EV Charge Nepal",
+  url: `${Astro.site || "https://evcharge.np"}/contact/`,
+};
+---
+
+<Layout
+  title="Contact | EV Charge Nepal"
+  description="Contact EV Charge Nepal to report listing errors, suggest new EV charging stations, or ask questions about the directory."
+  canonical="/contact/"
+  jsonLd={jsonLd}
+>
+  <section class="mx-auto max-w-[820px] px-6 py-12">
+    <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">Contact</p>
+    <h1 class="font-display mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
+      Get in <span class="text-gradient-green">touch</span>
+    </h1>
+    <p class="mb-8 max-w-2xl text-muted">
+      Report a wrong pin, missing charger, outdated plug info, or ask a question about the directory.
+    </p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <a
+        href="mailto:hello@evcharge.np?subject=EV%20Charge%20Nepal%20listing"
+        class="rounded-3xl border border-line bg-panel p-6 no-underline transition-colors hover:border-charge/40"
+      >
+        <div class="text-sm font-semibold tracking-wide text-charge uppercase">Email</div>
+        <div class="mt-2 text-xl font-bold text-paper">hello@evcharge.np</div>
+        <p class="mt-2 text-sm text-muted">Best for listing updates and general questions.</p>
+      </a>
+      <a
+        href="mailto:privacy@evcharge.np?subject=Privacy%20request"
+        class="rounded-3xl border border-line bg-panel p-6 no-underline transition-colors hover:border-charge/40"
+      >
+        <div class="text-sm font-semibold tracking-wide text-charge uppercase">Privacy</div>
+        <div class="mt-2 text-xl font-bold text-paper">privacy@evcharge.np</div>
+        <p class="mt-2 text-sm text-muted">For privacy requests related to our policy.</p>
+      </a>
+    </div>
+
+    <div class="mt-8 rounded-3xl border border-line bg-panel p-6 text-sm leading-relaxed text-muted">
+      <h2 class="mb-2 text-lg font-bold text-paper">When suggesting a station, include:</h2>
+      <ul class="list-disc space-y-1 pl-5">
+        <li>Station name and operator (if known)</li>
+        <li>Address / landmark and city</li>
+        <li>Latitude &amp; longitude if possible</li>
+        <li>Plug types (CCS2, GB/T, AC/DC) and power</li>
+        <li>Phone number and amenities</li>
+      </ul>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Page not found | EV Charge Nepal"
+  description="The page you requested could not be found on EV Charge Nepal."
+  noindex={true}
+>
+  <section class="mx-auto flex min-h-[60vh] max-w-[720px] flex-col items-start justify-center px-6 py-16">
+    <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">404</p>
+    <h1 class="font-display mb-3 text-4xl font-extrabold tracking-tight">Page not found</h1>
+    <p class="mb-8 text-muted">
+      That URL doesn’t exist. Try the map, city directory, or FAQ instead.
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/" class="rounded-full bg-charge px-5 py-2.5 text-sm font-bold text-ink no-underline">Open map</a>
+      <a href="/cities/" class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-muted no-underline">Cities</a>
+      <a href="/faq/" class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-muted no-underline">FAQ</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,2322 @@
+[
+   {
+      "id": 1,
+      "uuid": "600150a8-ccdc-42a3-be0f-812b2b34dfb7",
+      "name": "NEA Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Panipokhari, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.735943199999998",
+      "longitude": "85.3225094",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "nea",
+      "plugs": [
+         {
+            "id": 1,
+            "station_id": 1,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 2,
+      "uuid": "60ddd798-c132-4806-9c09-42c412ff6117",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M7PX+3PR, बागमती मार्ग, Kathmandu 44614",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6854476",
+      "longitude": "85.2993616",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 2,
+            "station_id": 2,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 3,
+      "uuid": "323d895e-2d45-49f5-b1a6-769b62418fa5",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Kalanki, Kathmandu-14, Kathmandu",
+      "telephone": "+9779801025819",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.692639999999997",
+      "longitude": "85.28253",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 3,
+            "station_id": 3,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 4,
+      "uuid": "1516c47e-c801-41fd-a87b-7df82678ba32",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Tinkune, Kathmandu-32, Kathmandu",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.684755499999998",
+      "longitude": "85.3472654",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 4,
+            "station_id": 4,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 5,
+      "uuid": "e958d297-47c0-498d-83ba-fe937dfab41b",
+      "name": "CG Motors Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P89R+JG3, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7189753",
+      "longitude": "85.341306",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "cg",
+      "plugs": [
+         {
+            "id": 5,
+            "station_id": 5,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 6,
+      "uuid": "9530ffce-53f6-47d3-a178-de8f337438f4",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Chowk Bafal Marg, Kathmandu 44600",
+      "telephone": "+9779761625910",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7034584",
+      "longitude": "85.2843378",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 6,
+            "station_id": 6,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 7,
+      "uuid": "0a61bb40-16f5-45e6-8bcb-31840db3ba32",
+      "name": "NEA Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P829+V8V, Pradarshani Marg, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7023066",
+      "longitude": "85.3180848",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "nea",
+      "plugs": [
+         {
+            "id": 7,
+            "station_id": 7,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 8,
+      "uuid": "9ed18cb2-c14b-4ec3-9d7d-3beb1ccd9739",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P8M4+QMG, Buddha Mall Rd, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7345446",
+      "longitude": "85.3067706",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 8,
+            "station_id": 8,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 9,
+      "uuid": "3ddfd2f9-3653-4fc1-bd18-e0e74b323d38",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M8R8+JQ3, Kathmandu 44600",
+      "telephone": "+919709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6915016",
+      "longitude": "85.31692439999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 9,
+            "station_id": 9,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 10,
+      "uuid": "8d739908-ec2c-4635-89a5-c2b735c27bf1",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P8J4+8WW, 26 Parijat Sadak, Kathmandu 44600",
+      "telephone": "+9779851198190",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7308451",
+      "longitude": "85.3070576",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 10,
+            "station_id": 10,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 11,
+      "uuid": "770c809b-365b-4d7c-b7f6-1b061efe43ae",
+      "name": "ChargeMOD Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M7WV+RJM, Ganeshman Singh Rd, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.69708",
+      "longitude": "85.29406",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 11,
+            "station_id": 11,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 12,
+      "uuid": "d163c570-15f2-4ad3-a384-e8e1466d2f39",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Imadol, Mahalaxmi-1, Lalitpur, Kathmandu",
+      "telephone": "+9779801025819",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.663259999999998",
+      "longitude": "85.33529",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 12,
+            "station_id": 12,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 13,
+      "uuid": "f85c61d9-b7a0-474a-a045-84334d915d95",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M9VC+697, Kathmandu 44600",
+      "telephone": "+9779801025819",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.69305",
+      "longitude": "85.37093",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 13,
+            "station_id": 13,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 14,
+      "uuid": "411526c4-668f-4e93-8c39-58702b49aa8e",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P87C+973, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.713398899999998",
+      "longitude": "85.3206864",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 14,
+            "station_id": 14,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 15,
+      "uuid": "7c5bddeb-1eab-4199-ba1e-7b414ba19948",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P859+Q8W, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.70948",
+      "longitude": "85.31833",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 15,
+            "station_id": 15,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 16,
+      "uuid": "ea99dd7a-7c0e-4d91-bebb-5887fe256efe",
+      "name": "ChargeMOD Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "M8M9+65W, Lalitpur 44600",
+      "telephone": "+9779801025819",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.683101599999997",
+      "longitude": "85.3179598",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 16,
+            "station_id": 16,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 17,
+      "uuid": "dcfba9a8-443d-442f-b873-ccd2ae5fb6c6",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Hattisar, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7111321",
+      "longitude": "85.3218991",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 17,
+            "station_id": 17,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 18,
+      "uuid": "70ffddb9-4a9b-4644-bc9c-6f151b9449b8",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P85J+PX8, Kathmandu 44600",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7093",
+      "longitude": "85.33245",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 18,
+            "station_id": 18,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 19,
+      "uuid": "a89704c3-1728-427a-acae-4eafad6edca2",
+      "name": "AirCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "03 Ring Rd, Kathmandu 44600",
+      "telephone": "+9779761888782",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.735934",
+      "longitude": "85.322559",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 19,
+            "station_id": 19,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 20,
+      "uuid": "01dfd7c6-6a9f-4780-b826-4241be5f4b0b",
+      "name": "Ather Grid Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M8V5+WX7, Tripura Marg, kathmandu 44600",
+      "telephone": "+917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.694798799999997",
+      "longitude": "85.3099198",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 20,
+            "station_id": 20,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 21,
+      "uuid": "789e8218-ba7e-41d5-bc59-9e188223c334",
+      "name": "GadiCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "M8HC+H7C, Lalitpur 44600",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.678925399999997",
+      "longitude": "85.3206532",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 21,
+            "station_id": 21,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 22,
+      "uuid": "4b28e1b8-7a96-44d3-aa54-ae89c5824e10",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M7WJ+XV4, Kathmandu Ring Rd, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6970556",
+      "longitude": "85.2820497",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 22,
+            "station_id": 22,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 23,
+      "uuid": "f006df0e-7241-412a-b908-f500699a6b7f",
+      "name": "ElectriVa Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P8FQ+FJ3, Kathmandu 44600",
+      "telephone": "+9779851360847",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.723612799999998",
+      "longitude": "85.33903889999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "electriva",
+      "plugs": [
+         {
+            "id": 23,
+            "station_id": 23,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 24,
+      "uuid": "f0d03e93-171b-4a6e-b69d-3db1f0a866a2",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P8GF+63F, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7255646",
+      "longitude": "85.3226656",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 24,
+            "station_id": 24,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 25,
+      "uuid": "7f090682-73df-4524-8aef-33c65b9b7dc7",
+      "name": "Ather Grid Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M8VH+38X, Anamnagar 44600, Kathmandu",
+      "telephone": "+917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.6927375",
+      "longitude": "85.3283594",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 25,
+            "station_id": 25,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 26,
+      "uuid": "865fb095-8ea6-4aea-95d1-ed53087e3fbb",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Q82G+44H, Kathmandu 44600",
+      "telephone": "+9779863181049",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7503212",
+      "longitude": "85.3253714",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 26,
+            "station_id": 26,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 27,
+      "uuid": "e1455b2e-ea79-4d89-adcd-257f1ba94b94",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P9J8+VVR, Kathmandu 44600",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.732229999999998",
+      "longitude": "85.36713999999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 27,
+            "station_id": 27,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 28,
+      "uuid": "08e47482-7230-43d5-a608-2b73cf7ef4b9",
+      "name": "GadiCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Pulchowk, Lalitpur-10 Kathmandu bagmati",
+      "telephone": "+9779801025819",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6828",
+      "longitude": "85.31797",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 28,
+            "station_id": 28,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 29,
+      "uuid": "6199b8e8-8a0b-43d0-81ea-32651d4de919",
+      "name": "GadiCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "M8G7+933, Lalitpur 44600",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6758754",
+      "longitude": "85.3126748",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 29,
+            "station_id": 29,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 30,
+      "uuid": "b7b941f7-7d9e-4344-b703-e7ef5499d9b1",
+      "name": "Shree Ralukaa Devi Auto Care Centre Pvt. Ltd & Ev Fast Charging (ccs2 , DC ) Stations",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P8J7+JMF, Kathmandu 44600",
+      "telephone": "+9779851017184",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7315711",
+      "longitude": "85.3141679",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 30,
+            "station_id": 30,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 31,
+      "uuid": "6e497882-7086-490b-9836-69b67b55f951",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6878978",
+      "longitude": "85.28775809999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 31,
+            "station_id": 31,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 32,
+      "uuid": "8a747629-312d-477d-a432-e4c270f04702",
+      "name": "ElectriVa Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Gyaneshwor Chowk, Kathmandu 44600",
+      "telephone": "+9779851360847",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.708454099999997",
+      "longitude": "85.3319123",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "electriva",
+      "plugs": [
+         {
+            "id": 32,
+            "station_id": 32,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 33,
+      "uuid": "4914d629-2c2c-495e-891a-208914f8442b",
+      "name": "GadiCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Pulchowk, Lalitpur-03, Lalitpur",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.67869",
+      "longitude": "85.31358",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 33,
+            "station_id": 33,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 34,
+      "uuid": "3b24db7d-dde5-4009-850d-3bdbf3abce18",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Gongabu chakrapath track south, Kathmandu 44600",
+      "telephone": "+9779765099848",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7344722",
+      "longitude": "85.30991399999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 34,
+            "station_id": 34,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 35,
+      "uuid": "d2a418c1-17b5-4227-9342-fe98d3893d2e",
+      "name": "GadiCharge Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P86C+25R, Teendhara Marg, Kathmandu 44600",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7101015",
+      "longitude": "85.3203905",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 35,
+            "station_id": 35,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 36,
+      "uuid": "c2ca4798-ca58-4f96-9fa3-d230c25053a7",
+      "name": "Ather Grid Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Kathmandu 44600",
+      "telephone": "+9779851356195",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.6893723",
+      "longitude": "85.3513512",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 36,
+            "station_id": 36,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 37,
+      "uuid": "fa9077b8-0c98-4df8-89ab-b1922a11a5e0",
+      "name": "Ather Grid Charging Station",
+      "city": "Dhumbharai",
+      "province": "Bagmati",
+      "address": "P8CV+X52, Anandanagar Marg, Dhumbharai 44600",
+      "telephone": "+917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.7223911",
+      "longitude": "85.3428808",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 37,
+            "station_id": 37,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 38,
+      "uuid": "f8e0b180-0ae5-464a-9030-206c82d4a1c1",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Siphal, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7103695",
+      "longitude": "85.34034679999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 38,
+            "station_id": 38,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 39,
+      "uuid": "50c2a275-3833-4eae-ad04-c47cb3cd3ec7",
+      "name": "NEA Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P848+5FM, Ratna Park Path, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7054555",
+      "longitude": "85.31618309999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "nea",
+      "plugs": [
+         {
+            "id": 39,
+            "station_id": 39,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 40,
+      "uuid": "d9ef2a2b-0ea3-4925-87b7-2c40eb8d7f34",
+      "name": "Tata Power Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "M8F2+GQM, Bagdol Rd, Lalitpur 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6738365",
+      "longitude": "85.3019211",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "tata",
+      "plugs": [
+         {
+            "id": 40,
+            "station_id": 40,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 41,
+      "uuid": "de389ccc-45af-4a15-9c24-14ca3dbd5085",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Chowk Kharibot, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7311257",
+      "longitude": "85.29263809999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 41,
+            "station_id": 41,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 42,
+      "uuid": "070d6f79-5ff9-4bf0-9163-fb277ca7a432",
+      "name": "Ather Grid Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Pipalbot, Boudha, Nepal, kathmandu 44600",
+      "telephone": "+91917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.7203207",
+      "longitude": "85.364834",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 42,
+            "station_id": 42,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 43,
+      "uuid": "84b6994d-81a0-4096-9ec6-a592f7ee1b87",
+      "name": "Ather Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Naxal, Kathmandu 44600",
+      "telephone": "+9779851354103",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.717594799999997",
+      "longitude": "85.32794109999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 43,
+            "station_id": 43,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 44,
+      "uuid": "013b08a0-ed21-4193-a3f9-72302c414c93",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P838+WHP, Durbar Marg, Kathmandu 44600",
+      "telephone": "+9779802345653",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7048395",
+      "longitude": "85.316459",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 44,
+            "station_id": 44,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 45,
+      "uuid": "4cf2fe16-a3bd-4e59-8e03-ac843d768ae8",
+      "name": "Electric Vehical Charging Station (PCR)",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P7QQ+5X2, Kathmandu 44600",
+      "telephone": "+9779802098190",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7306812",
+      "longitude": "85.3070762",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 45,
+            "station_id": 45,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 46,
+      "uuid": "0e5caa18-8067-4747-86e8-d9ce79956a80",
+      "name": "Ather Grid Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Boudhanath Sadak, Kathmandu, Nepal kathmandu, 44600",
+      "telephone": "+917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.7192382",
+      "longitude": "85.3529271",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 46,
+            "station_id": 46,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 47,
+      "uuid": "0bc50dce-fb89-456a-b851-42ad646ba05d",
+      "name": "Gridflow EV Chargers",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "KD One, KD Marg, Baburam Acharya Sadak, Kathmandu 44600",
+      "telephone": "+9779801101870",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6975311",
+      "longitude": "85.350189",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 47,
+            "station_id": 47,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 48,
+      "uuid": "0c75d4c5-eca9-4730-b926-0a20bb35de69",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Sanepa, Lalitpur 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6909904",
+      "longitude": "85.30561039999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 48,
+            "station_id": 48,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 49,
+      "uuid": "9950aad0-928b-41bf-bc66-e51fa1d34ea7",
+      "name": "Electro Wizard Pvt. Ltd",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M7RF+597, Kathmandu 44600",
+      "telephone": "+9779868286535",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.690405499999997",
+      "longitude": "85.2734357",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 49,
+            "station_id": 49,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 50,
+      "uuid": "3427a23c-1f2b-49ed-8758-f6b4800ee35b",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M8R9+P9X, Thapathali Road, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6919415",
+      "longitude": "85.3184697",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 50,
+            "station_id": 50,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 51,
+      "uuid": "3becd244-7327-43bb-aa33-3a78e2bd1ffb",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Catmandu",
+      "province": "Bagmati",
+      "address": "P8FW+RF8, Unnamed Road, Kathmandu 44600, Catmandu 4",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7246909",
+      "longitude": "85.34598179999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 51,
+            "station_id": 51,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 52,
+      "uuid": "245a35f1-e675-4943-8747-30e57d538ed5",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "H02, Kathmandu 44600",
+      "telephone": "+9779810324848",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.686200099999997",
+      "longitude": "85.2618725",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 52,
+            "station_id": 52,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 53,
+      "uuid": "64af21ba-49c2-4ae2-882d-899bc2d2b89f",
+      "name": "Mulkharka Bhimshen Ev station and rental service",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Gokarneshwor, 5 Jambu dada, Kathmandu 30608",
+      "telephone": "+9779714235788",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.717793",
+      "longitude": "85.3739398",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 53,
+            "station_id": 53,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 54,
+      "uuid": "8b4d7c83-4ebc-41e9-9cb6-21f1a38b0f4c",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Nagarjun",
+      "province": "Bagmati",
+      "address": "P75P+328, Museum Marg, Nagarjun 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.707616599999998",
+      "longitude": "85.2851464",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 54,
+            "station_id": 54,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 55,
+      "uuid": "20dad0f1-7d75-4c5b-8cea-1713c5a8a236",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kirtipur",
+      "province": "Bagmati",
+      "address": "kalanki, Purana bagar",
+      "telephone": "+9779761723401",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6900631",
+      "longitude": "85.2830046",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 55,
+            "station_id": 55,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 56,
+      "uuid": "879cafe8-d7e2-4097-919d-8d3a2b992d82",
+      "name": "Siddhanta international pvt ltd",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Gondhuli Chowk Marg, Kathmandu 44600",
+      "telephone": "+97714986485",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7331585",
+      "longitude": "85.3112967",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 56,
+            "station_id": 56,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 57,
+      "uuid": "c89482fe-4f07-4ab8-a28c-0bfea34d717b",
+      "name": "Heritage Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Tangal, Kathmandu 44600",
+      "telephone": "+9779802379502",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.720296899999997",
+      "longitude": "85.3312393",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 57,
+            "station_id": 57,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 58,
+      "uuid": "f42237a0-60c1-40f8-9f25-0d5a35a9aef3",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P7GX+M23, Sai Baba Marg, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.726637699999998",
+      "longitude": "85.2975558",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 58,
+            "station_id": 58,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 59,
+      "uuid": "262eaf6d-4ab4-461f-9ecb-6431d32d5fc4",
+      "name": "Gogoro Battery Swap Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Dashrath Marg, Kathmandu 44600",
+      "telephone": "+9779705909010",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.6937937",
+      "longitude": "85.3144471",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 59,
+            "station_id": 59,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 60,
+      "uuid": "df7c53ac-b69e-46c5-90a7-a0cb8774084f",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M7XM+F2W, Gyanodaya Marg, Kathmandu 44600",
+      "telephone": "+9779765024349",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6988582",
+      "longitude": "85.2824589",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 60,
+            "station_id": 60,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 61,
+      "uuid": "a19e456b-6aeb-4644-9084-1b856d61b4cc",
+      "name": "Hyundai Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "M8R9+RGC, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.692336899999997",
+      "longitude": "85.3186913",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "hyundai",
+      "plugs": [
+         {
+            "id": 61,
+            "station_id": 61,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 62,
+      "uuid": "d8acc2a7-e2bf-462a-a757-0d2236f7d16f",
+      "name": "Ather Grid Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Lalitpur, Nepal kathmandu, 44700",
+      "telephone": "+9779851356195",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.678389",
+      "longitude": "85.313267",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 62,
+            "station_id": 62,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 63,
+      "uuid": "3b69102f-6f16-46cb-8f82-b93544bc98e2",
+      "name": "Ather Grid Charging Station",
+      "city": "Kalanki",
+      "province": "Bagmati",
+      "address": "M7RM+8QQ, Ring Rd, Kalanki 44600",
+      "telephone": "+917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.690825399999998",
+      "longitude": "85.2844918",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 63,
+            "station_id": 63,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 64,
+      "uuid": "8a0bed71-0917-424f-9535-16d921fc110e",
+      "name": "Gridflow Sanepa International Club Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Bhuity marg, Lalitpur 44600",
+      "telephone": "+9779801101870",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.683003",
+      "longitude": "85.30657939999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 64,
+            "station_id": 64,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 65,
+      "uuid": "cb0fc5a6-5fe4-497c-915e-bdd591ef14ed",
+      "name": "AirCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Swimming Pool Marg, Lalitpur 44700",
+      "telephone": "+9779840058537",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6583421",
+      "longitude": "85.32686199999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 65,
+            "station_id": 65,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 66,
+      "uuid": "17d6a945-cba8-4b7b-bdbe-a9863b0a7f08",
+      "name": "Nexora Digital",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "kathmandu, Lalitpur 44600",
+      "telephone": "+9779800631394",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.700709999999997",
+      "longitude": "85.31306269999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 66,
+            "station_id": 66,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 67,
+      "uuid": "9cb2a50c-f165-4474-b64e-65071a030f94",
+      "name": "Gogoro Battery Swap Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P883+6F7, Swayambhu Marg, Kathmandu 44600",
+      "telephone": "+9779705909030",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.7154386",
+      "longitude": "85.30369139999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 67,
+            "station_id": 67,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 68,
+      "uuid": "c7cf2068-d750-4812-b7de-81f2478636ed",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Gongabu, Kathmandu 00977",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7354454",
+      "longitude": "85.31781869999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 68,
+            "station_id": 68,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 69,
+      "uuid": "ffa501b9-8967-449c-bf87-d0d492c5a4fe",
+      "name": "MAW Vridhhi Charging station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Chhauni, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7087231",
+      "longitude": "85.28312369999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "mawvriddhi",
+      "plugs": [
+         {
+            "id": 69,
+            "station_id": 69,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 70,
+      "uuid": "4b180f55-9706-469f-992e-5f69cc0e22c1",
+      "name": "Om Chamunda Auto care and charging station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Jorpati Rd, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.722538",
+      "longitude": "85.3742177",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 70,
+            "station_id": 70,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 71,
+      "uuid": "990344ec-cbd5-4ab1-8000-841d0717d0d2",
+      "name": "Hello Ev Fast Charging Station pvt ltd",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Chowk Bafal Binayak Mandir, Lalitpur 44700",
+      "telephone": "+9779823301852",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.663360599999997",
+      "longitude": "85.3321686",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 71,
+            "station_id": 71,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 72,
+      "uuid": "6c4e0fb6-d6b4-4847-ac5e-c903e2a96b1e",
+      "name": "Sankalpa - GadiCharge Charging Station",
+      "city": "Madhyapur Thimi",
+      "province": "Bagmati",
+      "address": "Manohara Rd, Madhyapur Thimi 44800",
+      "telephone": "+9779852082473",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.676681199999997",
+      "longitude": "85.3573112",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 72,
+            "station_id": 72,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 73,
+      "uuid": "e6c82c1c-a0ee-4957-bdce-25ce19573de8",
+      "name": "Ather Grid Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P9CC+FHW, Boudha - Jorpati Rd, kathmandu 44600",
+      "telephone": "+917676600900",
+      "type": [
+         "bike"
+      ],
+      "latitude": "27.721248499999998",
+      "longitude": "85.3714626",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 73,
+            "station_id": 73,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 74,
+      "uuid": "aab2227f-ab0b-45a4-bdb6-f0f2c2103df6",
+      "name": "Electric Vehicle Charging Station Dhungeadda",
+      "city": "Chandragiri",
+      "province": "Bagmati",
+      "address": "M7QC+G9H, Kalankisthan Rd, Chandragiri 44600",
+      "telephone": "+9779761723400",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6885853",
+      "longitude": "85.2707851",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 74,
+            "station_id": 74,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 75,
+      "uuid": "c37120fc-f95e-4a96-839b-d3ed699694ab",
+      "name": "Gadi Charge Pvt. Ltd.",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "377, Shikali Marg 2, Lalitpur 44600, Lalitpur 44700",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6834986",
+      "longitude": "85.30455049999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 75,
+            "station_id": 75,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 76,
+      "uuid": "b5551a2c-3294-4dba-9e29-9c5525bf84ff",
+      "name": "chargeMOD Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "P964+X93, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7123812",
+      "longitude": "85.3559245",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 76,
+            "station_id": 76,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 77,
+      "uuid": "07e3e509-8bf7-4424-8d82-6612787fc3f6",
+      "name": "Electric Vehicle Charging Station",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Mitranagar 26, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.7325846",
+      "longitude": "85.3103082",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 77,
+            "station_id": 77,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 78,
+      "uuid": "2e44f63e-48e5-4be2-a320-99da880c76b5",
+      "name": "GadiCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "M8H5+272, Lalitpur 44600",
+      "telephone": "+9779709060935",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6775165",
+      "longitude": "85.30813979999999",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": "gadicharge",
+      "plugs": [
+         {
+            "id": 78,
+            "station_id": 78,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 79,
+      "uuid": "4f34974c-ddb3-4ee0-8614-8b05b76a7b59",
+      "name": "AirCharge Charging Station",
+      "city": "Lalitpur",
+      "province": "Bagmati",
+      "address": "Gwarko, Lalitpur 44700",
+      "telephone": "+9779762117421",
+      "type": [
+         "car"
+      ],
+      "latitude": "27.6682329",
+      "longitude": "85.3334663",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 79,
+            "station_id": 79,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   },
+   {
+      "id": 80,
+      "uuid": "0af3a64a-2c6b-48f3-b5f2-cd192bb8bbe4",
+      "name": "Tesla Destination Charger",
+      "city": "Kathmandu",
+      "province": "Bagmati",
+      "address": "Tangal, Kathmandu 44600",
+      "telephone": null,
+      "type": [
+         "car"
+      ],
+      "latitude": "27.723159",
+      "longitude": "85.3287138",
+      "amenities": [
+         "parking"
+      ],
+      "vendor": null,
+      "plugs": [
+         {
+            "id": 80,
+            "station_id": 80,
+            "plug": "ccs2",
+            "power": null,
+            "type": "DC",
+            "count": 1,
+            "icon": "ccs2-dc"
+         }
+      ]
+   }
+]

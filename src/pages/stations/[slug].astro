@@ -1,0 +1,172 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import locations from "../../data/EV_Locations.json";
+import {
+  citySlug,
+  formatLocationLine,
+  stationSlug,
+  type Station,
+} from "../../lib/stations";
+
+export function getStaticPaths() {
+  const stations = locations as Station[];
+  return stations.map((station) => ({
+    params: { slug: stationSlug(station) },
+    props: { station },
+  }));
+}
+
+const { station } = Astro.props as { station: Station };
+const locationLine = formatLocationLine(station);
+const mapsUrl = `https://www.google.com/maps/dir/Current+Location/${encodeURIComponent(
+  station.name
+)}/@${station.latitude},${station.longitude}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ElectricVehicleChargingStation",
+  name: station.name,
+  description: `${station.name} EV charging station in ${station.city}, Nepal.`,
+  telephone: station.telephone || undefined,
+  url: Astro.url.href,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: station.address || undefined,
+    addressLocality: station.city,
+    addressRegion: station.province || undefined,
+    addressCountry: "NP",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: Number(station.latitude),
+    longitude: Number(station.longitude),
+  },
+  amenityFeature: (station.amenities || []).map((name) => ({
+    "@type": "LocationFeatureSpecification",
+    name,
+    value: true,
+  })),
+};
+---
+
+<Layout
+  title={`${station.name} — EV Charging Station in ${station.city}`}
+  description={`${station.name} in ${locationLine}. Plugs: ${(station.plugs || [])
+    .map((p) => `${p.plug} ${p.power || ""} ${p.type || ""}`.trim())
+    .join(", ") || "EV charger"}. Get directions and contact details.`}
+  canonical={`/stations/${stationSlug(station)}/`}
+  jsonLd={jsonLd}
+>
+  <article class="mx-auto max-w-[860px] px-6 py-12">
+    <a
+      href={`/cities/${citySlug(station.city)}/`}
+      class="text-sm font-semibold text-charge no-underline hover:underline"
+    >
+      ← {station.city} stations
+    </a>
+
+    <header class="mt-4 mb-8">
+      <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">
+        EV Charging Station
+      </p>
+      <h1 class="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight text-paper">
+        {station.name}
+      </h1>
+      <p class="mt-3 text-muted">{locationLine}</p>
+      {
+        station.vendor && (
+          <p class="mt-2 text-sm font-semibold text-charge uppercase">{station.vendor}</p>
+        )
+      }
+    </header>
+
+    <div class="mb-8 flex flex-wrap gap-3">
+      <a
+        href={mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-full bg-charge px-5 py-2.5 text-sm font-bold text-ink no-underline"
+      >
+        Get Directions
+      </a>
+      {
+        station.telephone && (
+          <a
+            href={`tel:${station.telephone}`}
+            class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-paper no-underline"
+          >
+            Call {station.telephone}
+          </a>
+        )
+      }
+      <a
+        href={`/?q=${encodeURIComponent(station.name)}`}
+        class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-muted no-underline hover:text-charge"
+      >
+        Show on map
+      </a>
+    </div>
+
+    <section class="mb-8 rounded-3xl border border-line bg-panel p-6">
+      <h2 class="mb-4 text-lg font-bold">Available plugs</h2>
+      {
+        station.plugs?.length ? (
+          <ul class="space-y-3">
+            {station.plugs.map((plug) => (
+              <li class="flex items-center justify-between gap-3 rounded-2xl border border-line bg-ink/40 px-4 py-3">
+                <span class="font-semibold uppercase">
+                  {plug.plug}
+                  {plug.type ? ` (${plug.type})` : ""}
+                </span>
+                <span class="font-mono text-sm text-charge">
+                  {[plug.power, plug.count ? `${plug.count}x` : null].filter(Boolean).join(" · ")}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="text-muted">Plug details not listed.</p>
+        )
+      }
+    </section>
+
+    {
+      station.amenities?.length > 0 && (
+        <section class="mb-8 rounded-3xl border border-line bg-panel p-6">
+          <h2 class="mb-4 text-lg font-bold">Amenities</h2>
+          <div class="flex flex-wrap gap-2">
+            {station.amenities.map((amenity) => (
+              <span class="rounded-full border border-line bg-ink/40 px-3 py-1 text-sm text-muted capitalize">
+                {amenity}
+              </span>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="rounded-3xl border border-line bg-panel p-6">
+      <h2 class="mb-4 text-lg font-bold">Location</h2>
+      <dl class="grid gap-3 text-sm sm:grid-cols-2">
+        <div>
+          <dt class="text-muted">Coordinates</dt>
+          <dd class="font-mono text-paper">
+            {station.latitude}, {station.longitude}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-muted">Vehicle type</dt>
+          <dd class="text-paper capitalize">{(station.type || []).join(", ") || "car"}</dd>
+        </div>
+        <div>
+          <dt class="text-muted">City</dt>
+          <dd class="text-paper">{station.city}</dd>
+        </div>
+        <div>
+          <dt class="text-muted">Province</dt>
+          <dd class="text-paper">{station.province || "—"}</dd>
+        </div>
+      </dl>
+    </section>
+  </article>
+</Layout>

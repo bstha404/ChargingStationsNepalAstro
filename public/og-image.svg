@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B0D0C"/>
+      <stop offset="100%" stop-color="#171A19"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8EE36A"/>
+      <stop offset="100%" stop-color="#58AE37"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="220" fill="#8EE36A" opacity="0.08"/>
+  <circle cx="160" cy="520" r="180" fill="#58AE37" opacity="0.08"/>
+  <rect x="72" y="72" width="72" height="72" rx="18" fill="url(#g)"/>
+  <path d="M108 92 L98 124 H118 L106 156 L138 118 H116 L128 92 Z" fill="#0B0D0C"/>
+  <text x="168" y="120" fill="#F8FAF8" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="800">EV Charge Nepal</text>
+  <text x="72" y="280" fill="#F8FAF8" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">Find EV charging</text>
+  <text x="72" y="356" fill="#8EE36A" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">stations across Nepal</text>
+  <text x="72" y="430" fill="#B8C1BC" font-family="Segoe UI, Arial, sans-serif" font-size="28">Map search · AC/DC filters · Nearby sorting · Directions</text>
+</svg>

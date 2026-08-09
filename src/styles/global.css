@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Syne", "Segoe UI", sans-serif;
+  --font-body: "Manrope", "Segoe UI", sans-serif;
+  --color-ink: #0b0d0c;
+  --color-panel: #171a19;
+  --color-muted: #b8c1bc;
+  --color-line: #2a2f2d;
+  --color-charge: #8ee36a;
+  --color-charge-deep: #58ae37;
+  --color-paper: #f8faf8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-charge) 35%, transparent);
+  }
+}
+
+@layer utilities {
+  .text-gradient-green {
+    background: linear-gradient(120deg, #b8f39a 0%, #8ee36a 45%, #58ae37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .leaflet-container {
+    background: #111413 !important;
+    font-family: var(--font-body);
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: #0f1211 !important;
+    color: #f8faf8 !important;
+    border-radius: 16px !important;
+    border: 1px solid #2a2f2d !important;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  .leaflet-popup-tip {
+    background: #0f1211 !important;
+    border: 1px solid #2a2f2d !important;
+  }
+
+  .leaflet-popup-close-button {
+    color: #b8c1bc !important;
+  }
+
+  .leaflet-control-attribution {
+    background: rgba(11, 13, 12, 0.75) !important;
+    color: #6e7672 !important;
+  }
+}

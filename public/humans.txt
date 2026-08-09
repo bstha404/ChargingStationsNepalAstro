@@ -1,0 +1,7 @@
+/* Humans TXT — https://humanstxt.org */
+Team: EV Charge Nepal
+Site: https://evcharge.np
+Location: Nepal
+Focus: EV charging station discovery
+Standards: HTML, CSS, Astro, JSON-LD
+Components: OpenStreetMap tiles, browser geolocation (optional)

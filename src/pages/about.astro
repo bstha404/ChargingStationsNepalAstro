@@ -1,0 +1,68 @@
+---
+import Layout from "../layouts/Layout.astro";
+import locations from "../data/EV_Locations.json";
+import { uniqueCities, type Station } from "../lib/stations";
+
+const stations = locations as Station[];
+const cities = uniqueCities(stations);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About EV Charge Nepal",
+  url: `${Astro.site || "https://evcharge.np"}/about/`,
+  mainEntity: {
+    "@type": "Organization",
+    name: "EV Charge Nepal",
+    url: Astro.site?.toString() || "https://evcharge.np",
+    description:
+      "Nepal-focused directory of electric vehicle charging stations with map search and city pages.",
+  },
+};
+---
+
+<Layout
+  title="About EV Charge Nepal — EV Charging Station Directory"
+  description="Learn about EV Charge Nepal, a map-first directory helping drivers find electric vehicle charging stations across Nepal."
+  canonical="/about/"
+  jsonLd={jsonLd}
+>
+  <section class="mx-auto max-w-[820px] px-6 py-12">
+    <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">About</p>
+    <h1 class="font-display mb-4 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
+      Built for Nepal’s <span class="text-gradient-green">EV drivers</span>
+    </h1>
+    <div class="space-y-5 text-[0.95rem] leading-relaxed text-muted">
+      <p>
+        EV Charge Nepal is a charging-station-only website. Our goal is simple: help you find a
+        working charger faster—whether you are in Kathmandu Valley, on a highway corridor, or
+        exploring cities like Pokhara and Butwal.
+      </p>
+      <p>
+        Today the directory covers <strong class="text-paper">{stations.length} stations</strong> across
+        <strong class="text-paper">{cities.length} cities</strong>, with search, AC/DC filters, nearby
+        sorting, and SEO-friendly pages for every station and city.
+      </p>
+      <p>
+        Listings are compiled for public information. Operators and drivers should still confirm
+        availability on site. If you spot an error or know a missing charger, please
+        <a href="/contact/" class="font-semibold text-charge hover:underline">tell us</a>.
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-3 sm:grid-cols-3">
+      <a href="/" class="rounded-2xl border border-line bg-panel px-4 py-4 no-underline hover:border-charge/40">
+        <div class="font-semibold text-paper">Open map</div>
+        <div class="mt-1 text-sm text-muted">Search & nearby sort</div>
+      </a>
+      <a href="/faq/" class="rounded-2xl border border-line bg-panel px-4 py-4 no-underline hover:border-charge/40">
+        <div class="font-semibold text-paper">FAQ</div>
+        <div class="mt-1 text-sm text-muted">Common questions</div>
+      </a>
+      <a href="/cities/" class="rounded-2xl border border-line bg-panel px-4 py-4 no-underline hover:border-charge/40">
+        <div class="font-semibold text-paper">Cities</div>
+        <div class="mt-1 text-sm text-muted">Browse by location</div>
+      </a>
+    </div>
+  </section>
+</Layout>

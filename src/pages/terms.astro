@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const updated = "10 August 2026";
+---
+
+<Layout
+  title="Terms of Use | EV Charge Nepal"
+  description="Terms governing use of EV Charge Nepal’s EV charging station map, listings, and related website content."
+  canonical="/terms/"
+>
+  <article class="mx-auto max-w-[820px] px-6 py-12">
+    <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">Legal</p>
+    <h1 class="font-display mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
+      Terms of Use
+    </h1>
+    <p class="mb-8 text-sm text-muted">Last updated: {updated}</p>
+
+    <div class="space-y-8 text-[0.95rem] leading-relaxed text-muted">
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">1. Acceptance</h2>
+        <p>
+          By using EV Charge Nepal, you agree to these Terms of Use and our
+          <a href="/privacy/" class="text-charge hover:underline">Privacy Policy</a>. If you do not
+          agree, please do not use the site.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">2. Informational service</h2>
+        <p>
+          Station locations, plugs, amenities, phone numbers, and related details are provided for
+          general information. Charging availability, pricing, opening hours, and connector status
+          can change without notice. Always confirm with the station operator before relying on a
+          listing.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">3. No warranty</h2>
+        <p>
+          The website is provided “as is” without warranties of any kind, express or implied,
+          including accuracy, completeness, or fitness for a particular purpose. We are not
+          responsible for third-party charging networks, roads, maps, or navigation apps.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">4. Acceptable use</h2>
+        <ul class="list-disc space-y-2 pl-5">
+          <li>Do not misuse the site, scrape aggressively, or disrupt service.</li>
+          <li>Do not attempt unauthorized access to systems or data.</li>
+          <li>Do not submit unlawful, misleading, or harmful content via contact channels.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">5. Intellectual property</h2>
+        <p>
+          Site design, branding, and original content belong to EV Charge Nepal or its licensors.
+          Map tiles and third-party marks belong to their respective owners.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">6. Limitation of liability</h2>
+        <p>
+          To the maximum extent allowed by law, EV Charge Nepal is not liable for indirect,
+          incidental, or consequential damages arising from use of the directory, including missed
+          charges, travel delays, or reliance on outdated listings.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">7. Changes</h2>
+        <p>
+          We may update these terms periodically. Continued use after changes means you accept the
+          revised terms.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 text-xl font-bold text-paper">8. Contact</h2>
+        <p>
+          Questions:
+          <a href="/contact/" class="font-semibold text-charge hover:underline">Contact us</a>
+          or
+          <a href="mailto:hello@evcharge.np" class="font-semibold text-charge hover:underline"
+            >hello@evcharge.np</a
+          >.
+        </p>
+      </section>
+    </div>
+  </article>
+</Layout>

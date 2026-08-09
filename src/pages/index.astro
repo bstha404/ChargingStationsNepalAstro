@@ -1,11 +1,113 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import NetworkExplorer from "../components/NetworkExplorer";
+import locations from "../data/EV_Locations.json";
+import { citySlug, stationSlug, uniqueCities } from "../lib/stations";
+import type { Station } from "../lib/stations";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const stations = locations as Station[];
+const cities = uniqueCities(stations);
+const totalPlugs = stations.reduce((sum, s) => sum + (s.plugs?.length || 0), 0);
+const site = Astro.site?.toString().replace(/\/$/, "") || "https://evcharge.np";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "EV Charge Nepal",
+    url: site,
+    description:
+      "Find EV charging stations across Nepal with search, AC/DC filters, and nearby sorting.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${site}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "EV Charging Stations in Nepal",
+    numberOfItems: stations.length,
+    itemListElement: stations.slice(0, 20).map((station, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: station.name,
+      url: `${site}/stations/${stationSlug(station)}/`,
+    })),
+  },
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title={`EV Charge Nepal — ${stations.length}+ EV Charging Stations`}
+  description={`Explore ${stations.length} electric vehicle charging stations across ${cities.length} cities in Nepal. Search by name, city, plug type, and find the nearest charger.`}
+  canonical="/"
+  jsonLd={jsonLd}
+>
+  <div class="relative overflow-hidden">
+    <div
+      class="pointer-events-none absolute top-0 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse,rgba(142,227,106,0.12),transparent_70%)]"
+      aria-hidden="true"
+    >
+    </div>
+
+    <section class="mx-auto max-w-[1280px] px-6 pt-8">
+      <div class="mb-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
+          <div class="text-2xl font-extrabold text-charge">{stations.length}</div>
+          <div class="text-xs text-muted">Stations mapped</div>
+        </div>
+        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
+          <div class="text-2xl font-extrabold text-charge">{cities.length}</div>
+          <div class="text-xs text-muted">Cities covered</div>
+        </div>
+        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
+          <div class="text-2xl font-extrabold text-charge">{totalPlugs}</div>
+          <div class="text-xs text-muted">Plug listings</div>
+        </div>
+        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
+          <div class="text-2xl font-extrabold text-charge">AC + DC</div>
+          <div class="text-xs text-muted">Filter by charger type</div>
+        </div>
+      </div>
+    </section>
+
+    <NetworkExplorer client:only="react" stations={stations} />
+
+    <section class="mx-auto max-w-[1280px] px-6 pb-16">
+      <h2 class="font-display mb-4 text-2xl font-bold tracking-tight">Browse by city</h2>
+      <div class="flex flex-wrap gap-2">
+        {
+          cities.slice(0, 24).map(({ city, count }) => (
+            <a
+              href={`/cities/${citySlug(city)}/`}
+              class="rounded-full border border-line bg-panel px-4 py-2 text-sm text-muted no-underline transition-colors hover:border-charge/40 hover:text-charge"
+            >
+              {city}
+              <span class="ml-1 text-charge/80">({count})</span>
+            </a>
+          ))
+        }
+        <a
+          href="/cities/"
+          class="rounded-full border border-charge/30 bg-charge/10 px-4 py-2 text-sm font-semibold text-charge no-underline"
+        >
+          View all cities →
+        </a>
+        <a
+          href="/faq/"
+          class="rounded-full border border-line bg-panel px-4 py-2 text-sm text-muted no-underline hover:text-charge"
+        >
+          FAQ
+        </a>
+        <a
+          href="/about/"
+          class="rounded-full border border-line bg-panel px-4 py-2 text-sm text-muted no-underline hover:text-charge"
+        >
+          About
+        </a>
+      </div>
+    </section>
+  </div>
 </Layout>

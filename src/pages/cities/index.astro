@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import locations from "../../data/EV_Locations.json";
+import { citySlug, uniqueCities, type Station } from "../../lib/stations";
+
+const stations = locations as Station[];
+const cities = uniqueCities(stations);
+---
+
+<Layout
+  title={`EV Charging Cities in Nepal — ${cities.length} Cities`}
+  description={`Browse EV charging stations by city across Nepal. ${cities.length} cities with mapped chargers including Kathmandu, Pokhara, Butwal, and more.`}
+  canonical="/cities/"
+>
+  <section class="mx-auto max-w-[960px] px-6 py-12">
+    <h1 class="font-display mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
+      Charging Stations by <span class="text-gradient-green">City</span>
+    </h1>
+    <p class="mb-8 max-w-2xl text-muted">
+      Explore electric vehicle chargers city by city across Nepal.
+    </p>
+
+    <div class="grid gap-3 sm:grid-cols-2">
+      {
+        cities.map(({ city, count }) => (
+          <a
+            href={`/cities/${citySlug(city)}/`}
+            class="flex items-center justify-between rounded-2xl border border-line bg-panel px-5 py-4 no-underline transition-colors hover:border-charge/40"
+          >
+            <span class="font-semibold text-paper">{city}</span>
+            <span class="rounded-full bg-charge/10 px-3 py-1 text-xs font-bold text-charge"
+              >{count} stations</span
+            >
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

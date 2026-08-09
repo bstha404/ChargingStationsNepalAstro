@@ -1,46 +1,38 @@
-# Astro Starter Kit: Basics
+# EV Charge Nepal
 
-```sh
-npm create astro@latest -- --template basics
+Astro website for finding EV charging stations across Nepal.
+
+## Features
+
+- Interactive map + station list (ported from GadiCharge NetworkPage)
+- Search by name, city, address, plug type
+- AC / DC plug filters
+- Nearby sorting via geolocation
+- SEO pages for every station and city
+- Sitemap + JSON-LD structured data
+
+## Develop
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Build
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm run build
+npm run preview
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Routes
 
-## 🧞 Commands
+| Path | Purpose |
+|------|---------|
+| `/` | Interactive network explorer |
+| `/cities/` | City index |
+| `/cities/[city]/` | City station list |
+| `/stations/` | Full station directory |
+| `/stations/[slug]/` | Station detail (SEO) |
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Station data lives in `src/data/EV_Locations.json`.

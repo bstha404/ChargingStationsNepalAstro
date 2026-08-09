@@ -1,0 +1,113 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import locations from "../../data/EV_Locations.json";
+import {
+  citySlug,
+  formatLocationLine,
+  stationSlug,
+  uniqueCities,
+  type Station,
+} from "../../lib/stations";
+
+export function getStaticPaths() {
+  const stations = locations as Station[];
+  const cities = uniqueCities(stations);
+  return cities.map(({ city, count }) => ({
+    params: { city: citySlug(city) },
+    props: {
+      city,
+      count,
+      stations: stations
+        .filter((s) => citySlug(s.city) === citySlug(city))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    },
+  }));
+}
+
+const { city, count, stations } = Astro.props as {
+  city: string;
+  count: number;
+  stations: Station[];
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: `EV Charging Stations in ${city}`,
+  numberOfItems: stations.length,
+  itemListElement: stations.map((station, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "ElectricVehicleChargingStation",
+      name: station.name,
+      address: formatLocationLine(station),
+      telephone: station.telephone || undefined,
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: station.latitude,
+        longitude: station.longitude,
+      },
+      url: `${Astro.site || "https://evcharge.np"}/stations/${stationSlug(station)}/`,
+    },
+  })),
+};
+---
+
+<Layout
+  title={`EV Charging Stations in ${city}, Nepal (${count})`}
+  description={`Find ${count} electric vehicle charging stations in ${city}, Nepal. Browse plugs, amenities, phone numbers, and get directions.`}
+  canonical={`/cities/${citySlug(city)}/`}
+  jsonLd={jsonLd}
+>
+  <section class="mx-auto max-w-[960px] px-6 py-12">
+    <a href="/cities/" class="text-sm font-semibold text-charge no-underline hover:underline"
+      >← All cities</a
+    >
+    <h1 class="font-display mt-4 mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
+      EV Charging Stations in <span class="text-gradient-green">{city}</span>
+    </h1>
+    <p class="mb-8 max-w-2xl text-muted">
+      {count} mapped charging station{count === 1 ? "" : "s"} in {city}. Open the interactive map
+      or jump to a station page for full details.
+    </p>
+
+    <div class="mb-8 flex flex-wrap gap-3">
+      <a
+        href={`/?q=${encodeURIComponent(city)}`}
+        class="rounded-full bg-charge px-5 py-2.5 text-sm font-bold text-ink no-underline"
+      >
+        Open in map search
+      </a>
+      <a
+        href="/stations/"
+        class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-muted no-underline hover:text-charge"
+      >
+        Browse all stations
+      </a>
+    </div>
+
+    <div class="space-y-3">
+      {
+        stations.map((station) => (
+          <a
+            href={`/stations/${stationSlug(station)}/`}
+            class="block rounded-2xl border border-line bg-panel px-5 py-4 no-underline transition-colors hover:border-charge/40"
+          >
+            <h2 class="text-lg font-bold text-paper">{station.name}</h2>
+            <p class="mt-1 text-sm text-muted">{formatLocationLine(station)}</p>
+            {station.plugs?.length > 0 && (
+              <div class="mt-3 flex flex-wrap gap-1.5">
+                {station.plugs.map((plug) => (
+                  <span class="rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-charge uppercase">
+                    {plug.plug} · {plug.power} ({plug.type})
+                  </span>
+                ))}
+              </div>
+            )}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
