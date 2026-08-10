@@ -4,7 +4,8 @@ import "leaflet/dist/leaflet.css";
 import React, { useRef, useCallback, useMemo, useState, useEffect } from "react";
 import { MapPin, Phone, Zap, Navigation } from "lucide-react";
 import FlyToLocation from "./FlyToLocation";
-import type { Station } from "../lib/stations";
+import RouteLayer from "./RouteLayer";
+import type { LatLng, Station } from "../lib/stations";
 import { formatLocationLine } from "../lib/stations";
 
 const PIN_URL = "/assets/ev_pin.svg";
@@ -29,6 +30,7 @@ type Props = {
   selectedStation: Station | null;
   onSelectStation: (station: Station) => void;
   mapStationsLimit?: number;
+  routePath?: LatLng[];
 };
 
 function EVMap({
@@ -37,6 +39,7 @@ function EVMap({
   selectedStation,
   onSelectStation,
   mapStationsLimit = 120,
+  routePath = [],
 }: Props) {
   const markerRefs = useRef<Record<string | number, any>>({});
   const [mounted, setMounted] = useState(false);
@@ -86,6 +89,8 @@ function EVMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {routePath.length >= 2 && <RouteLayer path={routePath} />}
 
         {visibleStations.map((station) => {
           const isSelected =

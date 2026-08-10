@@ -132,3 +132,106 @@ export function uniqueCities(stations: Station[]): { city: string; count: number
     .map(([city, count]) => ({ city, count }))
     .sort((a, b) => b.count - a.count || a.city.localeCompare(b.city));
 }
+
+export type LatLng = { lat: number; lng: number };
+
+export type StationAlongRoute = StationWithDistance & {
+  distanceToRouteM: number;
+};
+
+/** Approximate meters per degree of latitude. */
+const METERS_PER_DEG_LAT = 111_320;
+
+function toLocalMeters(lat: number, lng: number, originLat: number, originLng: number) {
+  const metersPerDegLng = METERS_PER_DEG_LAT * Math.cos((originLat * Math.PI) / 180);
+  return {
+    x: (lng - originLng) * metersPerDegLng,
+    y: (lat - originLat) * METERS_PER_DEG_LAT,
+  };
+}
+
+function distancePointToSegmentMeters(
+  point: LatLng,
+  a: LatLng,
+  b: LatLng
+): number {
+  const p = toLocalMeters(point.lat, point.lng, a.lat, a.lng);
+  const bLocal = toLocalMeters(b.lat, b.lng, a.lat, a.lng);
+  const dx = bLocal.x;
+  const dy = bLocal.y;
+  const lenSq = dx * dx + dy * dy;
+
+  if (lenSq === 0) {
+    return Math.hypot(p.x, p.y);
+  }
+
+  let t = (p.x * dx + p.y * dy) / lenSq;
+  t = Math.max(0, Math.min(1, t));
+  const projX = t * dx;
+  const projY = t * dy;
+  return Math.hypot(p.x - projX, p.y - projY);
+}
+
+/** Minimum distance in meters from a point to a polyline (lat/lng pairs). */
+export function distanceToRouteMeters(point: LatLng, route: LatLng[]): number {
+  if (route.length === 0) return Infinity;
+  if (route.length === 1) {
+    return getDistanceKm(point.lat, point.lng, route[0].lat, route[0].lng) * 1000;
+  }
+
+  let min = Infinity;
+  for (let i = 0; i < route.length - 1; i++) {
+    const d = distancePointToSegmentMeters(point, route[i], route[i + 1]);
+    if (d < min) min = d;
+  }
+  return min;
+}
+
+/** Stations within `radiusMeters` of the route, sorted by distance along the corridor. */
+export function filterStationsNearRoute(
+  stations: StationWithDistance[],
+  route: LatLng[],
+  radiusMeters: number
+): StationAlongRoute[] {
+  if (!route.length) return [];
+
+  return stations
+    .map((station) => {
+      const lat = Number(station.latitude);
+      const lng = Number(station.longitude);
+      if (Number.isNaN(lat) || Number.isNaN(lng)) {
+        return { ...station, distanceToRouteM: Infinity };
+      }
+      return {
+        ...station,
+        distanceToRouteM: distanceToRouteMeters({ lat, lng }, route),
+      };
+    })
+    .filter((station) => station.distanceToRouteM <= radiusMeters)
+    .sort((a, b) => a.distanceToRouteM - b.distanceToRouteM);
+}
+
+/** Average lat/lng of stations in a city (used as trip endpoints). */
+export function cityCentroid(
+  stations: Station[],
+  city: string
+): LatLng | null {
+  const matches = stations.filter(
+    (s) => s.city?.toLowerCase() === city.toLowerCase()
+  );
+  if (!matches.length) return null;
+
+  let latSum = 0;
+  let lngSum = 0;
+  let count = 0;
+  for (const station of matches) {
+    const lat = Number(station.latitude);
+    const lng = Number(station.longitude);
+    if (Number.isNaN(lat) || Number.isNaN(lng)) continue;
+    latSum += lat;
+    lngSum += lng;
+    count += 1;
+  }
+  if (!count) return null;
+  return { lat: latSum / count, lng: lngSum / count };
+}
