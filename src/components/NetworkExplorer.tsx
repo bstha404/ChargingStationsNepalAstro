@@ -26,6 +26,12 @@ const CORRIDOR_OPTIONS = [
   { label: "5 km", value: 5000 },
 ] as const;
 
+const MY_LOCATION = "__my_location__";
+
+function tripEndpointLabel(value: string): string {
+  return value === MY_LOCATION ? "My location" : value;
+}
+
 type Props = {
   stations: Station[];
   initialCity?: string;
@@ -114,22 +120,51 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
     setToCity(fromCity);
   };
 
+  const resolveTripEndpoint = (value: string): LatLng | null => {
+    if (value === MY_LOCATION) {
+      return userLocation;
+    }
+    return cityCentroid(stations, value);
+  };
+
+  const selectTripEndpoint = (
+    side: "from" | "to",
+    value: string
+  ) => {
+    if (side === "from") setFromCity(value);
+    else setToCity(value);
+
+    if (value === MY_LOCATION && !userLocation) {
+      requestLocation();
+    }
+  };
+
   const planTrip = async () => {
     if (!fromCity || !toCity) {
-      setRouteError("Choose both a starting city and a destination.");
+      setRouteError("Choose both a starting point and a destination.");
       setRouteStatus("error");
       return;
     }
     if (fromCity === toCity) {
-      setRouteError("Pick two different cities.");
+      setRouteError("Pick two different locations.");
       setRouteStatus("error");
       return;
     }
 
-    const from = cityCentroid(stations, fromCity);
-    const to = cityCentroid(stations, toCity);
+    if (
+      (fromCity === MY_LOCATION || toCity === MY_LOCATION) &&
+      !userLocation
+    ) {
+      setRouteError("Allow location access to use My location, then try again.");
+      setRouteStatus("error");
+      requestLocation();
+      return;
+    }
+
+    const from = resolveTripEndpoint(fromCity);
+    const to = resolveTripEndpoint(toCity);
     if (!from || !to) {
-      setRouteError("Could not locate one of those cities on the map.");
+      setRouteError("Could not locate one of those places on the map.");
       setRouteStatus("error");
       return;
     }
@@ -371,10 +406,13 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               </span>
               <select
                 value={fromCity}
-                onChange={(e) => setFromCity(e.target.value)}
+                onChange={(e) => selectTripEndpoint("from", e.target.value)}
                 className="w-full rounded-[12px] border border-[#2A2F2D] bg-[#0B0D0C] px-3.5 py-2.5 text-[0.88rem] text-[#F8FAF8] outline-none focus:border-[#8EE36A]/60"
               >
-                <option value="">Starting city</option>
+                <option value="">Starting point</option>
+                <option value={MY_LOCATION}>
+                  My location{userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}
+                </option>
                 {cities.map((city) => (
                   <option key={`from-${city}`} value={city}>
                     {city}
@@ -398,10 +436,13 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               </span>
               <select
                 value={toCity}
-                onChange={(e) => setToCity(e.target.value)}
+                onChange={(e) => selectTripEndpoint("to", e.target.value)}
                 className="w-full rounded-[12px] border border-[#2A2F2D] bg-[#0B0D0C] px-3.5 py-2.5 text-[0.88rem] text-[#F8FAF8] outline-none focus:border-[#8EE36A]/60"
               >
-                <option value="">Destination city</option>
+                <option value="">Destination</option>
+                <option value={MY_LOCATION}>
+                  My location{userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}
+                </option>
                 {cities.map((city) => (
                   <option key={`to-${city}`} value={city}>
                     {city}
@@ -459,8 +500,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               <span className="font-semibold text-[#8EE36A]">
                 {CORRIDOR_OPTIONS.find((o) => o.value === corridorMeters)?.label}
               </span>{" "}
-              of the {fromCity} → {toCity} route. Widen the corridor if few stations appear near
-              highways.
+              of the {tripEndpointLabel(fromCity)} → {tripEndpointLabel(toCity)} route. Widen the
+              corridor if few stations appear near highways.
             </p>
           )}
         </div>
