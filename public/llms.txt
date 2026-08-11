@@ -3,14 +3,14 @@
 > Nepal-focused directory of electric vehicle charging stations with interactive map search.
 
 ## Site
-- Homepage / map: https://evcharge.np/
-- Cities: https://evcharge.np/cities/
-- All stations: https://evcharge.np/stations/
-- FAQ: https://evcharge.np/faq/
-- About: https://evcharge.np/about/
-- Contact: https://evcharge.np/contact/
-- Privacy: https://evcharge.np/privacy/
-- Terms: https://evcharge.np/terms/
+- Homepage / map: https://evchargingstationnepal.com/
+- Cities: https://evchargingstationnepal.com/cities/
+- All stations: https://evchargingstationnepal.com/stations/
+- FAQ: https://evchargingstationnepal.com/faq/
+- About: https://evchargingstationnepal.com/about/
+- Contact: https://evchargingstationnepal.com/contact/
+- Privacy: https://evchargingstationnepal.com/privacy/
+- Terms: https://evchargingstationnepal.com/terms/
 
 ## Notes
 - Station pages follow `/stations/{slug}/`

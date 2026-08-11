@@ -1,4 +1,4 @@
-Contact: mailto:security@evcharge.np
+Contact: mailto:security@evchargingstationnepal.com
 Expires: 2027-08-10T00:00:00.000Z
 Preferred-Languages: en
-Canonical: https://evcharge.np/.well-known/security.txt
+Canonical: https://evchargingstationnepal.com/.well-known/security.txt

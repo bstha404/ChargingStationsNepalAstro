@@ -8,7 +8,7 @@ import type { Station } from "../lib/stations";
 const stations = locations as Station[];
 const cities = uniqueCities(stations);
 const totalPlugs = stations.reduce((sum, s) => sum + (s.plugs?.length || 0), 0);
-const site = Astro.site?.toString().replace(/\/$/, "") || "https://evcharge.np";
+const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingstationnepal.com";
 
 const jsonLd = [
   {

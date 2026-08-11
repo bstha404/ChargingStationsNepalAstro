@@ -1,5 +1,5 @@
 # EV Charge Nepal robots.txt
-# https://evcharge.np
+# https://evchargingstationnepal.com
 
 User-agent: *
 Allow: /
@@ -7,7 +7,7 @@ Allow: /
 Disallow: /api/
 Disallow: /raw/
 
-Sitemap: https://evcharge.np/sitemap-index.xml
+Sitemap: https://evchargingstationnepal.com/sitemap-index.xml
 
 User-agent: GPTBot
 Allow: /

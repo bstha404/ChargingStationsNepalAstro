@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://evcharge.np",
+  site: "https://evchargingstationnepal.com",
   trailingSlash: "always",
   integrations: [
     react(),
@@ -12,7 +12,7 @@ export default defineConfig({
       filter: (page) => !page.includes("/404"),
       serialize(item) {
         const url = item.url;
-        if (url.endsWith("evcharge.np/") || url.endsWith("evcharge.np")) {
+        if (url.endsWith("evchargingstationnepal.com/") || url.endsWith("evchargingstationnepal.com")) {
           item.priority = 1.0;
           item.changefreq = "daily";
         } else if (url.includes("/faq") || url.includes("/about") || url.includes("/contact")) {

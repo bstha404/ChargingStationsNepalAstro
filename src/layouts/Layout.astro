@@ -21,7 +21,7 @@ const {
   ogType = "website",
 } = Astro.props;
 
-const site = Astro.site?.toString().replace(/\/$/, "") || "https://evcharge.np";
+const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingstationnepal.com";
 const canonicalUrl = canonical
   ? canonical.startsWith("http")
     ? canonical
@@ -34,7 +34,7 @@ const organizationLd = {
   "@type": "Organization",
   name: "EV Charge Nepal",
   url: site,
-  logo: `${site}/favicon.svg`,
+  logo: `${site}/android-chrome-512x512.png`,
   description:
     "Nepal-focused directory of electric vehicle charging stations with map search and city pages.",
   areaServed: {
@@ -44,7 +44,7 @@ const organizationLd = {
   sameAs: [],
   contactPoint: {
     "@type": "ContactPoint",
-    email: "hello@evcharge.np",
+    email: "hello@evchargingstationnepal.com",
     contactType: "customer support",
     availableLanguage: ["English"],
   },
@@ -121,9 +121,10 @@ const nav = [
     <meta name="theme-color" content="#0B0D0C" />
     <meta name="color-scheme" content="dark" />
     <meta name="format-detection" content="telephone=yes" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="author" type="text/plain" href="/humans.txt" />
     <link type="text/plain" rel="author" href="/llms.txt" />
