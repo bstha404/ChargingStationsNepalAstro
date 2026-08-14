@@ -1,6 +1,6 @@
 # EV Charging Station Nepal
 
-> Nepal-focused directory of electric vehicle charging stations with interactive map search.
+> Free map directory of EV charging stations across Nepal. Find EV charging stations near me, plan highway trips, and filter AC/DC plugs.
 
 ## Site
 - Homepage / map: https://evchargingstationnepal.com/
@@ -11,6 +11,14 @@
 - Contact: https://evchargingstationnepal.com/contact/
 - Privacy: https://evchargingstationnepal.com/privacy/
 - Terms: https://evchargingstationnepal.com/terms/
+
+## Primary topics
+- EV charging station Nepal
+- Nearest / near me EV charging stations
+- EV charging station in Kathmandu and Pokhara
+- NEA and Tata charging stations
+- Highway corridor trip planning
+- Informational notes on EV charging station cost and installation in Nepal
 
 ## Notes
 - Station pages follow `/stations/{slug}/`

@@ -9,19 +9,25 @@ interface Props {
   description?: string;
   canonical?: string;
   image?: string;
+  keywords?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
   ogType?: string;
+  ogTitle?: string;
+  ogDescription?: string;
 }
 
 const {
-  title = "EV Charging Station Nepal — Find EV Charging Stations Across Nepal",
-  description = "Search and explore electric vehicle charging stations across Nepal. Filter by AC/DC plugs, find nearest chargers, and get directions.",
+  title = "EV Charging Station Nepal — Find EV Charging Stations Near You",
+  description = "Find EV charging stations across Nepal. Search the nearest EV charging station near me in Kathmandu, Pokhara, and highways—with AC/DC filters and directions.",
   canonical,
   image = "/og-image.svg",
+  keywords,
   jsonLd,
   noindex = false,
   ogType = "website",
+  ogTitle,
+  ogDescription,
 } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingstationnepal.com";
@@ -31,6 +37,8 @@ const canonicalUrl = canonical
     : `${site}${canonical.endsWith("/") || canonical.includes(".") ? canonical : `${canonical}/`}`
   : new URL(Astro.url.pathname, site).toString();
 const ogImage = image.startsWith("http") ? image : `${site}${image}`;
+const shareTitle = ogTitle || title;
+const shareDescription = ogDescription || description;
 
 const organizationLd = {
   "@context": "https://schema.org",
@@ -39,7 +47,7 @@ const organizationLd = {
   url: site,
   logo: `${site}/logo.svg`,
   description:
-    "Nepal-focused directory of electric vehicle charging stations with map search and city pages.",
+    "Free map directory to find EV charging stations near you across Nepal—Kathmandu, Pokhara, NEA, Tata, and highway chargers.",
   areaServed: {
     "@type": "Country",
     name: "Nepal",
@@ -93,9 +101,10 @@ const nav = [
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
     <meta
       name="robots"
-      content={noindex ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1"}
+      content={noindex ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"}
     />
     <meta name="googlebot" content={noindex ? "noindex,follow" : "index,follow"} />
     <meta name="author" content="EV Charging Station Nepal" />
@@ -109,17 +118,29 @@ const nav = [
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="EV Charging Station Nepal" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={shareTitle} />
+    <meta property="og:description" content={shareDescription} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="EV Charging Station Nepal — find charging stations across Nepal" />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="EV Charging Station Nepal map — find EV charging stations near me across Nepal"
+    />
     <meta property="og:locale" content="en_NP" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={shareTitle} />
+    <meta name="twitter:description" content={shareDescription} />
     <meta name="twitter:image" content={ogImage} />
+    <meta
+      name="twitter:image:alt"
+      content="EV Charging Station Nepal — nearest EV charging station finder"
+    />
+    <meta name="twitter:url" content={canonicalUrl} />
 
     <meta name="theme-color" content="#0B0D0C" />
     <meta name="color-scheme" content="dark light" />

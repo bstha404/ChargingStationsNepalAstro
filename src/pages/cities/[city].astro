@@ -52,11 +52,16 @@ const jsonLd = {
     },
   })),
 };
+const pageTitle = `EV Charging Station in ${city}, Nepal — ${count} Chargers Near You`;
+const pageDescription = `Find EV charging stations near me in ${city}, Nepal. Browse ${count} mapped chargers with plugs, amenities, and directions—nearest EV charging station in ${city}.`;
 ---
 
 <Layout
-  title={`EV Charging Stations in ${city}, Nepal (${count})`}
-  description={`Find ${count} electric vehicle charging stations in ${city}, Nepal. Browse plugs, amenities, phone numbers, and get directions.`}
+  title={pageTitle}
+  description={pageDescription}
+  ogTitle={`EV Charging Stations in ${city} | EV Charging Station Nepal`}
+  ogDescription={pageDescription}
+  keywords={`ev charging station in ${city.toLowerCase()}, ev charging stations near me, nearest ev charging station, ev charging station nepal, ${city.toLowerCase()} ev charging`}
   canonical={`/cities/${citySlug(city)}/`}
   jsonLd={jsonLd}
 >
@@ -65,9 +70,10 @@ const jsonLd = {
       >← All cities</a
     >
     <h1 class="font-display mt-4 mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
-      EV Charging Stations in <span class="text-gradient-green">{city}</span>
+      EV Charging Station in <span class="text-gradient-green">{city}</span>
     </h1>
     <p class="mb-8 max-w-2xl text-muted">
+      Locate the nearest EV charging station in {city} and compare plugs before you drive.
       {count} mapped charging station{count === 1 ? "" : "s"} in {city}. Open the interactive map
       or jump to a station page for full details.
     </p>

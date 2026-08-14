@@ -281,7 +281,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           </span>
         </div>
         <h1 className="font-display mb-0 text-[clamp(1.75rem,4vw,3.4rem)] font-extrabold tracking-[-0.04em] text-paper sm:mb-3">
-          Find Your Nearest <span className="text-gradient-green">Charging Station</span>
+          Find Your Nearest <span className="text-gradient-green">EV Charging Station</span> in Nepal
         </h1>
         <p className="mt-3 hidden max-w-xl text-base leading-relaxed text-muted sm:block">
           Browse stations across Nepal, or plan a city-to-city trip to see chargers along your

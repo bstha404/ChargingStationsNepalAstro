@@ -8,16 +8,19 @@ const cities = uniqueCities(stations);
 ---
 
 <Layout
-  title={`EV Charging Cities in Nepal — ${cities.length} Cities`}
-  description={`Browse EV charging stations by city across Nepal. ${cities.length} cities with mapped chargers including Kathmandu, Pokhara, Butwal, and more.`}
+  title={`EV Charging Stations by City in Nepal — ${cities.length} Cities`}
+  description={`Browse EV charging stations by city across Nepal. ${cities.length} cities with mapped chargers including Kathmandu, Pokhara, and highway corridors.`}
+  ogTitle="EV Charging Stations by City | Nepal"
+  ogDescription={`Find an EV charging station in Kathmandu, Pokhara, and ${cities.length} cities across Nepal.`}
+  keywords="ev charging station in kathmandu, ev charging station in pokhara, ev charging station nepal, nepal ev charging station, ev charging stations near me"
   canonical="/cities/"
 >
   <section class="mx-auto max-w-[960px] px-6 py-12">
     <h1 class="font-display mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
-      Charging Stations by <span class="text-gradient-green">City</span>
+      EV Charging Stations by <span class="text-gradient-green">City</span>
     </h1>
     <p class="mb-8 max-w-2xl text-muted">
-      Explore electric vehicle chargers city by city across Nepal.
+      Explore EV charging stations city by city—Kathmandu, Pokhara, and towns across Nepal.
     </p>
 
     <div class="grid gap-3 sm:grid-cols-2">

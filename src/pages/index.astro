@@ -18,19 +18,74 @@ const stats = [
   { value: "AC + DC", label: "Filter by charger type" },
 ];
 
+const homeKeywords = [
+  "ev charging station nepal",
+  "ev charging stations near me",
+  "free ev charging stations near me",
+  "ev charging station near me",
+  "nearest ev charging station",
+  "ev charging near me",
+  "near me ev charging station",
+  "ev charging station near me now",
+  "near ev charging station",
+  "ev charging stations",
+  "ev charging station",
+  "ev charging station in nepal",
+  "nepal ev charging station",
+  "ev charging station in kathmandu",
+  "ev charging station in pokhara",
+  "ev charging station nepal highway",
+  "nea ev charging station",
+  "nea ev charging station near me",
+  "tata ev charging station",
+  "tata ev charging station near me",
+  "ev charging station cost in nepal",
+  "ev charging station price in nepal",
+  "ev charging price in nepal",
+  "ev charging machine price in nepal",
+  "ev charging station installation cost in nepal",
+  "ev charging station setup cost in nepal",
+  "ev charging station installation at home cost",
+  "ev charging station design",
+].join(", ");
+
 const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "EV Charging Station Nepal",
+    alternateName: ["Nepal EV Charging Station", "EV Charging Stations Nepal"],
     url: site,
     description:
-      "Find EV charging stations across Nepal with search, AC/DC filters, and nearby sorting.",
+      "Map-first directory to find EV charging stations near me across Nepal—including Kathmandu, Pokhara, NEA and highway chargers—with AC/DC filters and directions.",
+    inLanguage: "en-NP",
     potentialAction: {
       "@type": "SearchAction",
       target: `${site}/?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "EV Charging Station Nepal Finder",
+    url: site,
+    applicationCategory: "TravelApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "NPR",
+    },
+    description:
+      "Free tool to find the nearest EV charging station in Nepal, plan city-to-city trips, and compare AC/DC plugs on an interactive map.",
+    featureList: [
+      "Interactive map of EV charging stations",
+      "Nearest charger sorting with location",
+      "Trip planner for highway corridors",
+      "AC and DC plug filters",
+      "City pages for Kathmandu, Pokhara, and more",
+    ],
   },
   {
     "@context": "https://schema.org",
@@ -44,12 +99,45 @@ const jsonLd = [
       url: `${site}/stations/${stationSlug(station)}/`,
     })),
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How do I find EV charging stations near me in Nepal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Open EV Charging Station Nepal, allow location access, and sort by nearest. You can also search by city, station name, or plug type to find an EV charging station near me now across Kathmandu, Pokhara, and other cities.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this EV charging station map free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. The directory is free to browse. Some listed locations may offer free EV charging stations near me, while others are paid—always confirm pricing and availability on site.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What affects EV charging station cost in Nepal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "EV charging station cost in Nepal, EV charging price in Nepal, and installation or setup cost vary by charger power, brand, civil work, wiring, and whether you install at home or commercially. This site helps you locate public chargers; treat price figures as research starting points and verify with vendors.",
+        },
+      },
+    ],
+  },
 ];
 ---
 
 <Layout
-  title={`EV Charging Station Nepal — ${stations.length}+ EV Charging Stations`}
-  description={`Explore ${stations.length} electric vehicle charging stations across ${cities.length} cities in Nepal. Search by name, city, plug type, and find the nearest charger.`}
+  title={`EV Charging Station Nepal — Find EV Charging Stations Near Me (${stations.length}+)`}
+  description={`Find EV charging stations near me across Nepal. Map ${stations.length}+ chargers in Kathmandu, Pokhara & highways—nearest EV charging station, AC/DC filters, free directory.`}
+  ogTitle="EV Charging Station Nepal | Nearest EV Charging Station Finder"
+  ogDescription="Locate EV charging stations near me in Nepal—Kathmandu, Pokhara, NEA & highway chargers—with map search, trip planning, and directions."
+  keywords={homeKeywords}
   canonical="/"
   jsonLd={jsonLd}
 >
@@ -65,7 +153,14 @@ const jsonLd = [
     <NetworkExplorer client:only="react" stations={stations} />
 
     <section class="mx-auto max-w-[1280px] px-6 pb-16">
-      <h2 class="font-display mb-4 text-2xl font-bold tracking-tight">Browse by city</h2>
+      <h2 class="font-display mb-4 text-2xl font-bold tracking-tight">
+        Browse EV charging stations by city
+      </h2>
+      <p class="mb-5 max-w-3xl text-sm text-muted">
+        Jump to an <strong class="font-semibold text-paper">EV charging station in Kathmandu</strong>,
+        <strong class="font-semibold text-paper">EV charging station in Pokhara</strong>, or other cities
+        across Nepal.
+      </p>
       <div class="flex flex-wrap gap-2">
         {
           cities.slice(0, 24).map(({ city, count }) => (
@@ -97,6 +192,125 @@ const jsonLd = [
           About
         </a>
       </div>
+    </section>
+
+    <section class="border-t border-line bg-panel/40">
+      <article class="mx-auto max-w-[820px] px-6 py-14">
+        <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">About this tool</p>
+        <h2 class="font-display mb-5 text-[clamp(1.6rem,3vw,2.25rem)] font-extrabold tracking-tight text-paper">
+          EV Charging Station Nepal: find chargers near you, faster
+        </h2>
+
+        <div class="space-y-5 text-[0.95rem] leading-relaxed text-muted">
+          <p>
+            <strong class="font-semibold text-paper">EV Charging Station Nepal</strong> is a free,
+            map-first directory built for drivers who need an
+            <strong class="font-semibold text-paper"> EV charging station near me</strong> without
+            digging through scattered social posts or outdated lists. Whether you searched for
+            <em>ev charging stations near me</em>, <em>nearest EV charging station</em>,
+            <em>near me EV charging station</em>, or simply <em>EV charging near me</em>, this tool
+            brings Nepal’s public chargers into one searchable map with filters, trip planning, and
+            one-tap directions.
+          </p>
+
+          <p>
+            Nepal’s EV adoption is rising in the Kathmandu Valley and along major travel corridors.
+            That growth creates a practical question every day: where is the
+            <strong class="font-semibold text-paper">EV charging station near me now</strong>? Our
+            explorer lets you allow browser location to sort by distance, or search by station name,
+            address, city, vendor, and plug type. Looking for an
+            <strong class="font-semibold text-paper">EV charging station in Kathmandu</strong>, an
+            <strong class="font-semibold text-paper">EV charging station in Pokhara</strong>, a
+            <strong class="font-semibold text-paper">NEA EV charging station near me</strong>, or a
+            <strong class="font-semibold text-paper">Tata EV charging station near me</strong>? Use
+            search and city pages to narrow results quickly, then open Google Maps for navigation.
+          </p>
+
+          <h3 class="font-display pt-2 text-xl font-bold text-paper">
+            What you can do with the map and trip planner
+          </h3>
+          <p>
+            The homepage map is the heart of the product. Browse hundreds of listed
+            <strong class="font-semibold text-paper">EV charging stations</strong> across Nepal, tap
+            a pin for plugs and amenities, and filter for AC or DC so you match your vehicle. For
+            longer journeys—especially when you need an
+            <strong class="font-semibold text-paper">EV charging station Nepal highway</strong>
+            stop—turn on Plan a Trip, choose From and To cities (or My location), and list chargers
+            within a corridor along the driving route. That workflow is designed for real road trips,
+            not just city errands, so you can spot a
+            <strong class="font-semibold text-paper">near EV charging station</strong> before you leave
+            or while you are already on the road.
+          </p>
+
+          <p>
+            City directories and individual station pages add depth for SEO and for humans. Every city
+            page groups local chargers; every station page surfaces address, phone (when available),
+            plugs, and directions. Together they form a living catalog of the
+            <strong class="font-semibold text-paper">Nepal EV charging station</strong> network—useful
+            if you are comparing options in Lalitpur, Bhaktapur, Chitwan, Butwal, or other towns
+            beyond the Valley.
+          </p>
+
+          <h3 class="font-display pt-2 text-xl font-bold text-paper">
+            Free chargers, NEA, Tata, and “near me” searches
+          </h3>
+          <p>
+            Drivers often search for <em>free EV charging stations near me</em>. Some locations may
+            offer complimentary charging as a promo or amenity; others bill by session or kWh. This
+            site does not invent prices—listings help you find the place, then you confirm cost and
+            availability on arrival or with the operator. The same applies to branded networks: if
+            you need a <strong class="font-semibold text-paper">Tata EV charging station</strong> or
+            an <strong class="font-semibold text-paper">NEA EV charging station</strong>, search those
+            terms or vendor names in the box above. Results update as the directory grows, so
+            bookmark the map when you regularly need an
+            <strong class="font-semibold text-paper">EV charging station near me</strong> in your
+            neighborhood.
+          </p>
+
+          <h3 class="font-display pt-2 text-xl font-bold text-paper">
+            Understanding EV charging station cost in Nepal
+          </h3>
+          <p>
+            Beyond public charging, many owners research
+            <strong class="font-semibold text-paper">EV charging station cost in Nepal</strong>,
+            <strong class="font-semibold text-paper">EV charging station price in Nepal</strong>, and
+            day-to-day <strong class="font-semibold text-paper">EV charging price in Nepal</strong>.
+            Related queries include <em>EV charging machine price in Nepal</em>,
+            <em>EV charging station installation cost in Nepal</em>,
+            <em>EV charging station setup cost in Nepal</em>, and
+            <em>EV charging station installation at home cost</em>. Actual numbers depend on charger
+            capacity (slow AC wallbox vs faster DC), brand, electrical upgrades, permits, and labor.
+            Commercial <strong class="font-semibold text-paper">EV charging station design</strong>
+            also affects civil work, canopy, payment systems, and parking layout. Use this page as
+            your locator for public infrastructure, then treat cost research as a separate
+            conversation with electricians and equipment suppliers—prices change and site conditions
+            differ.
+          </p>
+
+          <h3 class="font-display pt-2 text-xl font-bold text-paper">
+            Built for Nepal’s roads—and for clarity
+          </h3>
+          <p>
+            Our focus is narrow on purpose: one country, one job—help you find an
+            <strong class="font-semibold text-paper">EV charging station in Nepal</strong> with less
+            friction. No account is required to browse. Location permission is optional and used
+            only to rank nearby stops. If a pin looks wrong or a new charger appears in your area,
+            <a href="/contact/" class="font-semibold text-charge hover:underline">contact us</a>
+            so the directory stays accurate for the next driver searching
+            <em>ev charging station nepal</em> or <em>nearest EV charging station</em> late at night.
+          </p>
+
+          <p>
+            Start on the map above: enable nearby sorting, filter plugs, or plan a corridor trip.
+            Explore <a href="/cities/" class="font-semibold text-charge hover:underline">cities</a>,
+            scan the full
+            <a href="/stations/" class="font-semibold text-charge hover:underline">stations list</a>,
+            or read the <a href="/faq/" class="font-semibold text-charge hover:underline">FAQ</a>.
+            Wherever you are headed—city streets or a highway run—EV Charging Station Nepal is here
+            to point you toward the next charge with confidence.
+          </p>
+        </div>
+      </article>
     </section>
   </div>
 </Layout>

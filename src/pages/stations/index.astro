@@ -9,17 +9,21 @@ const stations = (locations as Station[])
 ---
 
 <Layout
-  title={`All EV Charging Stations in Nepal (${stations.length})`}
-  description={`Complete directory of ${stations.length} EV charging stations across Nepal with plugs, amenities, and directions.`}
+  title={`All EV Charging Stations in Nepal (${stations.length}) | EV Charging Station Nepal`}
+  description={`Complete directory of ${stations.length} EV charging stations across Nepal—find EV charging stations near me, NEA & Tata chargers, highway stops, with plugs and directions.`}
+  ogTitle="All EV Charging Stations in Nepal"
+  ogDescription={`Browse ${stations.length} mapped EV charging stations across Nepal with AC/DC plugs and directions.`}
+  keywords="ev charging stations, ev charging station nepal, nepal ev charging station, ev charging station near me, nea ev charging station, tata ev charging station"
   canonical="/stations/"
 >
   <section class="mx-auto max-w-[960px] px-6 py-12">
     <h1 class="font-display mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
-      All <span class="text-gradient-green">Charging Stations</span>
+      All <span class="text-gradient-green">EV Charging Stations</span> in Nepal
     </h1>
     <p class="mb-8 text-muted">
-      {stations.length} stations indexed. Use the <a href="/" class="text-charge">interactive map</a> for
-      search and nearby sorting.
+      Full listing of {stations.length} mapped EV charging stations across Nepal. Use the
+      <a href="/" class="text-charge hover:underline">interactive map</a> for search and nearby sorting,
+      or open a station for plugs and directions.
     </p>
 
     <div class="space-y-2">

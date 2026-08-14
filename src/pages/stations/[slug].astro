@@ -50,10 +50,13 @@ const jsonLd = {
 ---
 
 <Layout
-  title={`${station.name} — EV Charging Station in ${station.city}`}
-  description={`${station.name} in ${locationLine}. Plugs: ${(station.plugs || [])
+  title={`${station.name} — EV Charging Station in ${station.city}, Nepal`}
+  description={`${station.name} EV charging station in ${locationLine}. Plugs: ${(station.plugs || [])
     .map((p) => `${p.plug} ${p.power || ""} ${p.type || ""}`.trim())
-    .join(", ") || "EV charger"}. Get directions and contact details.`}
+    .join(", ") || "EV charger"}. Find this nearest charger and get directions.`}
+  ogTitle={`${station.name} | EV Charging Station Nepal`}
+  ogDescription={`EV charging station near you in ${station.city}: ${station.name}. View plugs and get directions.`}
+  keywords={`ev charging station in ${station.city.toLowerCase()}, ev charging station nepal, ev charging station near me, ${station.name.toLowerCase()}`}
   canonical={`/stations/${stationSlug(station)}/`}
   jsonLd={jsonLd}
 >
