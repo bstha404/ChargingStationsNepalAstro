@@ -1,20 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import BrandLogo from "../components/BrandLogo.astro";
 import locations from "../data/EV_Locations.json";
 import { uniqueCities, type Station } from "../lib/stations";
 
 const stations = locations as Station[];
 const cities = uniqueCities(stations);
+const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingstationnepal.com";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
   name: "About EV Charge Nepal",
-  url: `${Astro.site || "https://evchargingstationnepal.com"}/about/`,
+  url: `${site}/about/`,
   mainEntity: {
     "@type": "Organization",
     name: "EV Charge Nepal",
-    url: Astro.site?.toString() || "https://evchargingstationnepal.com",
+    url: site,
+    logo: `${site}/logo.svg`,
     description:
       "Nepal-focused directory of electric vehicle charging stations with map search and city pages.",
   },
@@ -28,6 +31,7 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <section class="mx-auto max-w-[820px] px-6 py-12">
+    <BrandLogo size={64} class="mb-6 h-16 w-16" />
     <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">About</p>
     <h1 class="font-display mb-4 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
       Built for Nepal’s <span class="text-gradient-green">EV drivers</span>

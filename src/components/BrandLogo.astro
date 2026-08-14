@@ -1,0 +1,18 @@
+---
+interface Props {
+  size?: number;
+  class?: string;
+  alt?: string;
+}
+
+const { size = 40, class: className = "", alt = "EV Charge Nepal" } = Astro.props;
+---
+
+<img
+  src="/logo.svg"
+  alt={alt}
+  width={size}
+  height={size}
+  class:list={["shrink-0", className]}
+  decoding="async"
+/>

@@ -1,5 +1,16 @@
 ---
 import "../styles/global.css";
+
+interface Props {
+  error?: unknown;
+}
+
+const { error } = Astro.props;
+const isDev = import.meta.env.DEV;
+const safeMessage =
+  isDev && error instanceof Error
+    ? error.message
+    : "Something went wrong while loading this page. Please try again in a moment.";
 ---
 
 <!doctype html>
@@ -8,10 +19,10 @@ import "../styles/global.css";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>Station Not Found | EV Charge Nepal</title>
+    <title>Server Error | EV Charge Nepal</title>
     <meta
       name="description"
-      content="Looks like this charging point is offline or doesn't exist on EV Charge Nepal."
+      content="EV Charge Nepal ran into a temporary server error. Please try again shortly."
     />
     <meta name="robots" content="noindex,follow" />
     <meta name="theme-color" content="#050f05" />
@@ -25,48 +36,39 @@ import "../styles/global.css";
       rel="stylesheet"
     />
   </head>
-  <body class="error-404">
-    <div class="error-404__grid" aria-hidden="true"></div>
+  <body class="error-500">
+    <div class="error-500__grid" aria-hidden="true"></div>
 
-    <main class="error-404__main">
+    <main class="error-500__main">
       <img
         src="/logo.svg"
         alt="EV Charge Nepal"
         width="88"
         height="88"
-        class="error-404__logo"
+        class="error-500__logo"
         decoding="async"
       />
 
-      <div class="error-404__code" aria-hidden="true">
-        <span class="error-404__code-outline">404</span>
-        <span class="error-404__code-fill">404</span>
+      <div class="error-500__code" aria-hidden="true">
+        <span class="error-500__code-outline">500</span>
+        <span class="error-500__code-fill">500</span>
       </div>
-      <h1 class="error-404__title">Station Not Found</h1>
-      <p class="error-404__copy">
-        Looks like this charging point is offline or doesn't exist. The route you're looking for has
-        lost power.
-      </p>
+      <h1 class="error-500__title">Power Surge</h1>
+      <p class="error-500__copy">{safeMessage}</p>
 
-      <div class="error-404__badge">
-        <span class="error-404__badge-dot" aria-hidden="true"></span>
-        Station Offline
+      <div class="error-500__badge">
+        <span class="error-500__badge-dot" aria-hidden="true"></span>
+        Temporary Fault
       </div>
 
-      <div class="error-404__actions">
-        <a href="/" class="error-404__btn error-404__btn--primary">Go to Home</a>
-        <a href="/stations/" class="error-404__btn error-404__btn--ghost">Find a Station</a>
+      <div class="error-500__actions">
+        <a href="/" class="error-500__btn error-500__btn--primary">Go to Home</a>
+        <a href="/contact/" class="error-500__btn error-500__btn--ghost">Contact Support</a>
       </div>
-
-      <nav class="error-404__links" aria-label="Helpful links">
-        <a href="/">Charging Map</a>
-        <a href="/contact/">Contact Us</a>
-        <a href="/faq/">Support</a>
-      </nav>
     </main>
 
     <svg
-      class="error-404__mountains"
+      class="error-500__mountains"
       viewBox="0 0 1440 220"
       preserveAspectRatio="none"
       aria-hidden="true"
@@ -79,11 +81,10 @@ import "../styles/global.css";
         fill="#0d2210"
         d="M0 220V155L220 110L390 160L560 95L760 150L940 105L1140 155L1320 120L1440 145V220H0Z"
       ></path>
-      <circle cx="820" cy="58" r="3" fill="#8ee36a" opacity="0.85"></circle>
     </svg>
 
     <style>
-      .error-404 {
+      .error-500 {
         margin: 0;
         min-height: 100vh;
         position: relative;
@@ -97,7 +98,7 @@ import "../styles/global.css";
         font-family: var(--font-body);
       }
 
-      .error-404__grid {
+      .error-500__grid {
         position: absolute;
         inset: 0;
         background-image:
@@ -108,7 +109,7 @@ import "../styles/global.css";
         pointer-events: none;
       }
 
-      .error-404__main {
+      .error-500__main {
         position: relative;
         z-index: 1;
         width: min(100%, 40rem);
@@ -119,15 +120,14 @@ import "../styles/global.css";
         align-items: center;
       }
 
-      .error-404__logo {
+      .error-500__logo {
         width: 5.5rem;
         height: 5.5rem;
         margin-bottom: 0.75rem;
         filter: drop-shadow(0 0 18px rgba(142, 227, 106, 0.28));
-        animation: float 3.6s ease-in-out infinite;
       }
 
-      .error-404__code {
+      .error-500__code {
         position: relative;
         margin: 0.25rem 0 0.75rem;
         font-family: var(--font-display);
@@ -138,30 +138,27 @@ import "../styles/global.css";
         user-select: none;
       }
 
-      .error-404__code-outline {
+      .error-500__code-outline {
         color: transparent;
         -webkit-text-stroke: 2.5px #8ee36a;
-        text-shadow: 0 0 28px rgba(142, 227, 106, 0.25);
       }
 
-      .error-404__code-fill {
+      .error-500__code-fill {
         position: absolute;
         inset: 0;
         color: #8ee36a;
         clip-path: inset(48% 0 0 0);
-        text-shadow: 0 0 24px rgba(142, 227, 106, 0.45);
       }
 
-      .error-404__title {
+      .error-500__title {
         margin: 0;
         font-family: var(--font-display);
         font-size: clamp(1.6rem, 4vw, 2.15rem);
         font-weight: 800;
-        letter-spacing: -0.02em;
         color: #f3fceb;
       }
 
-      .error-404__copy {
+      .error-500__copy {
         margin: 0.9rem 0 0;
         max-width: 28rem;
         font-size: 0.98rem;
@@ -169,7 +166,7 @@ import "../styles/global.css";
         color: #8fbf7a;
       }
 
-      .error-404__badge {
+      .error-500__badge {
         margin-top: 1.35rem;
         display: inline-flex;
         align-items: center;
@@ -183,19 +180,17 @@ import "../styles/global.css";
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: #8ee36a;
-        box-shadow: 0 0 24px rgba(142, 227, 106, 0.18);
       }
 
-      .error-404__badge-dot {
+      .error-500__badge-dot {
         width: 0.45rem;
         height: 0.45rem;
         border-radius: 999px;
         background: #8ee36a;
         box-shadow: 0 0 10px #8ee36a;
-        animation: pulse 1.6s ease-in-out infinite;
       }
 
-      .error-404__actions {
+      .error-500__actions {
         margin-top: 1.6rem;
         display: flex;
         flex-wrap: wrap;
@@ -203,7 +198,7 @@ import "../styles/global.css";
         gap: 0.75rem;
       }
 
-      .error-404__btn {
+      .error-500__btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -215,59 +210,20 @@ import "../styles/global.css";
         letter-spacing: 0.04em;
         text-transform: uppercase;
         text-decoration: none;
-        transition:
-          transform 0.15s ease,
-          background-color 0.15s ease,
-          box-shadow 0.15s ease,
-          border-color 0.15s ease;
       }
 
-      .error-404__btn:hover {
-        transform: translateY(-1px);
-      }
-
-      .error-404__btn--primary {
+      .error-500__btn--primary {
         background: #8ee36a;
         color: #071208;
-        box-shadow: 0 10px 28px rgba(142, 227, 106, 0.28);
       }
 
-      .error-404__btn--primary:hover {
-        background: #a0ec80;
-      }
-
-      .error-404__btn--ghost {
+      .error-500__btn--ghost {
         border: 1.5px solid #8ee36a;
         color: #8ee36a;
         background: transparent;
       }
 
-      .error-404__btn--ghost:hover {
-        border-color: #a0ec80;
-        color: #a0ec80;
-        box-shadow: 0 0 18px rgba(142, 227, 106, 0.18);
-      }
-
-      .error-404__links {
-        margin-top: 1.75rem;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.25rem;
-      }
-
-      .error-404__links a {
-        color: #6fad5c;
-        font-size: 0.88rem;
-        font-weight: 600;
-        text-underline-offset: 0.2em;
-      }
-
-      .error-404__links a:hover {
-        color: #8ee36a;
-      }
-
-      .error-404__mountains {
+      .error-500__mountains {
         position: absolute;
         left: 0;
         right: 0;
@@ -276,38 +232,6 @@ import "../styles/global.css";
         height: clamp(120px, 22vw, 220px);
         z-index: 0;
         pointer-events: none;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.55;
-          transform: scale(0.85);
-        }
-      }
-
-      @media (max-width: 480px) {
-        .error-404__actions {
-          width: 100%;
-        }
-
-        .error-404__btn {
-          width: 100%;
-        }
       }
     </style>
   </body>

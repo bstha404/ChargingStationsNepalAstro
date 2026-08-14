@@ -5,11 +5,11 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   site: "https://evchargingstationnepal.com",
-  trailingSlash: "always",
+  trailingSlash: "ignore",
   integrations: [
     react(),
     sitemap({
-      filter: (page) => !page.includes("/404"),
+      filter: (page) => !page.includes("/404") && !page.includes("/500"),
       serialize(item) {
         const url = item.url;
         if (url.endsWith("evchargingstationnepal.com/") || url.endsWith("evchargingstationnepal.com")) {
