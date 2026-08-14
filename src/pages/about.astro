@@ -11,11 +11,11 @@ const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingsta
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
-  name: "About EV Charge Nepal",
+  name: "About EV Charging Station Nepal",
   url: `${site}/about/`,
   mainEntity: {
     "@type": "Organization",
-    name: "EV Charge Nepal",
+    name: "EV Charging Station Nepal",
     url: site,
     logo: `${site}/logo.svg`,
     description:
@@ -25,8 +25,8 @@ const jsonLd = {
 ---
 
 <Layout
-  title="About EV Charge Nepal — EV Charging Station Directory"
-  description="Learn about EV Charge Nepal, a map-first directory helping drivers find electric vehicle charging stations across Nepal."
+  title="About EV Charging Station Nepal — EV Charging Station Directory"
+  description="Learn about EV Charging Station Nepal, a map-first directory helping drivers find electric vehicle charging stations across Nepal."
   canonical="/about/"
   jsonLd={jsonLd}
 >
@@ -38,7 +38,7 @@ const jsonLd = {
     </h1>
     <div class="space-y-5 text-[0.95rem] leading-relaxed text-muted">
       <p>
-        EV Charge Nepal is a charging-station-only website. Our goal is simple: help you find a
+        EV Charging Station Nepal is a charging-station-only website. Our goal is simple: help you find a
         working charger faster—whether you are in Kathmandu Valley, on a highway corridor, or
         exploring cities like Pokhara and Butwal.
       </p>

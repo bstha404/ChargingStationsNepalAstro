@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Syne", "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
   --font-body: "Manrope", "Segoe UI", sans-serif;
   --color-ink: #0b0d0c;
   --color-panel: #171a19;

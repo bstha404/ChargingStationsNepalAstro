@@ -1,4 +1,4 @@
-# EV Charge Nepal
+# EV Charging Station Nepal
 
 > Nepal-focused directory of electric vehicle charging stations with interactive map search.
 

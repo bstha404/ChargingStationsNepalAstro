@@ -1,4 +1,4 @@
-# EV Charge Nepal robots.txt
+# EV Charging Station Nepal robots.txt
 # https://evchargingstationnepal.com
 
 User-agent: *

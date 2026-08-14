@@ -1,4 +1,4 @@
-# EV Charge Nepal
+# EV Charging Station Nepal
 
 Astro website for finding EV charging stations across Nepal.
 
