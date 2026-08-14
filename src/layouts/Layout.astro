@@ -185,6 +185,17 @@ const nav = [
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
       ))
     }
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YK9GBJE0NL"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-YK9GBJE0NL");
+    </script>
   </head>
   <body class="min-h-screen bg-ink text-paper antialiased">
     <a
