@@ -16,6 +16,7 @@ import {
   formatRouteDuration,
 } from "../lib/routing";
 import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
+import PlugBadge from "./PlugBadge";
 
 const EVMap = React.lazy(() => import("./EVMap"));
 
@@ -662,12 +663,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   {station.plugs?.length > 0 && (
                     <div className="mt-2.5 flex flex-wrap gap-1.5">
                       {station.plugs.map((plug, idx) => (
-                        <span
-                          key={idx}
-                          className="rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-charge uppercase"
-                        >
-                          {plug.plug} · {plug.power} ({plug.type})
-                        </span>
+                        <PlugBadge key={idx} plug={plug} />
                       ))}
                     </div>
                   )}

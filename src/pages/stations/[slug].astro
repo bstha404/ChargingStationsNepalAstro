@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PlugBadge from "../../components/PlugBadge.astro";
 import locations from "../../data/EV_Locations.json";
 import {
   citySlug,
@@ -116,14 +117,8 @@ const jsonLd = {
         station.plugs?.length ? (
           <ul class="space-y-3">
             {station.plugs.map((plug) => (
-              <li class="flex items-center justify-between gap-3 rounded-2xl border border-line bg-ink/40 px-4 py-3">
-                <span class="font-semibold uppercase">
-                  {plug.plug}
-                  {plug.type ? ` (${plug.type})` : ""}
-                </span>
-                <span class="font-mono text-sm text-charge">
-                  {[plug.power, plug.count ? `${plug.count}x` : null].filter(Boolean).join(" · ")}
-                </span>
+              <li>
+                <PlugBadge plug={plug} />
               </li>
             ))}
           </ul>

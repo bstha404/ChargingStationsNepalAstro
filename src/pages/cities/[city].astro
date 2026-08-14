@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PlugBadge from "../../components/PlugBadge.astro";
 import locations from "../../data/EV_Locations.json";
 import {
   citySlug,
@@ -105,9 +106,7 @@ const pageDescription = `Find EV charging stations near me in ${city}, Nepal. Br
             {station.plugs?.length > 0 && (
               <div class="mt-3 flex flex-wrap gap-1.5">
                 {station.plugs.map((plug) => (
-                  <span class="rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-charge uppercase">
-                    {plug.plug} · {plug.power} ({plug.type})
-                  </span>
+                  <PlugBadge plug={plug} compact size={14} />
                 ))}
               </div>
             )}

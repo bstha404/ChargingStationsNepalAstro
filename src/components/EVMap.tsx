@@ -5,6 +5,7 @@ import React, { useRef, useCallback, useMemo, useState, useEffect } from "react"
 import { MapPin, Phone, Zap, Navigation } from "lucide-react";
 import FlyToLocation from "./FlyToLocation";
 import RouteLayer from "./RouteLayer";
+import PlugBadge from "./PlugBadge";
 import type { LatLng, Station } from "../lib/stations";
 import { formatLocationLine } from "../lib/stations";
 
@@ -161,17 +162,9 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
               <Zap size={12} className="text-charge" />
               Available Plugs
             </div>
-            <div className="space-y-1">
+            <div className="flex flex-wrap gap-1.5">
               {station.plugs.map((plug, idx) => (
-                <div key={idx} className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-[11px] font-semibold text-paper uppercase">
-                    {plug.plug}
-                    {plug.type ? ` (${plug.type})` : ""}
-                  </span>
-                  <span className="rounded bg-charge/15 px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-charge">
-                    {[plug.power, plug.count ? `${plug.count}x` : null].filter(Boolean).join(" · ")}
-                  </span>
-                </div>
+                <PlugBadge key={idx} plug={plug} size={14} />
               ))}
             </div>
           </div>
