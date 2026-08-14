@@ -1,5 +1,5 @@
 import React, { Suspense, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
-import { Search, MapPin, Phone, X, Compass, Route, ArrowRightLeft } from "lucide-react";
+import { Search, MapPin, Phone, X, Compass, Route, ArrowRightLeft, Navigation } from "lucide-react";
 import type { LatLng, Station, StationAlongRoute, StationWithDistance } from "../lib/stations";
 import {
   cityCentroid,
@@ -686,13 +686,27 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                     </div>
                   )}
 
-                  <a
-                    href={`/stations/${stationSlug(station)}/`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="mt-3 inline-block text-[0.72rem] font-semibold text-charge hover:underline"
-                  >
-                    View station page →
-                  </a>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <a
+                      href={`https://www.google.com/maps/dir/Current+Location/${encodeURIComponent(
+                        (station.name || "EV Station").replace(/\s+/g, "+")
+                      )}/@${station.latitude},${station.longitude}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-charge px-3 py-2 text-[0.72rem] font-bold text-ink no-underline transition-all hover:brightness-110"
+                    >
+                      <Navigation size={13} />
+                      Get Directions
+                    </a>
+                    <a
+                      href={`/stations/${stationSlug(station)}/`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center rounded-xl border border-line bg-panel px-3 py-2 text-[0.72rem] font-semibold text-charge no-underline hover:border-charge/40"
+                    >
+                      View station page →
+                    </a>
+                  </div>
                 </article>
               );
             })
