@@ -1,11 +1,33 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
+const contactEmail = "beplovestha290@gmail.com";
+/**
+ * WhatsApp number in international format, digits only (Nepal starts with 977).
+ * Example: 9779864691672 — replace with your real number.
+ */
+const whatsappNumber = "9779864691672";
+
+const suggestionSubject = `When suggesting a station, include:
+Station name and operator (if known)
+Address / landmark and city
+Latitude & longitude if possible
+Plug types (CCS2, GB/T, AC/DC) and power
+Phone number and amenities`;
+
+const mailtoHref = `mailto:${contactEmail}?subject=${encodeURIComponent(suggestionSubject)}`;
+const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(suggestionSubject)}`;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Contact EV Charging Station Nepal",
   url: `${Astro.site || "https://evchargingstationnepal.com"}/contact/`,
+  mainEntity: {
+    "@type": "Organization",
+    name: "EV Charging Station Nepal",
+    email: contactEmail,
+  },
 };
 ---
 
@@ -26,20 +48,26 @@ const jsonLd = {
 
     <div class="grid gap-4 sm:grid-cols-2">
       <a
-        href="mailto:hello@evchargingstationnepal.com?subject=EV%20Charge%20Nepal%20listing"
+        href={mailtoHref}
         class="rounded-3xl border border-line bg-panel p-6 no-underline transition-colors hover:border-charge/40"
       >
         <div class="text-sm font-semibold tracking-wide text-charge uppercase">Email</div>
-        <div class="mt-2 text-xl font-bold text-paper">hello@evchargingstationnepal.com</div>
-        <p class="mt-2 text-sm text-muted">Best for listing updates and general questions.</p>
+        <div class="mt-2 break-all text-xl font-bold text-paper">{contactEmail}</div>
+        <p class="mt-2 text-sm text-muted">
+          Opens your mail app with To and Subject filled for station suggestions.
+        </p>
       </a>
       <a
-        href="mailto:privacy@evchargingstationnepal.com?subject=Privacy%20request"
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
         class="rounded-3xl border border-line bg-panel p-6 no-underline transition-colors hover:border-charge/40"
       >
-        <div class="text-sm font-semibold tracking-wide text-charge uppercase">Privacy</div>
-        <div class="mt-2 text-xl font-bold text-paper">privacy@evchargingstationnepal.com</div>
-        <p class="mt-2 text-sm text-muted">For privacy requests related to our policy.</p>
+        <div class="text-sm font-semibold tracking-wide text-charge uppercase">WhatsApp</div>
+        <div class="mt-2 text-xl font-bold text-paChat on WhatsAppper"></div>
+        <p class="mt-2 text-sm text-muted">
+          Opens WhatsApp with a pre-filled station suggestion checklist.
+        </p>
       </a>
     </div>
 

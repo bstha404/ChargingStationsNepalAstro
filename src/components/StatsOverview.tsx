@@ -22,7 +22,7 @@ export default function StatsOverview({ stats }: Props) {
         onClick={() => setOpen((v) => !v)}
       >
         <span>
-          <span className="block text-sm font-bold text-paper">Network snapshot</span>
+          {/* <span className="block text-sm font-bold text-paper">Network snapshot</span> */}
           <span className="block text-xs text-muted">
             {stats[0]?.value} stations · {stats[1]?.value} cities
           </span>
