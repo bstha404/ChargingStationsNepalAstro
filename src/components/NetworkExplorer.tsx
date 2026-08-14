@@ -15,6 +15,7 @@ import {
   formatRouteDistance,
   formatRouteDuration,
 } from "../lib/routing";
+import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
 
 const EVMap = React.lazy(() => import("./EVMap"));
 
@@ -28,8 +29,11 @@ const CORRIDOR_OPTIONS = [
 
 const MY_LOCATION = "__my_location__";
 
-function tripEndpointLabel(value: string): string {
-  return value === MY_LOCATION ? "My location" : value;
+function tripEndpointLabel(value: string, locationName?: string | null): string {
+  if (value === MY_LOCATION) {
+    return locationName ? `My location (${locationName})` : "My location";
+  }
+  return value;
 }
 
 type Props = {
@@ -37,15 +41,21 @@ type Props = {
   initialCity?: string;
 };
 
+type LocationUiStatus = "prompt" | "granted" | "denied" | "loading" | "location_off";
+
 export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   const [search, setSearch] = useState(initialCity);
   const [filterPlugType, setFilterPlugType] = useState<"all" | "AC" | "DC">("all");
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const [displayCount, setDisplayCount] = useState(50);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [locationStatus, setLocationStatus] = useState<"prompt" | "granted" | "denied" | "loading">(
-    "prompt"
+  const [locationStatus, setLocationStatus] = useState<LocationUiStatus>("prompt");
+  const [locationName, setLocationName] = useState<string | null>(null);
+  const [showLocationOffModal, setShowLocationOffModal] = useState(false);
+  const [locationOffMessage, setLocationOffMessage] = useState(
+    "Turn on Location / GPS in your device settings, then try again so we can find chargers near you."
   );
+  const geoAbortRef = useRef<AbortController | null>(null);
 
   const [tripMode, setTripMode] = useState(false);
   const [fromCity, setFromCity] = useState("");
@@ -69,27 +79,46 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
     if (q) setSearch(q);
   }, []);
 
-  const requestLocation = () => {
-    if (!("geolocation" in navigator)) {
-      setLocationStatus("denied");
+  const resolvePlaceName = async (coords: { lat: number; lng: number }) => {
+    geoAbortRef.current?.abort();
+    const controller = new AbortController();
+    geoAbortRef.current = controller;
+    const label = await reverseGeocodeLabel(coords, controller.signal);
+    if (!controller.signal.aborted) {
+      setLocationName(label);
+    }
+  };
+
+  const requestLocation = async () => {
+    setLocationStatus("loading");
+    setShowLocationOffModal(false);
+    setLocationName(null);
+
+    const result = await requestUserPosition();
+    if (result.ok) {
+      setUserLocation(result.coords);
+      setLocationStatus("granted");
+      void resolvePlaceName(result.coords);
       return;
     }
-    setLocationStatus("loading");
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setUserLocation({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        });
-        setLocationStatus("granted");
-      },
-      () => setLocationStatus("denied"),
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
-    );
+
+    setUserLocation(null);
+    if (result.reason === "location_off" || result.reason === "timeout") {
+      setLocationStatus("location_off");
+      setLocationOffMessage(result.message);
+      setShowLocationOffModal(true);
+      return;
+    }
+
+    setLocationStatus("denied");
   };
 
   useEffect(() => {
-    requestLocation();
+    void requestLocation();
+    return () => {
+      geoAbortRef.current?.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- request once on mount
   }, []);
 
   const stationsWithMeta: StationWithDistance[] = useMemo(() => {
@@ -155,7 +184,11 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
       (fromCity === MY_LOCATION || toCity === MY_LOCATION) &&
       !userLocation
     ) {
-      setRouteError("Allow location access to use My location, then try again.");
+      setRouteError(
+        locationStatus === "location_off"
+          ? "Turn on device Location / GPS to use My location, then try again."
+          : "Allow location access to use My location, then try again."
+      );
       setRouteStatus("error");
       requestLocation();
       return;
@@ -341,18 +374,31 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         )}
 
         {locationStatus === "granted" && userLocation ? (
-          <div className="flex items-center gap-1.5 rounded-full border border-charge/30 bg-charge/15 px-4 py-2.5 text-[0.8rem] font-semibold text-charge">
-            <Compass size={14} />
-            <span>Nearby Enabled</span>
+          <div
+            className="flex max-w-full items-center gap-1.5 rounded-full border border-charge/30 bg-charge/15 px-4 py-2.5 text-[0.8rem] font-semibold text-charge"
+            title={locationName || "Your location is active for nearby sorting"}
+          >
+            <MapPin size={14} className="shrink-0" />
+            <span className="truncate">{locationName || "Locating area…"}</span>
           </div>
         ) : locationStatus === "loading" ? (
           <div className="flex items-center gap-1.5 rounded-full border border-line bg-line/60 px-4 py-2.5 text-[0.8rem] font-medium text-muted">
             <Compass size={14} className="animate-spin" />
             <span>Locating...</span>
           </div>
+        ) : locationStatus === "location_off" ? (
+          <button
+            type="button"
+            onClick={() => setShowLocationOffModal(true)}
+            className="flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-[0.8rem] font-semibold text-amber-700 transition-colors"
+          >
+            <Compass size={14} />
+            <span>Turn on location</span>
+          </button>
         ) : (
           <button
-            onClick={requestLocation}
+            type="button"
+            onClick={() => void requestLocation()}
             className="flex items-center gap-1.5 rounded-full border border-line bg-panel px-4 py-2.5 text-[0.8rem] font-semibold text-muted transition-colors hover:border-charge/40"
           >
             <Compass size={14} className="text-charge" />
@@ -410,7 +456,9 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               >
                 <option value="">Starting point</option>
                 <option value={MY_LOCATION}>
-                  My location{userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}
+                  {locationName
+                    ? `My location (${locationName})`
+                    : `My location${userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}`}
                 </option>
                 {cities.map((city) => (
                   <option key={`from-${city}`} value={city}>
@@ -440,7 +488,9 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               >
                 <option value="">Destination</option>
                 <option value={MY_LOCATION}>
-                  My location{userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}
+                  {locationName
+                    ? `My location (${locationName})`
+                    : `My location${userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}`}
                 </option>
                 {cities.map((city) => (
                   <option key={`to-${city}`} value={city}>
@@ -499,7 +549,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               <span className="font-semibold text-charge">
                 {CORRIDOR_OPTIONS.find((o) => o.value === corridorMeters)?.label}
               </span>{" "}
-              of the {tripEndpointLabel(fromCity)} → {tripEndpointLabel(toCity)} route. Widen the
+              of the {tripEndpointLabel(fromCity, locationName)} →{" "}
+              {tripEndpointLabel(toCity, locationName)} route. Widen the
               corridor if few stations appear near highways.
             </p>
           )}
@@ -661,6 +712,58 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           )}
         </div>
       </div>
+
+      {showLocationOffModal && (
+        <div
+          className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/55 p-4 backdrop-blur-[2px] sm:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="location-off-title"
+        >
+          <div className="w-full max-w-md rounded-3xl border border-line bg-panel p-5 shadow-2xl sm:p-6">
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold tracking-[0.08em] text-charge uppercase">
+                  Location required
+                </p>
+                <h2 id="location-off-title" className="font-display mt-1 text-xl font-bold text-paper">
+                  Turn on device location
+                </h2>
+              </div>
+              <button
+                type="button"
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-muted hover:text-charge"
+                aria-label="Close"
+                onClick={() => setShowLocationOffModal(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <p className="text-sm leading-relaxed text-muted">{locationOffMessage}</p>
+            <ol className="mt-4 list-decimal space-y-1.5 pl-5 text-sm text-muted">
+              <li>Open your phone Settings</li>
+              <li>Turn on Location / GPS (High accuracy if available)</li>
+              <li>Return here and tap Try again</li>
+            </ol>
+            <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setShowLocationOffModal(false)}
+                className="rounded-xl border border-line px-4 py-2.5 text-sm font-semibold text-muted"
+              >
+                Not now
+              </button>
+              <button
+                type="button"
+                onClick={() => void requestLocation()}
+                className="rounded-xl bg-charge px-4 py-2.5 text-sm font-bold text-ink"
+              >
+                Try again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
