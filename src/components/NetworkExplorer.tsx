@@ -274,16 +274,16 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
 
   return (
     <section className="mx-auto max-w-[1280px] px-6 pb-20 pt-8">
-      <div className="mb-8">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#8EE36A]/20 bg-[#8EE36A]/10 px-3.5 py-1.5">
-          <span className="text-xs font-semibold tracking-[0.04em] text-[#8EE36A] uppercase">
+      <div className="mb-6 sm:mb-8">
+        <div className="mb-4 hidden items-center gap-2 rounded-full border border-charge/20 bg-charge/10 px-3.5 py-1.5 sm:inline-flex">
+          <span className="text-xs font-semibold tracking-[0.04em] text-charge uppercase">
             EV Charging Network
           </span>
         </div>
-        <h1 className="font-display mb-3 text-[clamp(2rem,4vw,3.4rem)] font-extrabold tracking-[-0.04em] text-[#F8FAF8]">
+        <h1 className="font-display mb-0 text-[clamp(1.75rem,4vw,3.4rem)] font-extrabold tracking-[-0.04em] text-paper sm:mb-3">
           Find Your Nearest <span className="text-gradient-green">Charging Station</span>
         </h1>
-        <p className="max-w-xl text-base leading-relaxed text-[#B8C1BC]">
+        <p className="mt-3 hidden max-w-xl text-base leading-relaxed text-muted sm:block">
           Browse stations across Nepal, or plan a city-to-city trip to see chargers along your
           route.
         </p>
@@ -302,11 +302,11 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           }}
           className={`flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[0.8rem] font-semibold transition-all ${
             tripMode
-              ? "border border-[#8EE36A] bg-[#8EE36A]/15 text-[#8EE36A]"
-              : "border border-[#2A2F2D] bg-[#171A19] text-[#B8C1BC] hover:border-[#8EE36A]/40"
+              ? "border border-charge bg-charge/15 text-charge"
+              : "border border-line bg-panel text-muted hover:border-charge/40"
           }`}
         >
-          <Route size={14} color="#8EE36A" />
+          <Route size={14} className="text-charge" />
           <span>{tripMode ? "Trip Planner On" : "Plan a Trip"}</span>
         </button>
 
@@ -314,8 +314,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           <div className="relative min-w-[260px] flex-1">
             <Search
               size={18}
-              color="#8EE36A"
-              className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2"
+              className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-charge"
             />
             <input
               value={search}
@@ -324,7 +323,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                 setDisplayCount(50);
               }}
               placeholder="Search station name, city, address, plug type..."
-              className="w-full rounded-[14px] border border-[#2A2F2D] bg-[#171A19] py-3 pr-11 pl-11 text-[0.9rem] text-[#F8FAF8] outline-none transition-[border-color] focus:border-[#8EE36A]/60"
+              className="w-full rounded-[14px] border border-line bg-panel py-3 pr-11 pl-11 text-[0.9rem] text-paper outline-none transition-[border-color] focus:border-charge/60"
             />
             {search && (
               <button
@@ -332,7 +331,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   setSearch("");
                   setDisplayCount(50);
                 }}
-                className="absolute top-1/2 right-3.5 flex -translate-y-1/2 items-center border-0 bg-transparent text-[#B8C1BC]"
+                className="absolute top-1/2 right-3.5 flex -translate-y-1/2 items-center border-0 bg-transparent text-muted"
                 aria-label="Clear search"
               >
                 <X size={16} />
@@ -342,21 +341,21 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         )}
 
         {locationStatus === "granted" && userLocation ? (
-          <div className="flex items-center gap-1.5 rounded-full border border-[#8EE36A]/30 bg-[#8EE36A]/15 px-4 py-2.5 text-[0.8rem] font-semibold text-[#8EE36A]">
+          <div className="flex items-center gap-1.5 rounded-full border border-charge/30 bg-charge/15 px-4 py-2.5 text-[0.8rem] font-semibold text-charge">
             <Compass size={14} />
             <span>Nearby Enabled</span>
           </div>
         ) : locationStatus === "loading" ? (
-          <div className="flex items-center gap-1.5 rounded-full border border-[#2A2F2D] bg-[#2A2F2D]/60 px-4 py-2.5 text-[0.8rem] font-medium text-[#B8C1BC]">
+          <div className="flex items-center gap-1.5 rounded-full border border-line bg-line/60 px-4 py-2.5 text-[0.8rem] font-medium text-muted">
             <Compass size={14} className="animate-spin" />
             <span>Locating...</span>
           </div>
         ) : (
           <button
             onClick={requestLocation}
-            className="flex items-center gap-1.5 rounded-full border border-[#2A2F2D] bg-[#171A19] px-4 py-2.5 text-[0.8rem] font-semibold text-[#B8C1BC] transition-colors hover:border-[#8EE36A]/40"
+            className="flex items-center gap-1.5 rounded-full border border-line bg-panel px-4 py-2.5 text-[0.8rem] font-semibold text-muted transition-colors hover:border-charge/40"
           >
-            <Compass size={14} color="#8EE36A" />
+            <Compass size={14} className="text-charge" />
             <span>Use My Location</span>
           </button>
         )}
@@ -371,8 +370,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               }}
               className={`rounded-full px-5 py-2.5 text-[0.82rem] font-semibold transition-all ${
                 filterPlugType === type
-                  ? "border border-[#8EE36A] bg-[#8EE36A]/15 text-[#8EE36A]"
-                  : "border border-[#2A2F2D] bg-[#171A19] text-[#B8C1BC]"
+                  ? "border border-charge bg-charge/15 text-charge"
+                  : "border border-line bg-panel text-muted"
               }`}
             >
               {type === "all" ? "All Plug Types" : `${type} Chargers`}
@@ -382,17 +381,17 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
       </div>
 
       {tripMode && (
-        <div className="mb-7 rounded-2xl border border-[#2A2F2D] bg-[#171A19] p-4 sm:p-5">
+        <div className="mb-7 rounded-2xl border border-line bg-panel p-4 sm:p-5">
           <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-[0.95rem] font-bold text-[#F8FAF8]">Travel across Nepal</h2>
-              <p className="mt-0.5 text-[0.78rem] text-[#B8C1BC]">
+              <h2 className="text-[0.95rem] font-bold text-paper">Travel across Nepal</h2>
+              <p className="mt-0.5 text-[0.78rem] text-muted">
                 Highlight a driving route and list EV chargers within your chosen distance of the
                 path.
               </p>
             </div>
             {routeMeta && routeStatus === "ready" && (
-              <div className="text-[0.78rem] font-semibold text-[#8EE36A]">
+              <div className="text-[0.78rem] font-semibold text-charge">
                 {formatRouteDistance(routeMeta.distanceMeters)} ·{" "}
                 {formatRouteDuration(routeMeta.durationSeconds)}
               </div>
@@ -401,13 +400,13 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
 
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
             <label className="flex min-w-0 flex-1 flex-col gap-1.5">
-              <span className="text-[0.72rem] font-semibold tracking-wide text-[#6E7672] uppercase">
+              <span className="text-[0.72rem] font-semibold tracking-wide text-subtle uppercase">
                 From
               </span>
               <select
                 value={fromCity}
                 onChange={(e) => selectTripEndpoint("from", e.target.value)}
-                className="w-full rounded-[12px] border border-[#2A2F2D] bg-[#0B0D0C] px-3.5 py-2.5 text-[0.88rem] text-[#F8FAF8] outline-none focus:border-[#8EE36A]/60"
+                className="w-full rounded-[12px] border border-line bg-ink px-3.5 py-2.5 text-[0.88rem] text-paper outline-none focus:border-charge/60"
               >
                 <option value="">Starting point</option>
                 <option value={MY_LOCATION}>
@@ -424,20 +423,20 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
             <button
               type="button"
               onClick={swapCities}
-              className="mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-[#2A2F2D] text-[#8EE36A] transition-colors hover:border-[#8EE36A]/50"
+              className="mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-line text-charge transition-colors hover:border-charge/50"
               aria-label="Swap cities"
             >
               <ArrowRightLeft size={16} />
             </button>
 
             <label className="flex min-w-0 flex-1 flex-col gap-1.5">
-              <span className="text-[0.72rem] font-semibold tracking-wide text-[#6E7672] uppercase">
+              <span className="text-[0.72rem] font-semibold tracking-wide text-subtle uppercase">
                 To
               </span>
               <select
                 value={toCity}
                 onChange={(e) => selectTripEndpoint("to", e.target.value)}
-                className="w-full rounded-[12px] border border-[#2A2F2D] bg-[#0B0D0C] px-3.5 py-2.5 text-[0.88rem] text-[#F8FAF8] outline-none focus:border-[#8EE36A]/60"
+                className="w-full rounded-[12px] border border-line bg-ink px-3.5 py-2.5 text-[0.88rem] text-paper outline-none focus:border-charge/60"
               >
                 <option value="">Destination</option>
                 <option value={MY_LOCATION}>
@@ -452,7 +451,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
             </label>
 
             <label className="flex w-full flex-col gap-1.5 sm:w-[140px]">
-              <span className="text-[0.72rem] font-semibold tracking-wide text-[#6E7672] uppercase">
+              <span className="text-[0.72rem] font-semibold tracking-wide text-subtle uppercase">
                 Along path
               </span>
               <select
@@ -461,7 +460,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   setCorridorMeters(Number(e.target.value));
                   setDisplayCount(50);
                 }}
-                className="w-full rounded-[12px] border border-[#2A2F2D] bg-[#0B0D0C] px-3.5 py-2.5 text-[0.88rem] text-[#F8FAF8] outline-none focus:border-[#8EE36A]/60"
+                className="w-full rounded-[12px] border border-line bg-ink px-3.5 py-2.5 text-[0.88rem] text-paper outline-none focus:border-charge/60"
               >
                 {CORRIDOR_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -475,7 +474,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               type="button"
               onClick={planTrip}
               disabled={routeStatus === "loading"}
-              className="rounded-[12px] bg-[#8EE36A] px-5 py-2.5 text-[0.85rem] font-bold text-[#0B0D0C] transition-all hover:bg-[#79D55A] disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-[12px] bg-charge px-5 py-2.5 text-[0.85rem] font-bold text-ink transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {routeStatus === "loading" ? "Routing..." : "Show Route"}
             </button>
@@ -484,7 +483,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               <button
                 type="button"
                 onClick={clearTrip}
-                className="rounded-[12px] border border-[#2A2F2D] px-4 py-2.5 text-[0.82rem] font-semibold text-[#B8C1BC] hover:border-[#8EE36A]/40"
+                className="rounded-[12px] border border-line px-4 py-2.5 text-[0.82rem] font-semibold text-muted hover:border-charge/40"
               >
                 Clear
               </button>
@@ -492,12 +491,12 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           </div>
 
           {routeError && (
-            <p className="mt-3 text-[0.8rem] text-red-300">{routeError}</p>
+            <p className="mt-3 text-[0.8rem] font-medium text-red-500">{routeError}</p>
           )}
           {tripActive && (
-            <p className="mt-3 text-[0.8rem] text-[#B8C1BC]">
+            <p className="mt-3 text-[0.8rem] text-muted">
               Showing chargers within{" "}
-              <span className="font-semibold text-[#8EE36A]">
+              <span className="font-semibold text-charge">
                 {CORRIDOR_OPTIONS.find((o) => o.value === corridorMeters)?.label}
               </span>{" "}
               of the {tripEndpointLabel(fromCity)} → {tripEndpointLabel(toCity)} route. Widen the
@@ -508,10 +507,10 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
       )}
 
       <div className="network-page-grid grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="sticky top-[90px] h-[350px] min-h-[350px] overflow-hidden rounded-3xl border border-[#2A2F2D] lg:h-[calc(100vh-160px)] lg:min-h-[480px]">
+        <div className="sticky top-[90px] h-[350px] min-h-[350px] overflow-hidden rounded-3xl border border-line lg:h-[calc(100vh-160px)] lg:min-h-[480px]">
           <Suspense
             fallback={
-              <div className="grid h-full place-items-center bg-[#171A19] text-[#B8C1BC]">
+              <div className="grid h-full place-items-center bg-panel text-muted">
                 Loading map...
               </div>
             }
@@ -528,16 +527,16 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         </div>
 
         <div className="flex max-h-none flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[calc(100vh-160px)]">
-          <div className="mb-0.5 flex items-center justify-between text-[0.8rem] text-[#B8C1BC]">
+          <div className="mb-0.5 flex items-center justify-between text-[0.8rem] text-muted">
             <span>
-              <strong className="text-[#8EE36A]">{filteredStations.length}</strong> station
+              <strong className="text-charge">{filteredStations.length}</strong> station
               {filteredStations.length !== 1 ? "s" : ""} found
             </span>
-            <span className="text-[0.72rem] text-[#6E7672]">{sortLabel}</span>
+            <span className="text-[0.72rem] text-subtle">{sortLabel}</span>
           </div>
 
           {filteredStations.length === 0 ? (
-            <div className="rounded-2xl border border-[#2A2F2D] bg-[#171A19] p-8 text-center text-[#B8C1BC]">
+            <div className="rounded-2xl border border-line bg-panel p-8 text-center text-muted">
               {tripActive
                 ? "No charging stations within this corridor. Try a wider distance along the path."
                 : tripMode && routeStatus !== "ready"
@@ -559,8 +558,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   onClick={() => setSelectedStation(station)}
                   className={`cursor-pointer rounded-2xl border-[1.5px] px-[18px] py-4 transition-all ${
                     isSelected
-                      ? "border-[#8EE36A] bg-[#8EE36A]/10 shadow-[0_0_16px_rgba(142,227,106,0.15)]"
-                      : "border-[#2A2F2D] bg-[#171A19]"
+                      ? "border-charge bg-charge/10 shadow-[0_0_16px_color-mix(in_oklab,var(--color-charge)_25%,transparent)]"
+                      : "border-line bg-panel"
                   }`}
                 >
                   <div className="mb-1.5 flex items-start justify-between gap-3">
@@ -568,19 +567,19 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                       <div className="mb-1 flex items-center gap-2">
                         <div
                           className={`h-2 w-2 shrink-0 rounded-full ${
-                            isSelected ? "bg-[#8EE36A]" : "bg-[#58AE37]"
+                            isSelected ? "bg-charge" : "bg-charge-deep"
                           }`}
                         />
                         <h2
                           className={`text-[0.95rem] font-bold ${
-                            isSelected ? "text-[#8EE36A]" : "text-[#F8FAF8]"
+                            isSelected ? "text-charge" : "text-paper"
                           }`}
                         >
                           {station.name}
                         </h2>
                       </div>
-                      <div className="flex items-center gap-1.5 text-[0.78rem] text-[#B8C1BC]">
-                        <MapPin size={12} color="#8EE36A" />
+                      <div className="flex items-center gap-1.5 text-[0.78rem] text-muted">
+                        <MapPin size={12} className="text-charge" />
                         <span>
                           {[station.address, station.city].filter(Boolean).join(", ")}
                         </span>
@@ -588,14 +587,14 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                     </div>
 
                     {alongRoute !== null && Number.isFinite(alongRoute) ? (
-                      <span className="rounded-full border border-[#8EE36A]/20 bg-[#8EE36A]/15 px-2 py-0.5 text-[0.7rem] font-bold whitespace-nowrap text-[#8EE36A]">
+                      <span className="rounded-full border border-charge/20 bg-charge/15 px-2 py-0.5 text-[0.7rem] font-bold whitespace-nowrap text-charge">
                         {alongRoute < 1000
                           ? `${Math.round(alongRoute)} m off route`
                           : `${(alongRoute / 1000).toFixed(1)} km off route`}
                       </span>
                     ) : (
                       station.distanceKm !== null && (
-                        <span className="rounded-full border border-[#8EE36A]/20 bg-[#8EE36A]/15 px-2 py-0.5 text-[0.7rem] font-bold whitespace-nowrap text-[#8EE36A]">
+                        <span className="rounded-full border border-charge/20 bg-charge/15 px-2 py-0.5 text-[0.7rem] font-bold whitespace-nowrap text-charge">
                           {formatDistance(station.distanceKm)}
                         </span>
                       )
@@ -603,8 +602,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   </div>
 
                   {station.telephone && (
-                    <div className="mt-1 flex items-center gap-1.5 text-[0.75rem] text-[#B8C1BC]">
-                      <Phone size={11} color="#8EE36A" />
+                    <div className="mt-1 flex items-center gap-1.5 text-[0.75rem] text-muted">
+                      <Phone size={11} className="text-charge" />
                       {station.telephone}
                     </div>
                   )}
@@ -614,7 +613,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                       {station.plugs.map((plug, idx) => (
                         <span
                           key={idx}
-                          className="rounded-md border border-[#8EE36A]/20 bg-[#8EE36A]/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-[#8EE36A] uppercase"
+                          className="rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-charge uppercase"
                         >
                           {plug.plug} · {plug.power} ({plug.type})
                         </span>
@@ -627,13 +626,13 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                       {station.amenities.slice(0, 4).map((amenity) => (
                         <span
                           key={amenity}
-                          className="rounded-full bg-[#2A2F2D]/60 px-2 py-0.5 text-[0.64rem] text-[#B8C1BC] capitalize"
+                          className="rounded-full bg-line/60 px-2 py-0.5 text-[0.64rem] text-muted capitalize"
                         >
                           {amenity}
                         </span>
                       ))}
                       {station.amenities.length > 4 && (
-                        <span className="px-1 py-0.5 text-[0.64rem] text-[#6E7672]">
+                        <span className="px-1 py-0.5 text-[0.64rem] text-subtle">
                           +{station.amenities.length - 4} more
                         </span>
                       )}
@@ -643,7 +642,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   <a
                     href={`/stations/${stationSlug(station)}/`}
                     onClick={(e) => e.stopPropagation()}
-                    className="mt-3 inline-block text-[0.72rem] font-semibold text-[#8EE36A] hover:underline"
+                    className="mt-3 inline-block text-[0.72rem] font-semibold text-charge hover:underline"
                   >
                     View station page →
                   </a>
@@ -655,7 +654,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           {filteredStations.length > displayCount && (
             <button
               onClick={() => setDisplayCount((prev) => prev + 50)}
-              className="mt-2 w-full rounded-xl border border-[#2A2F2D] bg-[#171A19] py-3 text-[0.82rem] font-semibold text-[#8EE36A]"
+              className="mt-2 w-full rounded-xl border border-line bg-panel py-3 text-[0.82rem] font-semibold text-charge"
             >
               Load More Stations ({filteredStations.length - displayCount} remaining)
             </button>

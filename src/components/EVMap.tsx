@@ -127,28 +127,28 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
     <Popup>
       <div className="min-w-[220px] space-y-3 p-1">
         <div>
-          <span className="mb-1 inline-block rounded-full border border-[#8EE36A]/20 bg-[#8EE36A]/10 px-2 py-0.5 text-[9px] font-bold tracking-wider text-[#8EE36A] uppercase">
+          <span className="mb-1 inline-block rounded-full border border-charge/20 bg-charge/10 px-2 py-0.5 text-[9px] font-bold tracking-wider text-charge uppercase">
             EV Station Details
           </span>
-          <h3 className="text-base leading-tight font-bold text-[#F8FAF8]">{station.name}</h3>
+          <h3 className="text-base leading-tight font-bold text-paper">{station.name}</h3>
           {station.vendor && (
-            <div className="mt-1 text-[10px] font-semibold tracking-wide text-[#8EE36A]/80 uppercase">
+            <div className="mt-1 text-[10px] font-semibold tracking-wide text-charge/80 uppercase">
               {station.vendor}
             </div>
           )}
         </div>
 
-        <div className="space-y-1 text-xs text-[#B8C1BC]">
+        <div className="space-y-1 text-xs text-muted">
           {locationLine && (
             <div className="flex items-start gap-1.5">
-              <MapPin size={13} className="mt-0.5 shrink-0 text-[#8EE36A]" />
+              <MapPin size={13} className="mt-0.5 shrink-0 text-charge" />
               <span>{locationLine}</span>
             </div>
           )}
           {station.telephone && (
             <div className="flex items-center gap-1.5">
-              <Phone size={13} className="shrink-0 text-[#8EE36A]" />
-              <a href={`tel:${station.telephone}`} className="font-medium text-white hover:underline">
+              <Phone size={13} className="shrink-0 text-charge" />
+              <a href={`tel:${station.telephone}`} className="font-medium text-paper hover:underline">
                 {station.telephone}
               </a>
             </div>
@@ -156,19 +156,19 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
         </div>
 
         {station.plugs?.length > 0 && (
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/90 p-2.5">
-            <div className="mb-1.5 flex items-center gap-1 text-[10px] font-semibold text-neutral-400">
-              <Zap size={12} className="text-[#8EE36A]" />
+          <div className="rounded-xl border border-line bg-ink/90 p-2.5">
+            <div className="mb-1.5 flex items-center gap-1 text-[10px] font-semibold text-muted">
+              <Zap size={12} className="text-charge" />
               Available Plugs
             </div>
             <div className="space-y-1">
               {station.plugs.map((plug, idx) => (
                 <div key={idx} className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-[11px] font-semibold text-white uppercase">
+                  <span className="text-[11px] font-semibold text-paper uppercase">
                     {plug.plug}
                     {plug.type ? ` (${plug.type})` : ""}
                   </span>
-                  <span className="rounded bg-[#8EE36A]/15 px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-[#8EE36A]">
+                  <span className="rounded bg-charge/15 px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-charge">
                     {[plug.power, plug.count ? `${plug.count}x` : null].filter(Boolean).join(" · ")}
                   </span>
                 </div>
@@ -179,12 +179,12 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
 
         {station.amenities?.length > 0 && (
           <div>
-            <div className="mb-1 text-[10px] font-medium text-neutral-400">Amenities</div>
+            <div className="mb-1 text-[10px] font-medium text-muted">Amenities</div>
             <div className="flex flex-wrap gap-1">
               {station.amenities.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-neutral-700/60 bg-neutral-800 px-2 py-0.5 text-[9px] text-neutral-300 capitalize"
+                  className="rounded-full border border-line bg-panel px-2 py-0.5 text-[9px] text-muted capitalize"
                 >
                   {item}
                 </span>
@@ -201,7 +201,7 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
               "_blank"
             );
           }}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-[#8EE36A] px-3 py-2 text-xs font-semibold text-[#0B0D0C] shadow-md transition-all hover:bg-[#79D55A] active:scale-[0.98]"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-charge px-3 py-2 text-xs font-semibold text-ink shadow-md transition-all hover:brightness-110 active:scale-[0.98]"
         >
           <Navigation size={14} />
           Get Directions

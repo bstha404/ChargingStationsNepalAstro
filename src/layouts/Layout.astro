@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import BrandLogo from "../components/BrandLogo.astro";
+import ThemeToggle from "../components/ThemeToggle";
+import MobileNav from "../components/MobileNav";
 
 interface Props {
   title?: string;
@@ -120,8 +122,27 @@ const nav = [
     <meta name="twitter:image" content={ogImage} />
 
     <meta name="theme-color" content="#0B0D0C" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="format-detection" content="telephone=yes" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "light" ? "#F2F5F2" : "#0B0D0C");
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -153,30 +174,34 @@ const nav = [
     </a>
 
     <header class="sticky top-0 z-40 border-b border-line/80 bg-ink/85 backdrop-blur-xl">
-      <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-6 py-4">
-        <a href="/" class="group flex items-center gap-3 no-underline">
-          <BrandLogo size={40} class="h-10 w-10" />
-          <span>
-            <span class="font-display block text-lg font-extrabold tracking-tight text-paper group-hover:text-charge">
+      <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-3 px-6 py-4">
+        <a href="/" class="group flex min-w-0 items-center gap-3 no-underline">
+          <BrandLogo size={40} class="h-10 w-10 shrink-0" />
+          <span class="min-w-0">
+            <span class="font-display block truncate text-base font-extrabold tracking-tight text-paper group-hover:text-charge sm:text-lg">
               EV Charging Station Nepal
             </span>
-            <span class="block text-[0.7rem] font-medium tracking-[0.08em] text-muted uppercase">
+            <span class="mt-0.5 hidden text-[0.7rem] font-medium tracking-[0.08em] text-muted uppercase sm:block">
               Charging Stations Finder
             </span>
           </span>
         </a>
-        <nav class="flex flex-wrap items-center justify-end gap-1 text-sm font-semibold" aria-label="Primary">
-          {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class="rounded-full px-3 py-2 text-muted no-underline transition-colors hover:bg-panel hover:text-charge"
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
+        <div class="flex shrink-0 items-center gap-2">
+          <nav class="hidden items-center gap-1 text-sm font-semibold md:flex" aria-label="Primary">
+            {
+              nav.map((item) => (
+                <a
+                  href={item.href}
+                  class="rounded-full px-3 py-2 text-muted no-underline transition-colors hover:bg-panel hover:text-charge"
+                >
+                  {item.label}
+                </a>
+              ))
+            }
+          </nav>
+          <ThemeToggle client:load />
+          <MobileNav client:load />
+        </div>
       </div>
     </header>
 
@@ -184,7 +209,7 @@ const nav = [
       <slot />
     </main>
 
-    <footer class="mt-10 border-t border-line bg-[#0a0c0b]">
+    <footer class="mt-10 border-t border-line bg-footer">
       <div class="mx-auto grid max-w-[1280px] gap-8 px-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div class="lg:col-span-2">
           <a href="/" class="inline-flex items-center gap-3 no-underline">
@@ -216,7 +241,7 @@ const nav = [
         </div>
       </div>
       <div class="border-t border-line/70">
-        <div class="mx-auto flex max-w-[1280px] flex-col gap-2 px-6 py-5 text-xs text-[#6E7672] sm:flex-row sm:items-center sm:justify-between">
+        <div class="mx-auto flex max-w-[1280px] flex-col gap-2 px-6 py-5 text-xs text-subtle sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} EV Charging Station Nepal. Data for informational use.</p>
           <p>Verify station availability before travel.</p>
         </div>

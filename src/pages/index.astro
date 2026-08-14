@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import NetworkExplorer from "../components/NetworkExplorer";
+import StatsOverview from "../components/StatsOverview";
 import locations from "../data/EV_Locations.json";
 import { citySlug, stationSlug, uniqueCities } from "../lib/stations";
 import type { Station } from "../lib/stations";
@@ -9,6 +10,13 @@ const stations = locations as Station[];
 const cities = uniqueCities(stations);
 const totalPlugs = stations.reduce((sum, s) => sum + (s.plugs?.length || 0), 0);
 const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingstationnepal.com";
+
+const stats = [
+  { value: stations.length, label: "Stations mapped" },
+  { value: cities.length, label: "Cities covered" },
+  { value: totalPlugs, label: "Plug listings" },
+  { value: "AC + DC", label: "Filter by charger type" },
+];
 
 const jsonLd = [
   {
@@ -52,26 +60,7 @@ const jsonLd = [
     >
     </div>
 
-    <section class="mx-auto max-w-[1280px] px-6 pt-8">
-      <div class="mb-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
-          <div class="text-2xl font-extrabold text-charge">{stations.length}</div>
-          <div class="text-xs text-muted">Stations mapped</div>
-        </div>
-        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
-          <div class="text-2xl font-extrabold text-charge">{cities.length}</div>
-          <div class="text-xs text-muted">Cities covered</div>
-        </div>
-        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
-          <div class="text-2xl font-extrabold text-charge">{totalPlugs}</div>
-          <div class="text-xs text-muted">Plug listings</div>
-        </div>
-        <div class="rounded-2xl border border-line bg-panel/80 px-4 py-3">
-          <div class="text-2xl font-extrabold text-charge">AC + DC</div>
-          <div class="text-xs text-muted">Filter by charger type</div>
-        </div>
-      </div>
-    </section>
+    <StatsOverview client:load stats={stats} />
 
     <NetworkExplorer client:only="react" stations={stations} />
 
