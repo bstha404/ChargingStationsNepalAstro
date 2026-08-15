@@ -52,10 +52,6 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationStatus, setLocationStatus] = useState<LocationUiStatus>("prompt");
   const [locationName, setLocationName] = useState<string | null>(null);
-  const [showLocationOffModal, setShowLocationOffModal] = useState(false);
-  const [locationOffMessage, setLocationOffMessage] = useState(
-    "Turn on Location / GPS in your device settings, then try again so we can find chargers near you."
-  );
   const geoAbortRef = useRef<AbortController | null>(null);
 
   const [tripMode, setTripMode] = useState(false);
@@ -93,9 +89,9 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
 
   const requestLocation = async () => {
     setLocationStatus("loading");
-    setShowLocationOffModal(false);
     setLocationName(null);
 
+    // Triggers the browser / OS native location prompt when available.
     const result = await requestUserPosition();
     if (result.ok) {
       setUserLocation(result.coords);
@@ -107,8 +103,6 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
     setUserLocation(null);
     if (result.reason === "location_off" || result.reason === "timeout") {
       setLocationStatus("location_off");
-      setLocationOffMessage(result.message);
-      setShowLocationOffModal(true);
       return;
     }
 
@@ -502,7 +496,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           ) : locationStatus === "location_off" ? (
             <button
               type="button"
-              onClick={() => setShowLocationOffModal(true)}
+              onClick={() => void requestLocation()}
               className="flex min-w-0 flex-1 items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-[0.72rem] font-semibold whitespace-nowrap text-amber-700 transition-colors sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem]"
             >
               <Compass size={14} />
@@ -750,58 +744,6 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           )}
         </div>
       </div>
-
-      {showLocationOffModal && (
-        <div
-          className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/55 p-4 backdrop-blur-[2px] sm:items-center"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="location-off-title"
-        >
-          <div className="w-full max-w-md rounded-3xl border border-line bg-panel p-5 shadow-2xl sm:p-6">
-            <div className="mb-4 flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold tracking-[0.08em] text-charge uppercase">
-                  Location required
-                </p>
-                <h2 id="location-off-title" className="font-display mt-1 text-xl font-bold text-paper">
-                  Turn on device location
-                </h2>
-              </div>
-              <button
-                type="button"
-                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-muted hover:text-charge"
-                aria-label="Close"
-                onClick={() => setShowLocationOffModal(false)}
-              >
-                <X size={18} />
-              </button>
-            </div>
-            <p className="text-sm leading-relaxed text-muted">{locationOffMessage}</p>
-            <ol className="mt-4 list-decimal space-y-1.5 pl-5 text-sm text-muted">
-              <li>Open your phone Settings</li>
-              <li>Turn on Location / GPS (High accuracy if available)</li>
-              <li>Return here and tap Try again</li>
-            </ol>
-            <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                onClick={() => setShowLocationOffModal(false)}
-                className="rounded-xl border border-line px-4 py-2.5 text-sm font-semibold text-muted"
-              >
-                Not now
-              </button>
-              <button
-                type="button"
-                onClick={() => void requestLocation()}
-                className="rounded-xl bg-charge px-4 py-2.5 text-sm font-bold text-ink"
-              >
-                Try again
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
