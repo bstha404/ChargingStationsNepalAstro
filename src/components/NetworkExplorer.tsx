@@ -578,8 +578,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           </Suspense>
         </div>
 
-        <div className="flex max-h-none flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[calc(100vh-160px)]">
-          <div className="mb-0.5 flex items-center justify-between text-[0.8rem] text-muted">
+        <div className="flex max-h-[min(60vh,520px)] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 lg:max-h-[calc(100vh-160px)]">
+          <div className="sticky top-0 z-10 mb-0.5 flex items-center justify-between bg-ink/95 py-1 text-[0.8rem] text-muted backdrop-blur-sm">
             <span>
               <strong className="text-charge">{filteredStations.length}</strong> station
               {filteredStations.length !== 1 ? "s" : ""} found
