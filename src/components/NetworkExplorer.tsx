@@ -59,6 +59,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   const geoAbortRef = useRef<AbortController | null>(null);
 
   const [tripMode, setTripMode] = useState(false);
+  const [mapFullscreen, setMapFullscreen] = useState(false);
   const [fromCity, setFromCity] = useState("");
   const [toCity, setToCity] = useState("");
   const [corridorMeters, setCorridorMeters] = useState(100);
@@ -306,6 +307,147 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         ? "Sorted by Nearest Location"
         : "Sorted by City";
 
+  const enableTripPlanner = () => {
+    setTripMode(true);
+    setSearch("");
+  };
+
+  const tripPlannerPanel = (
+    <div>
+      <div className="mb-2.5 flex items-center justify-between gap-2 sm:mb-3">
+        <h2 className="text-[0.9rem] font-bold text-paper sm:text-[0.95rem]">Travel across Nepal</h2>
+        <div className="flex items-center gap-2">
+          {routeMeta && routeStatus === "ready" && (
+            <div className="hidden text-[0.78rem] font-semibold text-charge sm:block">
+              {formatRouteDistance(routeMeta.distanceMeters)} ·{" "}
+              {formatRouteDuration(routeMeta.durationSeconds)}
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={swapCities}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line text-charge transition-colors hover:border-charge/50 sm:h-9 sm:w-9"
+            aria-label="Swap from and to"
+            title="Swap cities"
+          >
+            <ArrowRightLeft size={15} />
+          </button>
+        </div>
+      </div>
+
+      {routeMeta && routeStatus === "ready" && (
+        <div className="mb-2 text-[0.72rem] font-semibold text-charge sm:hidden">
+          {formatRouteDistance(routeMeta.distanceMeters)} ·{" "}
+          {formatRouteDuration(routeMeta.durationSeconds)}
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2">
+        <label className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <span className="w-[4.5rem] shrink-0 text-[0.68rem] font-semibold tracking-wide text-subtle uppercase sm:w-20 sm:text-[0.72rem]">
+            From
+          </span>
+          <select
+            value={fromCity}
+            onChange={(e) => selectTripEndpoint("from", e.target.value)}
+            className="trip-select min-w-0 flex-1 rounded-[10px] border border-line bg-ink px-3 py-2 text-[0.84rem] text-paper outline-none focus:border-charge/60 sm:rounded-[12px] sm:px-3.5 sm:py-2.5 sm:text-[0.88rem]"
+          >
+            <option value="">Starting point</option>
+            <option value={MY_LOCATION}>
+              {locationName
+                ? `My location (${locationName})`
+                : `My location${userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}`}
+            </option>
+            {cities.map((city) => (
+              <option key={`from-${city}`} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <span className="w-[4.5rem] shrink-0 text-[0.68rem] font-semibold tracking-wide text-subtle uppercase sm:w-20 sm:text-[0.72rem]">
+            To
+          </span>
+          <select
+            value={toCity}
+            onChange={(e) => selectTripEndpoint("to", e.target.value)}
+            className="trip-select min-w-0 flex-1 rounded-[10px] border border-line bg-ink px-3 py-2 text-[0.84rem] text-paper outline-none focus:border-charge/60 sm:rounded-[12px] sm:px-3.5 sm:py-2.5 sm:text-[0.88rem]"
+          >
+            <option value="">Destination</option>
+            <option value={MY_LOCATION}>
+              {locationName
+                ? `My location (${locationName})`
+                : `My location${userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}`}
+            </option>
+            {cities.map((city) => (
+              <option key={`to-${city}`} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <span className="w-[4.5rem] shrink-0 text-[0.68rem] font-semibold tracking-wide text-subtle uppercase sm:w-20 sm:text-[0.72rem]">
+            Along path
+          </span>
+          <select
+            value={corridorMeters}
+            onChange={(e) => {
+              setCorridorMeters(Number(e.target.value));
+              setDisplayCount(50);
+            }}
+            className="trip-select min-w-0 flex-1 rounded-[10px] border border-line bg-ink px-3 py-2 text-[0.84rem] text-paper outline-none focus:border-charge/60 sm:max-w-[160px] sm:rounded-[12px] sm:px-3.5 sm:py-2.5 sm:text-[0.88rem]"
+          >
+            {CORRIDOR_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div className="mt-0.5 flex gap-2 sm:mt-1">
+          <button
+            type="button"
+            onClick={planTrip}
+            disabled={routeStatus === "loading"}
+            className="flex-1 rounded-[10px] bg-charge px-4 py-2 text-[0.82rem] font-bold text-ink transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 sm:flex-none sm:rounded-[12px] sm:px-5 sm:py-2.5 sm:text-[0.85rem]"
+          >
+            {routeStatus === "loading" ? "Routing..." : "Show Route"}
+          </button>
+
+          {(routeStatus === "ready" || routeStatus === "error") && (
+            <button
+              type="button"
+              onClick={clearTrip}
+              className="rounded-[10px] border border-line px-3 py-2 text-[0.78rem] font-semibold text-muted hover:border-charge/40 sm:rounded-[12px] sm:px-4 sm:py-2.5 sm:text-[0.82rem]"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      {routeError && (
+        <p className="mt-2 text-[0.8rem] font-medium text-red-500">{routeError}</p>
+      )}
+      {tripActive && (
+        <p className="mt-3 text-[0.8rem] text-muted">
+          Showing chargers within{" "}
+          <span className="font-semibold text-charge">
+            {CORRIDOR_OPTIONS.find((o) => o.value === corridorMeters)?.label}
+          </span>{" "}
+          of the {tripEndpointLabel(fromCity, locationName)} →{" "}
+          {tripEndpointLabel(toCity, locationName)} route. Widen the corridor if few stations appear
+          near highways.
+        </p>
+      )}
+    </div>
+  );
+
   return (
     <section className="mx-auto max-w-[1280px] px-4 pb-12 pt-4 sm:px-6 sm:pb-20 sm:pt-8">
       <div className="mb-3 sm:mb-8">
@@ -331,8 +473,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                 setTripMode(false);
                 clearTrip();
               } else {
-                setTripMode(true);
-                setSearch("");
+                enableTripPlanner();
               }
             }}
             className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-[0.72rem] font-semibold whitespace-nowrap transition-all sm:px-4 sm:py-2.5 sm:text-[0.8rem] ${
@@ -429,139 +570,20 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         </div>
       </div>
 
-      {tripMode && (
-        <div className="mb-7 rounded-2xl border border-line bg-panel p-4 sm:p-5">
-          <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h2 className="text-[0.95rem] font-bold text-paper">Travel across Nepal</h2>
-              <p className="mt-0.5 text-[0.78rem] text-muted">
-                Highlight a driving route and list EV chargers within your chosen distance of the
-                path.
-              </p>
-            </div>
-            {routeMeta && routeStatus === "ready" && (
-              <div className="text-[0.78rem] font-semibold text-charge">
-                {formatRouteDistance(routeMeta.distanceMeters)} ·{" "}
-                {formatRouteDuration(routeMeta.durationSeconds)}
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
-            <label className="flex min-w-0 flex-1 flex-col gap-1.5">
-              <span className="text-[0.72rem] font-semibold tracking-wide text-subtle uppercase">
-                From
-              </span>
-              <select
-                value={fromCity}
-                onChange={(e) => selectTripEndpoint("from", e.target.value)}
-                className="w-full rounded-[12px] border border-line bg-ink px-3.5 py-2.5 text-[0.88rem] text-paper outline-none focus:border-charge/60"
-              >
-                <option value="">Starting point</option>
-                <option value={MY_LOCATION}>
-                  {locationName
-                    ? `My location (${locationName})`
-                    : `My location${userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}`}
-                </option>
-                {cities.map((city) => (
-                  <option key={`from-${city}`} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <button
-              type="button"
-              onClick={swapCities}
-              className="mb-0.5 flex h-10 w-10 shrink-0 items-center justify-center self-end rounded-full border border-line text-charge transition-colors hover:border-charge/50"
-              aria-label="Swap cities"
-            >
-              <ArrowRightLeft size={16} />
-            </button>
-
-            <label className="flex min-w-0 flex-1 flex-col gap-1.5">
-              <span className="text-[0.72rem] font-semibold tracking-wide text-subtle uppercase">
-                To
-              </span>
-              <select
-                value={toCity}
-                onChange={(e) => selectTripEndpoint("to", e.target.value)}
-                className="w-full rounded-[12px] border border-line bg-ink px-3.5 py-2.5 text-[0.88rem] text-paper outline-none focus:border-charge/60"
-              >
-                <option value="">Destination</option>
-                <option value={MY_LOCATION}>
-                  {locationName
-                    ? `My location (${locationName})`
-                    : `My location${userLocation ? "" : locationStatus === "loading" ? " (locating…)" : ""}`}
-                </option>
-                {cities.map((city) => (
-                  <option key={`to-${city}`} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="flex w-full flex-col gap-1.5 sm:w-[140px]">
-              <span className="text-[0.72rem] font-semibold tracking-wide text-subtle uppercase">
-                Along path
-              </span>
-              <select
-                value={corridorMeters}
-                onChange={(e) => {
-                  setCorridorMeters(Number(e.target.value));
-                  setDisplayCount(50);
-                }}
-                className="w-full rounded-[12px] border border-line bg-ink px-3.5 py-2.5 text-[0.88rem] text-paper outline-none focus:border-charge/60"
-              >
-                {CORRIDOR_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <button
-              type="button"
-              onClick={planTrip}
-              disabled={routeStatus === "loading"}
-              className="rounded-[12px] bg-charge px-5 py-2.5 text-[0.85rem] font-bold text-ink transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {routeStatus === "loading" ? "Routing..." : "Show Route"}
-            </button>
-
-            {(routeStatus === "ready" || routeStatus === "error") && (
-              <button
-                type="button"
-                onClick={clearTrip}
-                className="rounded-[12px] border border-line px-4 py-2.5 text-[0.82rem] font-semibold text-muted hover:border-charge/40"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-
-          {routeError && (
-            <p className="mt-3 text-[0.8rem] font-medium text-red-500">{routeError}</p>
-          )}
-          {tripActive && (
-            <p className="mt-3 text-[0.8rem] text-muted">
-              Showing chargers within{" "}
-              <span className="font-semibold text-charge">
-                {CORRIDOR_OPTIONS.find((o) => o.value === corridorMeters)?.label}
-              </span>{" "}
-              of the {tripEndpointLabel(fromCity, locationName)} →{" "}
-              {tripEndpointLabel(toCity, locationName)} route. Widen the
-              corridor if few stations appear near highways.
-            </p>
-          )}
+      {tripMode && !mapFullscreen && (
+        <div className="mb-4 rounded-2xl border border-line bg-panel p-3 sm:mb-7 sm:p-5">
+          {tripPlannerPanel}
         </div>
       )}
 
       <div className="network-page-grid grid grid-cols-1 gap-4 lg:grid-cols-[1fr_380px] lg:gap-6">
-        <div className="sticky top-[90px] h-[350px] min-h-[350px] overflow-hidden rounded-3xl border border-line lg:h-[calc(100vh-160px)] lg:min-h-[480px]">
+        <div
+          className={
+            mapFullscreen
+              ? "contents"
+              : "sticky top-[90px] h-[350px] min-h-[350px] overflow-hidden rounded-3xl border border-line lg:h-[calc(100vh-160px)] lg:min-h-[480px]"
+          }
+        >
           <Suspense
             fallback={
               <div className="grid h-full place-items-center bg-panel text-muted">
@@ -576,6 +598,10 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               onSelectStation={setSelectedStation}
               routePath={tripActive ? routePath : []}
               mapStationsLimit={tripActive ? 200 : 120}
+              tripMode={tripMode}
+              tripPlanner={tripPlannerPanel}
+              onRequestTripPlanner={enableTripPlanner}
+              onFullscreenChange={setMapFullscreen}
             />
           </Suspense>
         </div>
