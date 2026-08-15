@@ -121,6 +121,10 @@
     color: var(--color-muted) !important;
   }
 
+  .leaflet-popup-content a {
+    color: var(--theme-charge);
+  }
+
   .leaflet-control-attribution {
     background: color-mix(in oklab, var(--color-ink) 75%, transparent) !important;
     color: var(--color-subtle) !important;

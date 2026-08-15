@@ -7,7 +7,7 @@ import FlyToLocation from "./FlyToLocation";
 import RouteLayer from "./RouteLayer";
 import PlugBadge from "./PlugBadge";
 import type { LatLng, Station } from "../lib/stations";
-import { formatLocationLine } from "../lib/stations";
+import { formatLocationLine, stationSlug } from "../lib/stations";
 
 const PIN_URL = "/assets/ev_pin.svg";
 
@@ -126,12 +126,12 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
 
   return (
     <Popup>
-      <div className="min-w-[220px] space-y-3 p-1">
+      <div className="min-w-[180px] max-w-[220px] space-y-2.5 p-0.5">
         <div>
           <span className="mb-1 inline-block rounded-full border border-charge/20 bg-charge/10 px-2 py-0.5 text-[9px] font-bold tracking-wider text-charge uppercase">
             EV Station Details
           </span>
-          <h3 className="text-base leading-tight font-bold text-paper">{station.name}</h3>
+          <h3 className="text-sm leading-tight font-bold text-paper">{station.name}</h3>
           {station.vendor && (
             <div className="mt-1 text-[10px] font-semibold tracking-wide text-charge/80 uppercase">
               {station.vendor}
@@ -186,19 +186,28 @@ const StationPopup = React.memo(function StationPopup({ station }: { station: St
           </div>
         )}
 
-        <button
-          onClick={() => {
-            const name = (station.name || "EV Station").replace(/\s+/g, "+");
-            window.open(
-              `https://www.google.com/maps/dir/Current+Location/${name}/@${station.latitude},${station.longitude}`,
-              "_blank"
-            );
-          }}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-charge px-3 py-2 text-xs font-semibold text-ink shadow-md transition-all hover:brightness-110 active:scale-[0.98]"
-        >
-          <Navigation size={14} />
-          Get Directions
-        </button>
+        <div className="flex flex-col gap-1">
+          <button
+            onClick={() => {
+              const name = (station.name || "EV Station").replace(/\s+/g, "+");
+              window.open(
+                `https://www.google.com/maps/dir/Current+Location/${name}/@${station.latitude},${station.longitude}`,
+                "_blank"
+              );
+            }}
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-charge px-3 py-2 text-xs font-semibold text-ink shadow-md transition-all hover:brightness-110 active:scale-[0.98]"
+          >
+            <Navigation size={14} />
+            Get Directions
+          </button>
+          <a
+            href={`/stations/${stationSlug(station)}/`}
+            className="flex w-full items-center justify-center px-2 py-1 text-xs font-semibold no-underline transition-opacity hover:opacity-80 hover:underline"
+            style={{ color: "var(--theme-charge)" }}
+          >
+            View station page →
+          </a>
+        </div>
       </div>
     </Popup>
   );
