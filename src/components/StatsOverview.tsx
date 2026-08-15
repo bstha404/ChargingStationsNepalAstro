@@ -14,10 +14,10 @@ export default function StatsOverview({ stats }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="mx-auto max-w-[1280px] px-6 pt-8">
+    <section className="mx-auto max-w-[1280px] px-4 pt-4 sm:px-6 sm:pt-8">
       <button
         type="button"
-        className="mb-3 flex w-full items-center justify-between rounded-2xl border border-line bg-panel/80 px-4 py-3 text-left md:hidden"
+        className="mb-2 flex w-full items-center justify-between rounded-2xl border border-line bg-panel/80 px-3 py-2.5 text-left md:hidden"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >

@@ -307,14 +307,14 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         : "Sorted by City";
 
   return (
-    <section className="mx-auto max-w-[1280px] px-6 pb-20 pt-8">
-      <div className="mb-6 sm:mb-8">
+    <section className="mx-auto max-w-[1280px] px-4 pb-12 pt-4 sm:px-6 sm:pb-20 sm:pt-8">
+      <div className="mb-3 sm:mb-8">
         <div className="mb-4 hidden items-center gap-2 rounded-full border border-charge/20 bg-charge/10 px-3.5 py-1.5 sm:inline-flex">
           <span className="text-xs font-semibold tracking-[0.04em] text-charge uppercase">
             EV Charging Network
           </span>
         </div>
-        <h1 className="font-display mb-0 text-[clamp(1.75rem,4vw,3.4rem)] font-extrabold tracking-[-0.04em] text-paper sm:mb-3">
+        <h1 className="font-display mb-0 text-[clamp(1.45rem,4.5vw,3.4rem)] font-extrabold tracking-[-0.04em] text-paper sm:mb-3 sm:text-[clamp(1.75rem,4vw,3.4rem)]">
           Find Your Nearest <span className="text-gradient-green">EV Charging Station</span> in Nepal
         </h1>
         <p className="mt-3 hidden max-w-xl text-base leading-relaxed text-muted sm:block">
@@ -323,32 +323,67 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         </p>
       </div>
 
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <button
-          onClick={() => {
-            if (tripMode) {
-              setTripMode(false);
-              clearTrip();
-            } else {
-              setTripMode(true);
-              setSearch("");
-            }
-          }}
-          className={`flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[0.8rem] font-semibold transition-all ${
-            tripMode
-              ? "border border-charge bg-charge/15 text-charge"
-              : "border border-line bg-panel text-muted hover:border-charge/40"
-          }`}
-        >
-          <Route size={14} className="text-charge" />
-          <span>{tripMode ? "Trip Planner On" : "Plan a Trip"}</span>
-        </button>
+      <div className="mb-3 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+        <div className="flex items-center gap-2 sm:contents sm:gap-3">
+          <button
+            onClick={() => {
+              if (tripMode) {
+                setTripMode(false);
+                clearTrip();
+              } else {
+                setTripMode(true);
+                setSearch("");
+              }
+            }}
+            className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-[0.72rem] font-semibold whitespace-nowrap transition-all sm:px-4 sm:py-2.5 sm:text-[0.8rem] ${
+              tripMode
+                ? "border border-charge bg-charge/15 text-charge"
+                : "border border-line bg-panel text-muted hover:border-charge/40"
+            }`}
+          >
+            <Route size={14} className="text-charge" />
+            <span>{tripMode ? "Trip Planner On" : "Plan a Trip"}</span>
+          </button>
+
+          {locationStatus === "granted" && userLocation ? (
+            <div
+              className="flex min-w-0 flex-1 items-center gap-1.5 rounded-full border border-charge/30 bg-charge/15 px-3 py-2 text-[0.72rem] font-semibold text-charge sm:max-w-[280px] sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem]"
+              title={locationName || "Your location is active for nearby sorting"}
+            >
+              <MapPin size={14} className="shrink-0" />
+              <span className="truncate">{locationName || "Locating area…"}</span>
+            </div>
+          ) : locationStatus === "loading" ? (
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-full border border-line bg-line/60 px-3 py-2 text-[0.72rem] font-medium text-muted sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem]">
+              <Compass size={14} className="animate-spin" />
+              <span>Locating...</span>
+            </div>
+          ) : locationStatus === "location_off" ? (
+            <button
+              type="button"
+              onClick={() => setShowLocationOffModal(true)}
+              className="flex min-w-0 flex-1 items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-[0.72rem] font-semibold whitespace-nowrap text-amber-700 transition-colors sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem]"
+            >
+              <Compass size={14} />
+              <span className="truncate">Turn on location</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => void requestLocation()}
+              className="flex min-w-0 flex-1 items-center gap-1.5 rounded-full border border-line bg-panel px-3 py-2 text-[0.72rem] font-semibold whitespace-nowrap text-muted transition-colors hover:border-charge/40 sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem]"
+            >
+              <Compass size={14} className="text-charge" />
+              <span className="truncate">Use My Location</span>
+            </button>
+          )}
+        </div>
 
         {!tripMode && (
-          <div className="relative min-w-[260px] flex-1">
+          <div className="relative w-full sm:min-w-[260px] sm:flex-1">
             <Search
               size={18}
-              className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-charge"
+              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-charge sm:left-4"
             />
             <input
               value={search}
@@ -357,7 +392,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                 setDisplayCount(50);
               }}
               placeholder="Search station name, city, address, plug type..."
-              className="w-full rounded-[14px] border border-line bg-panel py-3 pr-11 pl-11 text-[0.9rem] text-paper outline-none transition-[border-color] focus:border-charge/60"
+              className="w-full rounded-[14px] border border-line bg-panel py-2.5 pr-10 pl-10 text-[0.85rem] text-paper outline-none transition-[border-color] focus:border-charge/60 sm:py-3 sm:pr-11 sm:pl-11 sm:text-[0.9rem]"
             />
             {search && (
               <button
@@ -365,7 +400,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                   setSearch("");
                   setDisplayCount(50);
                 }}
-                className="absolute top-1/2 right-3.5 flex -translate-y-1/2 items-center border-0 bg-transparent text-muted"
+                className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center border-0 bg-transparent text-muted sm:right-3.5"
                 aria-label="Clear search"
               >
                 <X size={16} />
@@ -374,40 +409,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           </div>
         )}
 
-        {locationStatus === "granted" && userLocation ? (
-          <div
-            className="flex max-w-full items-center gap-1.5 rounded-full border border-charge/30 bg-charge/15 px-4 py-2.5 text-[0.8rem] font-semibold text-charge"
-            title={locationName || "Your location is active for nearby sorting"}
-          >
-            <MapPin size={14} className="shrink-0" />
-            <span className="truncate">{locationName || "Locating area…"}</span>
-          </div>
-        ) : locationStatus === "loading" ? (
-          <div className="flex items-center gap-1.5 rounded-full border border-line bg-line/60 px-4 py-2.5 text-[0.8rem] font-medium text-muted">
-            <Compass size={14} className="animate-spin" />
-            <span>Locating...</span>
-          </div>
-        ) : locationStatus === "location_off" ? (
-          <button
-            type="button"
-            onClick={() => setShowLocationOffModal(true)}
-            className="flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-[0.8rem] font-semibold text-amber-700 transition-colors"
-          >
-            <Compass size={14} />
-            <span>Turn on location</span>
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => void requestLocation()}
-            className="flex items-center gap-1.5 rounded-full border border-line bg-panel px-4 py-2.5 text-[0.8rem] font-semibold text-muted transition-colors hover:border-charge/40"
-          >
-            <Compass size={14} className="text-charge" />
-            <span>Use My Location</span>
-          </button>
-        )}
-
-        <div className="flex gap-2">
+        <div className="flex w-full gap-1.5 sm:w-auto sm:gap-2">
           {(["all", "DC", "AC"] as const).map((type) => (
             <button
               key={type}
@@ -415,7 +417,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                 setFilterPlugType(type);
                 setDisplayCount(50);
               }}
-              className={`rounded-full px-5 py-2.5 text-[0.82rem] font-semibold transition-all ${
+              className={`min-w-0 flex-1 rounded-full px-2 py-1.5 text-[0.68rem] font-semibold whitespace-nowrap transition-all sm:flex-none sm:px-5 sm:py-2.5 sm:text-[0.82rem] ${
                 filterPlugType === type
                   ? "border border-charge bg-charge/15 text-charge"
                   : "border border-line bg-panel text-muted"
@@ -558,7 +560,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         </div>
       )}
 
-      <div className="network-page-grid grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
+      <div className="network-page-grid grid grid-cols-1 gap-4 lg:grid-cols-[1fr_380px] lg:gap-6">
         <div className="sticky top-[90px] h-[350px] min-h-[350px] overflow-hidden rounded-3xl border border-line lg:h-[calc(100vh-160px)] lg:min-h-[480px]">
           <Suspense
             fallback={
