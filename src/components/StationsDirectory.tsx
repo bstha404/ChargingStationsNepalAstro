@@ -1,5 +1,14 @@
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
-import { Search, X, Compass, SlidersHorizontal, ArrowUpDown, MapPin, Navigation } from "lucide-react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Search,
+  X,
+  Compass,
+  SlidersHorizontal,
+  ArrowUpDown,
+  ArrowLeftRight,
+  MapPin,
+  Navigation,
+} from "lucide-react";
 import type { Station } from "../lib/stations";
 import {
   formatDistance,
@@ -8,8 +17,8 @@ import {
   getRelevanceScore,
   stationSlug,
 } from "../lib/stations";
-import { normalizePlugKind } from "../lib/plugs";
-import { requestUserPosition } from "../lib/location";
+import { normalizePlugKind, type PlugKind } from "../lib/plugs";
+import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
 import {
   STATION_BRANDS,
   detectStationBrand,
@@ -17,8 +26,8 @@ import {
   type StationBrandId,
 } from "../lib/brands";
 
-type SortMode = "city" | "nearest" | "name" | "relevance";
-type ChargerFilter = "all" | "AC" | "DC";
+type SortMode = "city" | "nearest" | "name" | "relevance" | "power";
+type PlugFilter = "all" | "AC" | "DC" | "ccs2" | "gbt";
 type LocationStatus = "idle" | "loading" | "granted" | "denied" | "location_off";
 
 type Props = {
@@ -31,23 +40,38 @@ type StationRow = Station & {
   brandLabel: string;
   provinceLabel: string;
   chargerTypes: Set<"AC" | "DC">;
+  plugKinds: Set<PlugKind>;
+  maxPowerKw: number;
 };
 
-function stationHasCharger(station: Station, type: "AC" | "DC"): boolean {
-  return (station.plugs || []).some((p) => (p.type || "").toUpperCase() === type);
+function parsePowerKw(value?: string | null): number {
+  if (!value) return 0;
+  const match = String(value).replace(",", ".").match(/(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function stationMaxPowerKw(station: Station): number {
+  let max = 0;
+  for (const plug of station.plugs || []) {
+    max = Math.max(max, parsePowerKw(plug.power));
+  }
+  return max;
 }
 
 export default function StationsDirectory({ stations }: Props) {
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
   const [sortMode, setSortMode] = useState<SortMode>("city");
-  const [chargerFilter, setChargerFilter] = useState<ChargerFilter>("all");
+  const [sortReversed, setSortReversed] = useState(false);
+  const [plugFilter, setPlugFilter] = useState<PlugFilter>("all");
   const [cityFilter, setCityFilter] = useState("all");
   const [provinceFilter, setProvinceFilter] = useState("all");
   const [brandFilter, setBrandFilter] = useState<StationBrandId | "all">("all");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
+  const [locationName, setLocationName] = useState<string | null>(null);
+  const geoAbortRef = useRef<AbortController | null>(null);
 
   const enriched = useMemo<StationRow[]>(() => {
     return stations.map((station) => {
@@ -59,9 +83,12 @@ export default function StationsDirectory({ stations }: Props) {
         distanceKm = getDistanceKm(userLocation.lat, userLocation.lng, lat, lng);
       }
       const chargerTypes = new Set<"AC" | "DC">();
+      const plugKinds = new Set<PlugKind>();
       for (const plug of station.plugs || []) {
         const t = (plug.type || "").toUpperCase();
         if (t === "AC" || t === "DC") chargerTypes.add(t);
+        const kind = normalizePlugKind(plug.plug || plug.icon);
+        if (kind !== "other") plugKinds.add(kind);
       }
       return {
         ...station,
@@ -70,6 +97,8 @@ export default function StationsDirectory({ stations }: Props) {
         brandLabel: brand.label,
         provinceLabel: normalizeProvince(station.province),
         chargerTypes,
+        plugKinds,
+        maxPowerKw: stationMaxPowerKw(station),
       };
     });
   }, [stations, userLocation]);
@@ -106,8 +135,10 @@ export default function StationsDirectory({ stations }: Props) {
       if (cityFilter !== "all" && station.city !== cityFilter) return false;
       if (provinceFilter !== "all" && station.provinceLabel !== provinceFilter) return false;
       if (brandFilter !== "all" && station.brandId !== brandFilter) return false;
-      if (chargerFilter === "AC" && !stationHasCharger(station, "AC")) return false;
-      if (chargerFilter === "DC" && !stationHasCharger(station, "DC")) return false;
+      if (plugFilter === "AC" && !station.chargerTypes.has("AC")) return false;
+      if (plugFilter === "DC" && !station.chargerTypes.has("DC")) return false;
+      if (plugFilter === "ccs2" && !station.plugKinds.has("ccs2")) return false;
+      if (plugFilter === "gbt" && !station.plugKinds.has("gbt")) return false;
 
       if (!q) return true;
       const hay = [
@@ -135,18 +166,22 @@ export default function StationsDirectory({ stations }: Props) {
           : sortMode;
 
     list = list.slice().sort((a, b) => {
+      let cmp = 0;
       if (mode === "nearest") {
         const da = a.distanceKm ?? Number.POSITIVE_INFINITY;
         const db = b.distanceKm ?? Number.POSITIVE_INFINITY;
-        if (da !== db) return da - db;
+        cmp = da - db;
+      } else if (mode === "power") {
+        cmp = b.maxPowerKw - a.maxPowerKw;
+      } else if (mode === "relevance" && q) {
+        cmp = getRelevanceScore(b, q) - getRelevanceScore(a, q);
+      } else if (mode === "name") {
+        cmp = a.name.localeCompare(b.name) || a.city.localeCompare(b.city);
+      } else {
+        cmp = a.city.localeCompare(b.city) || a.name.localeCompare(b.name);
       }
-      if (mode === "relevance" && q) {
-        const sa = getRelevanceScore(a, q);
-        const sb = getRelevanceScore(b, q);
-        if (sa !== sb) return sb - sa;
-      }
-      if (mode === "name") return a.name.localeCompare(b.name) || a.city.localeCompare(b.city);
-      return a.city.localeCompare(b.city) || a.name.localeCompare(b.name);
+      if (cmp === 0) cmp = a.name.localeCompare(b.name);
+      return sortReversed ? -cmp : cmp;
     });
 
     return list;
@@ -156,8 +191,9 @@ export default function StationsDirectory({ stations }: Props) {
     cityFilter,
     provinceFilter,
     brandFilter,
-    chargerFilter,
+    plugFilter,
     sortMode,
+    sortReversed,
     userLocation,
   ]);
 
@@ -165,19 +201,31 @@ export default function StationsDirectory({ stations }: Props) {
     cityFilter !== "all",
     provinceFilter !== "all",
     brandFilter !== "all",
-    chargerFilter !== "all",
+    plugFilter !== "all",
   ].filter(Boolean).length;
+
+  const resolvePlaceName = async (coords: { lat: number; lng: number }) => {
+    geoAbortRef.current?.abort();
+    const controller = new AbortController();
+    geoAbortRef.current = controller;
+    const label = await reverseGeocodeLabel(coords, controller.signal);
+    if (!controller.signal.aborted) setLocationName(label);
+  };
 
   const requestLocation = async () => {
     setLocationStatus("loading");
+    setLocationName(null);
     const result = await requestUserPosition();
     if (result.ok) {
       setUserLocation(result.coords);
       setLocationStatus("granted");
       setSortMode("nearest");
+      setSortReversed(false);
+      void resolvePlaceName(result.coords);
       return;
     }
     setUserLocation(null);
+    setLocationName(null);
     setLocationStatus(
       result.reason === "location_off" || result.reason === "timeout" ? "location_off" : "denied",
     );
@@ -187,12 +235,46 @@ export default function StationsDirectory({ stations }: Props) {
     if (deferredSearch.trim() && sortMode === "city") setSortMode("relevance");
   }, [deferredSearch, sortMode]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const brand = params.get("brand");
+    if (!brand) return;
+    const known = new Set<string>([...STATION_BRANDS.map((b) => b.id), "others"]);
+    if (known.has(brand)) {
+      setBrandFilter(brand as StationBrandId);
+      setFiltersOpen(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => geoAbortRef.current?.abort();
+  }, []);
+
   const clearFilters = () => {
     setCityFilter("all");
     setProvinceFilter("all");
     setBrandFilter("all");
-    setChargerFilter("all");
+    setPlugFilter("all");
   };
+
+  const sortLabel =
+    sortMode === "nearest" && userLocation
+      ? sortReversed
+        ? "Sorted by farthest"
+        : "Sorted by nearest location"
+      : sortMode === "power"
+        ? sortReversed
+          ? "Sorted by lowest power"
+          : "Sorted by highest power"
+        : sortMode === "relevance"
+          ? "Sorted by best match"
+          : sortMode === "name"
+            ? sortReversed
+              ? "Sorted by name (Z–A)"
+              : "Sorted by name (A–Z)"
+            : sortReversed
+              ? "Sorted by city (Z–A)"
+              : "Sorted by city (A–Z)";
 
   return (
     <div className="space-y-5">
@@ -239,7 +321,7 @@ export default function StationsDirectory({ stations }: Props) {
             )}
           </button>
 
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-3 py-1.5 text-[0.78rem] text-muted">
+          <div className="inline-flex items-center gap-1 rounded-full border border-line bg-panel py-1 pr-1 pl-3 text-[0.78rem] text-muted">
             <ArrowUpDown size={14} className="text-charge" />
             <label className="sr-only" htmlFor="stations-sort">
               Sort stations
@@ -249,6 +331,7 @@ export default function StationsDirectory({ stations }: Props) {
               value={sortMode}
               onChange={(e) => {
                 const next = e.target.value as SortMode;
+                setSortReversed(false);
                 if (next === "nearest" && !userLocation) {
                   void requestLocation();
                   return;
@@ -260,29 +343,45 @@ export default function StationsDirectory({ stations }: Props) {
               <option value="city">Sort by City</option>
               <option value="name">Sort by Name</option>
               <option value="nearest">Sort by Nearest</option>
+              <option value="power">Sort by Power</option>
               {deferredSearch.trim() && <option value="relevance">Best Match</option>}
             </select>
+            <button
+              type="button"
+              onClick={() => setSortReversed((v) => !v)}
+              className={`inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors ${
+                sortReversed
+                  ? "border-charge bg-charge/15 text-charge"
+                  : "border-transparent text-muted hover:border-line hover:text-charge"
+              }`}
+              aria-label={sortReversed ? "Use normal sort order" : "Reverse sort order"}
+              title={sortReversed ? "Normal order" : "Reverse order"}
+            >
+              <ArrowLeftRight size={15} />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => void requestLocation()}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[0.78rem] font-semibold transition-colors ${
-              locationStatus === "granted"
-                ? "border-charge/30 bg-charge/15 text-charge"
-                : "border-line bg-panel text-muted hover:border-charge/40"
-            }`}
-          >
-            <Compass
-              size={14}
-              className={locationStatus === "loading" ? "animate-spin text-charge" : "text-charge"}
-            />
-            {locationStatus === "loading"
-              ? "Locating..."
-              : locationStatus === "granted"
-                ? "Nearby on"
-                : "Use my location"}
-          </button>
+          {locationStatus === "granted" && userLocation ? (
+            <div
+              className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-charge/30 bg-charge/15 px-3.5 py-2 text-[0.78rem] font-semibold text-charge"
+              title={locationName || "Your location is active for nearby sorting"}
+            >
+              <MapPin size={14} className="shrink-0" />
+              <span className="truncate">{locationName || "Locating area…"}</span>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => void requestLocation()}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-3.5 py-2 text-[0.78rem] font-semibold text-muted transition-colors hover:border-charge/40"
+            >
+              <Compass
+                size={14}
+                className={locationStatus === "loading" ? "animate-spin text-charge" : "text-charge"}
+              />
+              {locationStatus === "loading" ? "Locating..." : "Use my location"}
+            </button>
+          )}
 
           {activeFilterCount > 0 && (
             <button
@@ -334,16 +433,18 @@ export default function StationsDirectory({ stations }: Props) {
 
           <label className="flex flex-col gap-1.5">
             <span className="text-[0.7rem] font-semibold tracking-wide text-subtle uppercase">
-              Charger type
+              Plug type
             </span>
             <select
-              value={chargerFilter}
-              onChange={(e) => setChargerFilter(e.target.value as ChargerFilter)}
+              value={plugFilter}
+              onChange={(e) => setPlugFilter(e.target.value as PlugFilter)}
               className="trip-select rounded-[10px] border border-line bg-ink px-3 py-2 text-sm text-paper outline-none focus:border-charge/60"
             >
               <option value="all">All plug types</option>
               <option value="DC">DC chargers</option>
               <option value="AC">AC chargers</option>
+              <option value="ccs2">CCS2</option>
+              <option value="gbt">GB/T</option>
             </select>
           </label>
 
@@ -370,15 +471,7 @@ export default function StationsDirectory({ stations }: Props) {
           <strong className="text-charge">{filtered.length}</strong> station
           {filtered.length !== 1 ? "s" : ""} shown
         </span>
-        <span className="text-xs text-subtle">
-          {sortMode === "nearest" && userLocation
-            ? "Sorted by nearest location"
-            : sortMode === "relevance"
-              ? "Sorted by best match"
-              : sortMode === "name"
-                ? "Sorted by name"
-                : "Sorted by city"}
-        </span>
+        <span className="text-xs text-subtle">{sortLabel}</span>
       </div>
 
       {filtered.length === 0 ? (
@@ -386,15 +479,10 @@ export default function StationsDirectory({ stations }: Props) {
           No stations match your search or filters.
         </div>
       ) : (
+        <div className="max-h-[min(70vh,720px)] overflow-y-auto overscroll-contain rounded-2xl border border-line bg-ink/30 p-3 pr-2 sm:max-h-[min(75vh,820px)]">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((station) => {
-            const kinds = [
-              ...new Set(
-                (station.plugs || [])
-                  .map((p) => normalizePlugKind(p.plug || p.icon))
-                  .filter((k) => k !== "other"),
-              ),
-            ];
+            const kinds = [...station.plugKinds];
 
             return (
               <article
@@ -420,6 +508,11 @@ export default function StationsDirectory({ stations }: Props) {
                   <span className="rounded-md border border-line px-2 py-0.5 text-[0.68rem] font-semibold text-muted">
                     {station.brandLabel}
                   </span>
+                  {station.maxPowerKw > 0 && (
+                    <span className="rounded-md border border-line px-2 py-0.5 text-[0.68rem] font-semibold text-muted">
+                      {station.maxPowerKw} kW
+                    </span>
+                  )}
                   {kinds.map((kind) => (
                     <span
                       key={kind}
@@ -460,6 +553,7 @@ export default function StationsDirectory({ stations }: Props) {
               </article>
             );
           })}
+        </div>
         </div>
       )}
     </div>

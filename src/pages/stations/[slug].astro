@@ -8,6 +8,8 @@ import {
   stationSlug,
   type Station,
 } from "../../lib/stations";
+import { buildStationDescription } from "../../lib/stationDescription";
+import { detectStationBrand, normalizeProvince } from "../../lib/brands";
 
 export function getStaticPaths() {
   const stations = locations as Station[];
@@ -19,6 +21,9 @@ export function getStaticPaths() {
 
 const { station } = Astro.props as { station: Station };
 const locationLine = formatLocationLine(station);
+const description = buildStationDescription(station);
+const brand = detectStationBrand(station);
+const provinceLabel = normalizeProvince(station.province);
 const mapsUrl = `https://www.google.com/maps/dir/Current+Location/${encodeURIComponent(
   station.name
 )}/@${station.latitude},${station.longitude}`;
@@ -27,14 +32,14 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ElectricVehicleChargingStation",
   name: station.name,
-  description: `${station.name} EV charging station in ${station.city}, Nepal.`,
+  description,
   telephone: station.telephone || undefined,
   url: Astro.url.href,
   address: {
     "@type": "PostalAddress",
     streetAddress: station.address || undefined,
     addressLocality: station.city,
-    addressRegion: station.province || undefined,
+    addressRegion: provinceLabel || undefined,
     addressCountry: "NP",
   },
   geo: {
@@ -52,16 +57,14 @@ const jsonLd = {
 
 <Layout
   title={`${station.name} — EV Charging Station in ${station.city}, Nepal`}
-  description={`${station.name} EV charging station in ${locationLine}. Plugs: ${(station.plugs || [])
-    .map((p) => `${p.plug} ${p.power || ""} ${p.type || ""}`.trim())
-    .join(", ") || "EV charger"}. Find this nearest charger and get directions.`}
+  description={description}
   ogTitle={`${station.name} | EV Charging Station Nepal`}
   ogDescription={`EV charging station near you in ${station.city}: ${station.name}. View plugs and get directions.`}
   keywords={`ev charging station in ${station.city.toLowerCase()}, ev charging station nepal, ev charging station near me, ${station.name.toLowerCase()}`}
   canonical={`/stations/${stationSlug(station)}/`}
   jsonLd={jsonLd}
 >
-  <article class="mx-auto max-w-[860px] px-6 py-12">
+  <article class="mx-auto max-w-[860px] px-4 py-8 sm:px-6 sm:py-10">
     <a
       href={`/cities/${citySlug(station.city)}/`}
       class="text-sm font-semibold text-charge no-underline hover:underline"
@@ -69,27 +72,27 @@ const jsonLd = {
       ← {station.city} stations
     </a>
 
-    <header class="mt-4 mb-8">
-      <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-charge uppercase">
+    <header class="mt-3 mb-5">
+      <p class="mb-2 text-xs font-semibold tracking-[0.08em] text-charge uppercase">
         EV Charging Station
       </p>
-      <h1 class="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight text-paper">
+      <h1 class="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-extrabold tracking-tight text-paper">
         {station.name}
       </h1>
-      <p class="mt-3 text-muted">{locationLine}</p>
+      <p class="mt-2 text-sm text-muted sm:text-base">{locationLine}</p>
       {
-        station.vendor && (
-          <p class="mt-2 text-sm font-semibold text-charge uppercase">{station.vendor}</p>
+        brand.id !== "others" && (
+          <p class="mt-1.5 text-sm font-semibold text-charge uppercase">{brand.label}</p>
         )
       }
     </header>
 
-    <div class="mb-8 flex flex-wrap gap-3">
+    <div class="mb-5 flex flex-wrap gap-2">
       <a
         href={mapsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-full bg-charge px-5 py-2.5 text-sm font-bold text-ink no-underline"
+        class="rounded-full bg-charge px-4 py-2 text-sm font-bold text-ink no-underline"
       >
         Get Directions
       </a>
@@ -97,7 +100,7 @@ const jsonLd = {
         station.telephone && (
           <a
             href={`tel:${station.telephone}`}
-            class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-paper no-underline"
+            class="rounded-full border border-line bg-panel px-4 py-2 text-sm font-semibold text-paper no-underline"
           >
             Call {station.telephone}
           </a>
@@ -105,33 +108,38 @@ const jsonLd = {
       }
       <a
         href={`/?q=${encodeURIComponent(station.name)}`}
-        class="rounded-full border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-muted no-underline hover:text-charge"
+        class="rounded-full border border-line bg-panel px-4 py-2 text-sm font-semibold text-muted no-underline hover:text-charge"
       >
         Show on map
       </a>
     </div>
 
-    <section class="mb-8 rounded-3xl border border-line bg-panel p-6">
-      <h2 class="mb-4 text-lg font-bold">Available plugs</h2>
+    <section class="mb-4 rounded-2xl border border-line bg-panel p-4 sm:p-5">
+      <h2 class="mb-2 text-base font-bold sm:text-lg">Description</h2>
+      <p class="text-sm leading-relaxed text-muted sm:text-[0.95rem]">{description}</p>
+    </section>
+
+    <section class="mb-4 rounded-2xl border border-line bg-panel p-4 sm:p-5">
+      <h2 class="mb-3 text-base font-bold sm:text-lg">Available plugs</h2>
       {
         station.plugs?.length ? (
-          <ul class="space-y-3">
+          <ul class="space-y-2">
             {station.plugs.map((plug) => (
               <li>
-                <PlugBadge plug={plug} />
+                <PlugBadge plug={plug} size={24} />
               </li>
             ))}
           </ul>
         ) : (
-          <p class="text-muted">Plug details not listed.</p>
+          <p class="text-sm text-muted">Plug details not listed.</p>
         )
       }
     </section>
 
     {
       station.amenities?.length > 0 && (
-        <section class="mb-8 rounded-3xl border border-line bg-panel p-6">
-          <h2 class="mb-4 text-lg font-bold">Amenities</h2>
+        <section class="mb-4 rounded-2xl border border-line bg-panel p-4 sm:p-5">
+          <h2 class="mb-3 text-base font-bold sm:text-lg">Amenities</h2>
           <div class="flex flex-wrap gap-2">
             {station.amenities.map((amenity) => (
               <span class="rounded-full border border-line bg-ink/40 px-3 py-1 text-sm text-muted capitalize">
@@ -143,8 +151,8 @@ const jsonLd = {
       )
     }
 
-    <section class="rounded-3xl border border-line bg-panel p-6">
-      <h2 class="mb-4 text-lg font-bold">Location</h2>
+    <section class="rounded-2xl border border-line bg-panel p-4 sm:p-5">
+      <h2 class="mb-3 text-base font-bold sm:text-lg">Location</h2>
       <dl class="grid gap-3 text-sm sm:grid-cols-2">
         <div>
           <dt class="text-muted">Coordinates</dt>
@@ -162,7 +170,7 @@ const jsonLd = {
         </div>
         <div>
           <dt class="text-muted">Province</dt>
-          <dd class="text-paper">{station.province || "—"}</dd>
+          <dd class="text-paper">{provinceLabel || "—"}</dd>
         </div>
       </dl>
     </section>

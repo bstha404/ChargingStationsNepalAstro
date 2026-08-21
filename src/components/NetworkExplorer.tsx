@@ -17,6 +17,7 @@ import {
 } from "../lib/routing";
 import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
 import PlugBadge from "./PlugBadge";
+import { normalizePlugKind } from "../lib/plugs";
 
 const EVMap = React.lazy(() => import("./EVMap"));
 
@@ -46,7 +47,7 @@ type LocationUiStatus = "prompt" | "granted" | "denied" | "loading" | "location_
 
 export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   const [search, setSearch] = useState(initialCity);
-  const [filterPlugType, setFilterPlugType] = useState<"all" | "AC" | "DC">("all");
+  const [filterPlugType, setFilterPlugType] = useState<"all" | "AC" | "DC" | "ccs2" | "gbt">("all");
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const [displayCount, setDisplayCount] = useState(50);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -258,9 +259,14 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
     let result: StationWithDistance[] | StationAlongRoute[] = stationsWithMeta;
 
     if (filterPlugType !== "all") {
-      result = result.filter((station) =>
-        station.plugs?.some((p) => p.type?.toUpperCase() === filterPlugType)
-      );
+      result = result.filter((station) => {
+        if (filterPlugType === "AC" || filterPlugType === "DC") {
+          return station.plugs?.some((p) => p.type?.toUpperCase() === filterPlugType);
+        }
+        return station.plugs?.some(
+          (p) => normalizePlugKind(p.plug || p.icon) === filterPlugType,
+        );
+      });
     }
 
     if (tripMode && routeStatus === "ready" && routePath.length >= 2) {
@@ -566,20 +572,26 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
         )}
 
         <div className="flex w-full gap-1.5 sm:w-auto sm:gap-2">
-          {(["all", "DC", "AC"] as const).map((type) => (
+          {(["all", "DC", "AC", "ccs2", "gbt"] as const).map((type) => (
             <button
               key={type}
               onClick={() => {
                 setFilterPlugType(type);
                 setDisplayCount(50);
               }}
-              className={`min-w-0 flex-1 rounded-full px-2 py-1.5 text-[0.68rem] font-semibold whitespace-nowrap transition-all sm:flex-none sm:px-5 sm:py-2.5 sm:text-[0.82rem] ${
+              className={`min-w-0 flex-1 rounded-full px-2 py-1.5 text-[0.68rem] font-semibold whitespace-nowrap transition-all sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem] ${
                 filterPlugType === type
                   ? "border border-charge bg-charge/15 text-charge"
                   : "border border-line bg-panel text-muted"
               }`}
             >
-              {type === "all" ? "All Plug Types" : `${type} Chargers`}
+              {type === "all"
+                ? "All"
+                : type === "ccs2"
+                  ? "CCS2"
+                  : type === "gbt"
+                    ? "GB/T"
+                    : type}
             </button>
           ))}
         </div>

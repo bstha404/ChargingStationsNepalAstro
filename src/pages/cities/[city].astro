@@ -66,20 +66,20 @@ const pageDescription = `Find EV charging stations near me in ${city}, Nepal. Br
   canonical={`/cities/${citySlug(city)}/`}
   jsonLd={jsonLd}
 >
-  <section class="mx-auto max-w-[960px] px-6 py-12">
+  <section class="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 sm:py-12">
     <a href="/cities/" class="text-sm font-semibold text-charge no-underline hover:underline"
       >← All cities</a
     >
     <h1 class="font-display mt-4 mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
       EV Charging Station in <span class="text-gradient-green">{city}</span>
     </h1>
-    <p class="mb-8 max-w-2xl text-muted">
+    <p class="mb-6 max-w-2xl text-muted sm:mb-8">
       Locate the nearest EV charging station in {city} and compare plugs before you drive.
       {count} mapped charging station{count === 1 ? "" : "s"} in {city}. Open the interactive map
       or jump to a station page for full details.
     </p>
 
-    <div class="mb-8 flex flex-wrap gap-3">
+    <div class="mb-6 flex flex-wrap gap-3">
       <a
         href={`/?q=${encodeURIComponent(city)}`}
         class="rounded-full bg-charge px-5 py-2.5 text-sm font-bold text-ink no-underline"
@@ -94,24 +94,24 @@ const pageDescription = `Find EV charging stations near me in ${city}, Nepal. Br
       </a>
     </div>
 
-    <div class="space-y-3">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {
         stations.map((station) => (
-          <article class="rounded-2xl border border-line bg-panel px-5 py-4 transition-colors hover:border-charge/40">
+          <article class="flex flex-col rounded-2xl border border-line bg-panel px-4 py-4 transition-colors hover:border-charge/40">
             <a href={`/stations/${stationSlug(station)}/`} class="no-underline">
-              <h2 class="text-lg font-bold text-paper">{station.name}</h2>
+              <h2 class="text-[0.95rem] font-bold text-paper sm:text-lg">{station.name}</h2>
               <p class="mt-1 text-sm text-muted">{formatLocationLine(station)}</p>
             </a>
             {
               station.plugs?.length > 0 && (
                 <div class="mt-3 flex flex-wrap gap-1.5">
                   {station.plugs.map((plug) => (
-                    <PlugBadge plug={plug} compact size={14} />
+                    <PlugBadge plug={plug} compact size={16} />
                   ))}
                 </div>
               )
             }
-            <div class="mt-4 flex flex-wrap items-center gap-2">
+            <div class="mt-auto flex flex-wrap items-center gap-2 pt-4">
               <a
                 href={`https://www.google.com/maps/dir/Current+Location/${encodeURIComponent(
                   (station.name || "EV Station").replace(/\s+/g, "+")

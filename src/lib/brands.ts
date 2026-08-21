@@ -54,6 +54,10 @@ export function detectStationBrand(station: {
   vendor?: string | null;
 }): { id: StationBrandId; label: string } {
   const vendor = (station.vendor || "").toLowerCase().trim();
+
+  // Null / empty vendor always goes to Others
+  if (!vendor) return { id: "others", label: "Others" };
+
   const hay = ` ${vendor} ${station.name || ""} `.toLowerCase();
 
   const vendorMap: Record<string, { id: StationBrandId; label: string }> = {
@@ -72,7 +76,7 @@ export function detectStationBrand(station: {
     plugnsip: { id: "plugnsip", label: "Plug n Sip" },
     gadicharge: { id: "gadicharge", label: "Gadi Charge" },
   };
-  if (vendor && vendorMap[vendor]) return vendorMap[vendor];
+  if (vendorMap[vendor]) return vendorMap[vendor];
 
   for (const brand of STATION_BRANDS) {
     if (brand.patterns.some((p) => hay.includes(p))) {
@@ -80,7 +84,6 @@ export function detectStationBrand(station: {
     }
   }
 
-  // Word-boundary-ish MG / CG / EGO fallbacks
   if (/\bmg\b/.test(hay)) return { id: "mg", label: "MG" };
   if (/\bcg\b/.test(hay)) return { id: "cg", label: "CG" };
   if (/\bego\b/.test(hay)) return { id: "theego", label: "The EGO" };

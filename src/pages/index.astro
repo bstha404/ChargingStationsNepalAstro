@@ -5,12 +5,24 @@ import StatsOverview from "../components/StatsOverview";
 import locations from "../data/EV_Locations.json";
 import { citySlug, stationSlug, uniqueCities } from "../lib/stations";
 import type { Station } from "../lib/stations";
+import { STATION_BRANDS, detectStationBrand } from "../lib/brands";
 
 const stations = locations as Station[];
 const cities = uniqueCities(stations);
 const totalPlugs = stations.reduce((sum, s) => sum + (s.plugs?.length || 0), 0);
 const site = Astro.site?.toString().replace(/\/$/, "") || "https://evchargingstationnepal.com";
 
+const brandCounts = new Map<string, { id: string; label: string; count: number }>();
+for (const station of stations) {
+  const brand = detectStationBrand(station);
+  const existing = brandCounts.get(brand.id);
+  if (existing) existing.count += 1;
+  else brandCounts.set(brand.id, { id: brand.id, label: brand.label, count: 1 });
+}
+const brandsForHome = [
+  ...STATION_BRANDS.map((b) => brandCounts.get(b.id)).filter(Boolean),
+  brandCounts.get("others"),
+].filter((b): b is { id: string; label: string; count: number } => Boolean(b) && b.count > 0);
 const stats = [
   { value: stations.length, label: "Stations mapped" },
   { value: cities.length, label: "Cities covered" },
@@ -190,6 +202,34 @@ const jsonLd = [
           class="rounded-full border border-line bg-panel px-4 py-2 text-sm text-muted no-underline hover:text-charge"
         >
           About
+        </a>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-[1280px] px-6 pb-16">
+      <h2 class="font-display mb-4 text-2xl font-bold tracking-tight">
+        Browse EV charging stations by brand
+      </h2>
+      <p class="mb-5 max-w-3xl text-sm text-muted">
+        Filter stations by network or brand—NEA, MAW, Tata, Hyundai, BYD, Gadi Charge, and more.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {
+          brandsForHome.map((brand) => (
+            <a
+              href={`/stations/?brand=${brand.id}`}
+              class="rounded-full border border-line bg-panel px-4 py-2 text-sm text-muted no-underline transition-colors hover:border-charge/40 hover:text-charge"
+            >
+              {brand.label}
+              <span class="ml-1 text-charge/80">({brand.count})</span>
+            </a>
+          ))
+        }
+        <a
+          href="/stations/"
+          class="rounded-full border border-charge/30 bg-charge/10 px-4 py-2 text-sm font-semibold text-charge no-underline"
+        >
+          View all stations →
         </a>
       </div>
     </section>
