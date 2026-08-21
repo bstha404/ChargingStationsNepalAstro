@@ -633,8 +633,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           </Suspense>
         </div>
 
-        <div className="flex max-h-[min(60vh,520px)] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 lg:max-h-[calc(100vh-160px)]">
-          <div className="sticky top-0 z-10 mb-0.5 flex items-center justify-between bg-ink/95 py-1 text-[0.8rem] text-muted backdrop-blur-sm">
+        <div className="flex min-h-0 flex-col gap-2 lg:max-h-[calc(100vh-160px)]">
+          <div className="flex shrink-0 items-center justify-between py-1 text-[0.8rem] text-muted">
             <span>
               <strong className="text-charge">{filteredStations.length}</strong> station
               {filteredStations.length !== 1 ? "s" : ""} found
@@ -642,6 +642,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
             <span className="text-[0.72rem] text-subtle">{sortLabel}</span>
           </div>
 
+          <div className="flex max-h-[min(55vh,480px)] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 lg:max-h-none lg:min-h-0 lg:flex-1">
           {filteredStations.length === 0 ? (
             <div className="rounded-2xl border border-line bg-panel p-8 text-center text-muted">
               {tripActive
@@ -775,6 +776,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
               Load More Stations ({filteredStations.length - displayCount} remaining)
             </button>
           )}
+          </div>
         </div>
       </div>
 
