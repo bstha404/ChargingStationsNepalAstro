@@ -1,12 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import StationsDirectory from "../../components/StationsDirectory";
 import locations from "../../data/EV_Locations.json";
-import { formatLocationLine, stationSlug, type Station } from "../../lib/stations";
-import { normalizePlugKind } from "../../lib/plugs";
+import type { Station } from "../../lib/stations";
 
-const stations = (locations as Station[])
-  .slice()
-  .sort((a, b) => a.city.localeCompare(b.city) || a.name.localeCompare(b.name));
+const stations = locations as Station[];
 ---
 
 <Layout
@@ -17,67 +15,15 @@ const stations = (locations as Station[])
   keywords="ev charging stations, ev charging station nepal, nepal ev charging station, ev charging station near me, nea ev charging station, tata ev charging station"
   canonical="/stations/"
 >
-  <section class="mx-auto max-w-[960px] px-6 py-12">
-    <h1 class="font-display mb-3 text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight">
+  <section class="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 sm:py-12">
+    <h1 class="font-display mb-3 text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight">
       All <span class="text-gradient-green">EV Charging Stations</span> in Nepal
     </h1>
-    <p class="mb-8 text-muted">
-      Full listing of {stations.length} mapped EV charging stations across Nepal. Use the
-      <a href="/" class="text-charge hover:underline">interactive map</a> for search and nearby sorting,
-      or open a station for plugs and directions.
+    <p class="mb-6 max-w-3xl text-muted sm:mb-8">
+      Browse {stations.length} mapped stations. Search by name or place, sort by nearest location, and
+      filter by city, province, charger type, or brand.
     </p>
 
-    <div class="space-y-2">
-      {
-        stations.map((station) => {
-          const kinds = [
-            ...new Set(
-              (station.plugs || [])
-                .map((p) => normalizePlugKind(p.plug || p.icon))
-                .filter((k) => k !== "other")
-            ),
-          ];
-          return (
-            <article class="rounded-xl border border-line bg-panel px-4 py-3 transition-colors hover:border-charge/40">
-              <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div class="font-semibold text-paper">{station.name}</div>
-                  <div class="text-sm text-muted">{formatLocationLine(station)}</div>
-                  {
-                    kinds.length > 0 && (
-                      <div class="mt-2 flex flex-wrap gap-1.5">
-                        {kinds.map((kind) => (
-                          <span class="inline-flex items-center gap-1 rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 text-xs font-semibold text-charge uppercase">
-                            {kind === "ccs2" ? "CCS2" : "GB/T"}
-                          </span>
-                        ))}
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
-              <div class="mt-3 flex flex-wrap items-center gap-2">
-                <a
-                  href={`https://www.google.com/maps/dir/Current+Location/${encodeURIComponent(
-                    (station.name || "EV Station").replace(/\s+/g, "+")
-                  )}/@${station.latitude},${station.longitude}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center rounded-lg bg-charge px-2.5 py-1.5 text-[0.7rem] font-bold text-ink no-underline hover:brightness-110"
-                >
-                  Get Directions
-                </a>
-                <a
-                  href={`/stations/${stationSlug(station)}/`}
-                  class="inline-flex items-center rounded-lg border border-line px-2.5 py-1.5 text-[0.7rem] font-semibold text-charge no-underline hover:border-charge/40"
-                >
-                  View station page →
-                </a>
-              </div>
-            </article>
-          );
-        })
-      }
-    </div>
+    <StationsDirectory client:load stations={stations} />
   </section>
 </Layout>
