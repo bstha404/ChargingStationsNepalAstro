@@ -1,21 +1,6 @@
 @import "tailwindcss";
 
 :root,
-[data-theme="dark"] {
-  --theme-ink: #0b0d0c;
-  --theme-panel: #171a19;
-  --theme-muted: #b8c1bc;
-  --theme-line: #2a2f2d;
-  --theme-charge: #8ee36a;
-  --theme-charge-deep: #58ae37;
-  --theme-paper: #f8faf8;
-  --theme-footer: #0a0c0b;
-  --theme-subtle: #6e7672;
-  --theme-map-bg: #111413;
-  --theme-map-popup: #0f1211;
-  --theme-gradient-start: #b8f39a;
-}
-
 [data-theme="light"] {
   --theme-ink: #f2f5f2;
   --theme-panel: #ffffff;
@@ -29,6 +14,21 @@
   --theme-map-bg: #e8eee8;
   --theme-map-popup: #ffffff;
   --theme-gradient-start: #58ae37;
+}
+
+[data-theme="dark"] {
+  --theme-ink: #0b0d0c;
+  --theme-panel: #171a19;
+  --theme-muted: #b8c1bc;
+  --theme-line: #2a2f2d;
+  --theme-charge: #8ee36a;
+  --theme-charge-deep: #58ae37;
+  --theme-paper: #f8faf8;
+  --theme-footer: #0a0c0b;
+  --theme-subtle: #6e7672;
+  --theme-map-bg: #111413;
+  --theme-map-popup: #0f1211;
+  --theme-gradient-start: #b8f39a;
 }
 
 @theme {
@@ -48,11 +48,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
   }
 
-  html[data-theme="light"] {
-    color-scheme: light;
+  html[data-theme="dark"] {
+    color-scheme: dark;
   }
 
   body {

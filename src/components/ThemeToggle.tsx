@@ -10,10 +10,7 @@ function getPreferredTheme(): Theme {
   } catch {
     /* ignore */
   }
-  if (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: light)").matches) {
-    return "light";
-  }
-  return "dark";
+  return "light";
 }
 
 function applyTheme(theme: Theme) {
@@ -26,7 +23,7 @@ function applyTheme(theme: Theme) {
 }
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -57,20 +54,20 @@ export default function ThemeToggle() {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Light mode" : "Dark mode"}
       onClick={toggle}
-      className={`relative inline-flex h-9 w-[3.75rem] shrink-0 items-center rounded-full border border-line bg-panel p-1 transition-colors ${
+      className={`relative inline-flex h-9 w-[3.75rem] shrink-0 items-center justify-center rounded-full border border-line bg-panel p-1 transition-colors ${
         ready ? "opacity-100" : "opacity-0"
       }`}
     >
       <span
-        className={`absolute top-1 left-1 flex h-7 w-7 items-center justify-center rounded-full bg-charge text-ink shadow-sm transition-transform duration-200 ${
-          isDark ? "translate-x-[1.65rem]" : "translate-x-0"
+        className={`absolute top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-charge text-ink shadow-sm transition-[left] duration-200 ${
+          isDark ? "left-[calc(100%-1.95rem)]" : "left-1"
         }`}
       >
         {isDark ? <Moon size={14} strokeWidth={2.5} /> : <Sun size={14} strokeWidth={2.5} />}
       </span>
       <span className="flex w-full items-center justify-between px-1.5 text-muted" aria-hidden="true">
-        <Sun size={12} />
-        <Moon size={12} />
+        <Sun size={12} className="block" />
+        <Moon size={12} className="block" />
       </span>
     </button>
   );

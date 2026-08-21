@@ -7,7 +7,7 @@ Allow: /
 Disallow: /api/
 Disallow: /raw/
 
-Sitemap: https://evchargingstationnepal.com/sitemap-index.xml
+Sitemap:  
 
 User-agent: GPTBot
 Allow: /

@@ -142,25 +142,20 @@ const nav = [
     />
     <meta name="twitter:url" content={canonicalUrl} />
 
-    <meta name="theme-color" content="#0B0D0C" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#F2F5F2" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=yes" />
     <script is:inline>
       (function () {
         try {
           var stored = localStorage.getItem("theme");
-          var theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : window.matchMedia("(prefers-color-scheme: light)").matches
-                ? "light"
-                : "dark";
+          var theme = stored === "light" || stored === "dark" ? stored : "light";
           document.documentElement.setAttribute("data-theme", theme);
           document.documentElement.style.colorScheme = theme;
           var meta = document.querySelector('meta[name="theme-color"]');
           if (meta) meta.setAttribute("content", theme === "light" ? "#F2F5F2" : "#0B0D0C");
         } catch (e) {
-          document.documentElement.setAttribute("data-theme", "dark");
+          document.documentElement.setAttribute("data-theme", "light");
         }
       })();
     </script>

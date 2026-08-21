@@ -253,25 +253,13 @@ function EVMap({
           </div>
         )}
 
-        <div className="pointer-events-auto absolute top-[max(0.75rem,env(safe-area-inset-top))] right-3 flex flex-col gap-2">
-          <button
-            type="button"
-            className={controlBtn}
-            aria-label={fullscreen ? "Exit fullscreen map" : "Expand map"}
-            title={fullscreen ? "Exit fullscreen" : "Fullscreen"}
-            onClick={toggleFullscreen}
-          >
-            {fullscreen ? <X size={18} /> : <Maximize2 size={18} />}
-          </button>
+        <div className="pointer-events-auto absolute right-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] flex flex-col gap-2 sm:bottom-6">
           <button type="button" className={controlBtn} aria-label="Zoom in" title="Zoom in" onClick={zoomIn}>
             <Plus size={18} />
           </button>
           <button type="button" className={controlBtn} aria-label="Zoom out" title="Zoom out" onClick={zoomOut}>
             <Minus size={18} />
           </button>
-        </div>
-
-        <div className="pointer-events-auto absolute right-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] flex flex-col gap-2 sm:bottom-6">
           {fullscreen && (
             <button
               type="button"
@@ -292,6 +280,15 @@ function EVMap({
             onClick={locateMe}
           >
             <Crosshair size={18} className={locating ? "animate-pulse text-charge" : ""} />
+          </button>
+          <button
+            type="button"
+            className={controlBtn}
+            aria-label={fullscreen ? "Exit fullscreen map" : "Expand map"}
+            title={fullscreen ? "Exit fullscreen" : "Fullscreen"}
+            onClick={toggleFullscreen}
+          >
+            {fullscreen ? <X size={18} /> : <Maximize2 size={18} />}
           </button>
         </div>
       </div>

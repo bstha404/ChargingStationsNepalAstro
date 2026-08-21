@@ -52,6 +52,8 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationStatus, setLocationStatus] = useState<LocationUiStatus>("prompt");
   const [locationName, setLocationName] = useState<string | null>(null);
+  const [sortToast, setSortToast] = useState<string | null>(null);
+  const sortToastTimer = useRef<number | null>(null);
   const geoAbortRef = useRef<AbortController | null>(null);
 
   const [tripMode, setTripMode] = useState(false);
@@ -97,22 +99,41 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
       setUserLocation(result.coords);
       setLocationStatus("granted");
       void resolvePlaceName(result.coords);
+      if (sortToastTimer.current) window.clearTimeout(sortToastTimer.current);
+      setSortToast("Sorted by Nearest Location");
+      sortToastTimer.current = window.setTimeout(() => {
+        setSortToast(null);
+        sortToastTimer.current = null;
+      }, 3200);
       return;
     }
 
     setUserLocation(null);
     if (result.reason === "location_off" || result.reason === "timeout") {
       setLocationStatus("location_off");
-      return;
+    } else {
+      setLocationStatus("denied");
     }
 
-    setLocationStatus("denied");
+    const fallback =
+      tripMode && routeStatus === "ready" && routePath.length >= 2
+        ? `Sorted by route · within ${CORRIDOR_OPTIONS.find((o) => o.value === corridorMeters)?.label ?? `${corridorMeters} m`}`
+        : search.trim()
+          ? "Sorted by Best Match"
+          : "Sorted by City";
+    if (sortToastTimer.current) window.clearTimeout(sortToastTimer.current);
+    setSortToast(fallback);
+    sortToastTimer.current = window.setTimeout(() => {
+      setSortToast(null);
+      sortToastTimer.current = null;
+    }, 3200);
   };
 
   useEffect(() => {
     void requestLocation();
     return () => {
       geoAbortRef.current?.abort();
+      if (sortToastTimer.current) window.clearTimeout(sortToastTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- request once on mount
   }, []);
@@ -744,6 +765,18 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           )}
         </div>
       </div>
+
+      {sortToast && (
+        <div
+          className="pointer-events-none fixed inset-x-0 bottom-6 z-[80] flex justify-center px-4"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="rounded-full border border-charge/30 bg-panel px-4 py-2.5 text-sm font-semibold text-charge shadow-lg">
+            {sortToast}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
