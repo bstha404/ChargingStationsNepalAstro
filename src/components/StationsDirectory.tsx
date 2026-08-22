@@ -18,6 +18,7 @@ import {
   stationSlug,
 } from "../lib/stations";
 import { normalizePlugKind, type PlugKind } from "../lib/plugs";
+import PlugIcon from "./PlugIcon";
 import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
 import { useScrollChain } from "../lib/scrollChain";
 import {
@@ -75,6 +76,8 @@ export default function StationsDirectory({ stations }: Props) {
   const geoAbortRef = useRef<AbortController | null>(null);
   const listScrollRef = useScrollChain<HTMLDivElement>();
   const [urlReady, setUrlReady] = useState(false);
+  const [sortToast, setSortToast] = useState<string | null>(null);
+  const sortToastTimer = useRef<number | null>(null);
 
   const enriched = useMemo<StationRow[]>(() => {
     return stations.map((station) => {
@@ -218,6 +221,15 @@ export default function StationsDirectory({ stations }: Props) {
     if (!controller.signal.aborted) setLocationName(label);
   };
 
+  const showSortToast = (message: string) => {
+    if (sortToastTimer.current) window.clearTimeout(sortToastTimer.current);
+    setSortToast(message);
+    sortToastTimer.current = window.setTimeout(() => {
+      setSortToast(null);
+      sortToastTimer.current = null;
+    }, 7000);
+  };
+
   const requestLocation = async () => {
     setLocationStatus("loading");
     setLocationName(null);
@@ -228,12 +240,22 @@ export default function StationsDirectory({ stations }: Props) {
       setSortMode("nearest");
       setSortReversed(false);
       void resolvePlaceName(result.coords);
+      showSortToast("Sorted by Nearest Location");
       return;
     }
     setUserLocation(null);
     setLocationName(null);
     setLocationStatus(
       result.reason === "location_off" || result.reason === "timeout" ? "location_off" : "denied",
+    );
+    showSortToast(
+      search.trim()
+        ? "Sorted by Best Match"
+        : sortMode === "power"
+          ? "Sorted by Power"
+          : sortMode === "name"
+            ? "Sorted by Name"
+            : "Sorted by City",
     );
   };
 
@@ -290,7 +312,10 @@ export default function StationsDirectory({ stations }: Props) {
   }, [urlReady, search, cityFilter, provinceFilter, brandFilter, plugFilter, sortMode, sortReversed]);
 
   useEffect(() => {
-    return () => geoAbortRef.current?.abort();
+    return () => {
+      geoAbortRef.current?.abort();
+      if (sortToastTimer.current) window.clearTimeout(sortToastTimer.current);
+    };
   }, []);
 
   const clearFilters = () => {
@@ -383,6 +408,17 @@ export default function StationsDirectory({ stations }: Props) {
                   return;
                 }
                 setSortMode(next);
+                showSortToast(
+                  next === "nearest"
+                    ? "Sorted by Nearest Location"
+                    : next === "power"
+                      ? "Sorted by Power"
+                      : next === "name"
+                        ? "Sorted by Name"
+                        : next === "relevance"
+                          ? "Sorted by Best Match"
+                          : "Sorted by City",
+                );
               }}
               className="max-w-[11rem] cursor-pointer border-0 bg-transparent py-0.5 text-[0.78rem] font-semibold text-paper outline-none"
             >
@@ -566,8 +602,9 @@ export default function StationsDirectory({ stations }: Props) {
                   {kinds.map((kind) => (
                     <span
                       key={kind}
-                      className="rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 text-[0.68rem] font-semibold text-charge uppercase"
+                      className="inline-flex items-center gap-1 rounded-md border border-charge/20 bg-charge/10 px-2 py-0.5 text-[0.68rem] font-semibold text-charge uppercase"
                     >
+                      <PlugIcon kind={kind} size={14} />
                       {kind === "ccs2" ? "CCS2" : "GB/T"}
                     </span>
                   ))}
@@ -604,6 +641,18 @@ export default function StationsDirectory({ stations }: Props) {
             );
           })}
         </div>
+        </div>
+      )}
+
+      {sortToast && (
+        <div
+          className="pointer-events-none fixed inset-x-0 top-[max(4.75rem,calc(env(safe-area-inset-top)+3.5rem))] z-[80] flex justify-center px-4"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="rounded-full border border-charge/30 bg-panel px-4 py-2.5 text-sm font-semibold text-charge shadow-lg">
+            {sortToast}
+          </div>
         </div>
       )}
     </div>

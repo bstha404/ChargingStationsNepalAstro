@@ -18,6 +18,7 @@ import {
 import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
 import { useScrollChain } from "../lib/scrollChain";
 import PlugBadge from "./PlugBadge";
+import PlugIcon from "./PlugIcon";
 import { normalizePlugKind } from "../lib/plugs";
 
 const EVMap = React.lazy(() => import("./EVMap"));
@@ -107,7 +108,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
       sortToastTimer.current = window.setTimeout(() => {
         setSortToast(null);
         sortToastTimer.current = null;
-      }, 3200);
+      }, 7000);
       return;
     }
 
@@ -129,7 +130,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
     sortToastTimer.current = window.setTimeout(() => {
       setSortToast(null);
       sortToastTimer.current = null;
-    }, 3200);
+    }, 7000);
   };
 
   useEffect(() => {
@@ -581,12 +582,13 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
                 setFilterPlugType(type);
                 setDisplayCount(50);
               }}
-              className={`min-w-0 flex-1 rounded-full px-2 py-1.5 text-[0.68rem] font-semibold whitespace-nowrap transition-all sm:flex-none sm:px-4 sm:py-2.5 sm:text-[0.8rem] ${
+              className={`inline-flex min-w-0 flex-1 items-center justify-center gap-1 rounded-full px-2 py-1.5 text-[0.68rem] font-semibold whitespace-nowrap transition-all sm:flex-none sm:gap-1.5 sm:px-4 sm:py-2.5 sm:text-[0.8rem] ${
                 filterPlugType === type
                   ? "border border-charge bg-charge/15 text-charge"
                   : "border border-line bg-panel text-muted"
               }`}
             >
+              {(type === "ccs2" || type === "gbt") && <PlugIcon kind={type} size={14} />}
               {type === "all"
                 ? "All"
                 : type === "ccs2"
@@ -786,7 +788,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
 
       {sortToast && (
         <div
-          className="pointer-events-none fixed inset-x-0 bottom-6 z-[80] flex justify-center px-4"
+          className="pointer-events-none fixed inset-x-0 top-[max(4.75rem,calc(env(safe-area-inset-top)+3.5rem))] z-[80] flex justify-center px-4"
           role="status"
           aria-live="polite"
         >
