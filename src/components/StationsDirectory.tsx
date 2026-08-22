@@ -326,6 +326,7 @@ export default function StationsDirectory({ stations }: Props) {
     setPlugFilter("all");
     setSortMode("city");
     setSortReversed(false);
+    showSortToast("Sorted by City");
   };
 
   const sortLabel =
