@@ -16,6 +16,7 @@ import {
   formatRouteDuration,
 } from "../lib/routing";
 import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
+import { useScrollChain } from "../lib/scrollChain";
 import PlugBadge from "./PlugBadge";
 import { normalizePlugKind } from "../lib/plugs";
 
@@ -70,6 +71,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   const [routeStatus, setRouteStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [routeError, setRouteError] = useState<string | null>(null);
   const routeAbortRef = useRef<AbortController | null>(null);
+  const listScrollRef = useScrollChain<HTMLDivElement>();
 
   const deferredSearch = useDeferredValue(search);
 
@@ -641,7 +643,10 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
             <span className="text-[0.72rem] text-subtle">{sortLabel}</span>
           </div>
 
-          <div className="flex max-h-[min(55vh,480px)] flex-col gap-3 overflow-y-auto overscroll-contain pr-1 lg:max-h-none lg:min-h-0 lg:flex-1">
+          <div
+            ref={listScrollRef}
+            className="flex max-h-[min(55vh,480px)] flex-col gap-3 overflow-y-auto overscroll-y-auto pr-1 lg:max-h-none lg:min-h-0 lg:flex-1"
+          >
           {filteredStations.length === 0 ? (
             <div className="rounded-2xl border border-line bg-panel p-8 text-center text-muted">
               {tripActive

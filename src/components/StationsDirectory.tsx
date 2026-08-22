@@ -19,6 +19,7 @@ import {
 } from "../lib/stations";
 import { normalizePlugKind, type PlugKind } from "../lib/plugs";
 import { requestUserPosition, reverseGeocodeLabel } from "../lib/location";
+import { useScrollChain } from "../lib/scrollChain";
 import {
   STATION_BRANDS,
   detectStationBrand,
@@ -72,6 +73,8 @@ export default function StationsDirectory({ stations }: Props) {
   const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
   const [locationName, setLocationName] = useState<string | null>(null);
   const geoAbortRef = useRef<AbortController | null>(null);
+  const listScrollRef = useScrollChain<HTMLDivElement>();
+  const [urlReady, setUrlReady] = useState(false);
 
   const enriched = useMemo<StationRow[]>(() => {
     return stations.map((station) => {
@@ -198,10 +201,13 @@ export default function StationsDirectory({ stations }: Props) {
   ]);
 
   const activeFilterCount = [
+    search.trim() !== "",
     cityFilter !== "all",
     provinceFilter !== "all",
     brandFilter !== "all",
     plugFilter !== "all",
+    sortMode !== "city",
+    sortReversed,
   ].filter(Boolean).length;
 
   const resolvePlaceName = async (coords: { lat: number; lng: number }) => {
@@ -237,24 +243,64 @@ export default function StationsDirectory({ stations }: Props) {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    if (q) setSearch(q);
+
+    const city = params.get("city");
+    if (city) setCityFilter(city);
+
+    const province = params.get("province");
+    if (province) setProvinceFilter(province);
+
     const brand = params.get("brand");
-    if (!brand) return;
-    const known = new Set<string>([...STATION_BRANDS.map((b) => b.id), "others"]);
-    if (known.has(brand)) {
-      setBrandFilter(brand as StationBrandId);
-      setFiltersOpen(true);
+    const knownBrands = new Set<string>([...STATION_BRANDS.map((b) => b.id), "others"]);
+    if (brand && knownBrands.has(brand)) setBrandFilter(brand as StationBrandId);
+
+    const plug = params.get("plug");
+    if (plug === "AC" || plug === "DC" || plug === "ccs2" || plug === "gbt") {
+      setPlugFilter(plug);
     }
+
+    const sort = params.get("sort");
+    if (sort === "city" || sort === "name" || sort === "nearest" || sort === "power" || sort === "relevance") {
+      setSortMode(sort);
+    }
+    if (params.get("reverse") === "1") setSortReversed(true);
+
+    if (city || province || brand || plug) setFiltersOpen(true);
+    setUrlReady(true);
   }, []);
+
+  useEffect(() => {
+    if (!urlReady) return;
+    const params = new URLSearchParams();
+    const q = search.trim();
+    if (q) params.set("q", q);
+    if (cityFilter !== "all") params.set("city", cityFilter);
+    if (provinceFilter !== "all") params.set("province", provinceFilter);
+    if (brandFilter !== "all") params.set("brand", brandFilter);
+    if (plugFilter !== "all") params.set("plug", plugFilter);
+    if (sortMode !== "city") params.set("sort", sortMode);
+    if (sortReversed) params.set("reverse", "1");
+
+    const qs = params.toString();
+    const next = `${window.location.pathname}${qs ? `?${qs}` : ""}${window.location.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (next !== current) window.history.replaceState(null, "", next);
+  }, [urlReady, search, cityFilter, provinceFilter, brandFilter, plugFilter, sortMode, sortReversed]);
 
   useEffect(() => {
     return () => geoAbortRef.current?.abort();
   }, []);
 
   const clearFilters = () => {
+    setSearch("");
     setCityFilter("all");
     setProvinceFilter("all");
     setBrandFilter("all");
     setPlugFilter("all");
+    setSortMode("city");
+    setSortReversed(false);
   };
 
   const sortLabel =
@@ -302,21 +348,21 @@ export default function StationsDirectory({ stations }: Props) {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex w-full flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
             className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[0.78rem] font-semibold transition-colors ${
-              filtersOpen || activeFilterCount > 0
+              filtersOpen || cityFilter !== "all" || provinceFilter !== "all" || brandFilter !== "all" || plugFilter !== "all"
                 ? "border-charge bg-charge/15 text-charge"
                 : "border-line bg-panel text-muted hover:border-charge/40"
             }`}
           >
             <SlidersHorizontal size={14} />
             Filters
-            {activeFilterCount > 0 && (
+            {(cityFilter !== "all" || provinceFilter !== "all" || brandFilter !== "all" || plugFilter !== "all") && (
               <span className="rounded-full bg-charge px-1.5 py-0.5 text-[0.65rem] font-bold text-ink">
-                {activeFilterCount}
+                {[cityFilter !== "all", provinceFilter !== "all", brandFilter !== "all", plugFilter !== "all"].filter(Boolean).length}
               </span>
             )}
           </button>
@@ -387,8 +433,9 @@ export default function StationsDirectory({ stations }: Props) {
             <button
               type="button"
               onClick={clearFilters}
-              className="text-[0.75rem] font-semibold text-muted underline-offset-2 hover:text-charge hover:underline"
+              className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-3.5 py-2 text-[0.78rem] font-semibold text-muted transition-colors hover:border-charge/40 hover:text-charge"
             >
+              <X size={14} />
               Clear filters
             </button>
           )}
@@ -479,7 +526,10 @@ export default function StationsDirectory({ stations }: Props) {
           No stations match your search or filters.
         </div>
       ) : (
-        <div className="max-h-[min(70vh,720px)] overflow-y-auto overscroll-contain rounded-2xl border border-line bg-ink/30 p-3 pr-2 sm:max-h-[min(75vh,820px)]">
+        <div
+          ref={listScrollRef}
+          className="max-h-[min(70vh,720px)] overflow-y-auto overscroll-y-auto rounded-2xl border border-line bg-ink/30 p-3 pr-2 sm:max-h-[min(75vh,820px)]"
+        >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((station) => {
             const kinds = [...station.plugKinds];
