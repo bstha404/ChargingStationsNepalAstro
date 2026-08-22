@@ -44,7 +44,6 @@ type Props = {
   stations: Station[];
   selectedStation: Station | null;
   onSelectStation: (station: Station) => void;
-  mapStationsLimit?: number;
   routePath?: LatLng[];
   tripMode?: boolean;
   tripPlanner?: React.ReactNode;
@@ -80,7 +79,6 @@ function EVMap({
   stations,
   selectedStation,
   onSelectStation,
-  mapStationsLimit = 120,
   routePath = [],
   tripMode = false,
   tripPlanner = null,
@@ -101,8 +99,9 @@ function EVMap({
   );
 
   const visibleStations = useMemo(
-    () => displayStations.slice(0, mapStationsLimit),
-    [displayStations, mapStationsLimit],
+    () => displayStations,
+    // () => displayStations.slice(0, mapStationsLimit),
+    [displayStations],
   );
 
   const handleSelect = useCallback(

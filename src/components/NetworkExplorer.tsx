@@ -470,7 +470,7 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
   );
 
   return (
-    <section className="mx-auto max-w-[1280px] px-4 pb-12 pt-4 sm:px-6 sm:pb-20 sm:pt-8">
+    <section className="mx-auto max-w-[1280px] px-6 pb-12 pt-4 sm:px-6 sm:pb-20 sm:pt-8">
       <div className="mb-3 sm:mb-8">
         <div className="mb-4 hidden items-center gap-2 rounded-full border border-charge/20 bg-charge/10 px-3.5 py-1.5 sm:inline-flex">
           <span className="text-xs font-semibold tracking-[0.04em] text-charge uppercase">
@@ -620,11 +620,10 @@ export default function NetworkExplorer({ stations, initialCity = "" }: Props) {
           >
             <EVMap
               height="100%"
-              stations={filteredStations.slice(0, tripActive ? 200 : 100)}
+              stations={filteredStations}
               selectedStation={selectedStation}
               onSelectStation={setSelectedStation}
               routePath={tripActive ? routePath : []}
-              mapStationsLimit={tripActive ? 200 : 120}
               tripMode={tripMode}
               tripPlanner={tripPlannerPanel}
               onRequestTripPlanner={enableTripPlanner}

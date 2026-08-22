@@ -3,9 +3,9 @@ import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { href: "/", label: "Map" },
+  { href: "/stations/", label: "All Stations" },
+//   { href: "/", label: "Map" },
   { href: "/cities/", label: "Cities" },
-  { href: "/stations/", label: "Stations" },
   { href: "/faq/", label: "FAQ" },
 ];
 
